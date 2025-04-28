@@ -2,7 +2,7 @@ import { SignedIn, SignOutButton } from '@clerk/nextjs'
 import { auth, currentUser } from '@clerk/nextjs/server'
 import Link from 'next/link'
 import React from 'react'
-import NavLinks from './navlinks'
+import NavLinks from './navlinkstutee'
 
 async function Header() {
     const user = await currentUser()

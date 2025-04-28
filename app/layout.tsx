@@ -11,8 +11,12 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import Footer from '@/components/footer'
 import Header from '@/components/header'
-import NavLinks from '@/components/navlinks'
+import NavLinks from '@/components/navlinkstutee'
 import Link from 'next/link'
+import NavLinksTutee from '@/components/navlinkstutee'
+import { headers } from "next/headers";
+import { usePathname } from 'next/navigation'
+import { currentUser } from '@clerk/nextjs/server'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -29,11 +33,17 @@ export const metadata: Metadata = {
   description: 'Peer to peer learning platform',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  // const user = await currentUser()
+  // const client = await clerkClient()
+  // if (user) {
+  //   const response = await client.users.updateUserMetadata(user.id, {
+  //     publicMetadata: { role: 'tutee' },
+  //   })
   return (
     <ClerkProvider>
       <html lang="en">
@@ -46,7 +56,7 @@ export default function RootLayout({
               <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
               <div className="drawer-content flex flex-col grow">
                 {/* Navbar */}
-                <div className="navbar bg-green-900 text-white w-full sticky top-0 z-999 lg:px-32">
+                <div className="navbar bg-green-900 text-white w-full sticky top-0 z-999 md:px20 lg:px-32">
                   <div className="flex-none lg:hidden">
                     <label htmlFor="my-drawer-3" aria-label="open sidebar" className="btn btn-square btn-ghost">
                       <svg
@@ -68,7 +78,8 @@ export default function RootLayout({
                     </div>
                   </div>
                   <div className="hidden flex-none lg:block h-10">
-                    <NavLinks />
+                    {/* <div>{pathname}</div> */}
+                    <NavLinksTutee />
                   </div>
                 </div>
                 {/* Page content here */}
@@ -80,7 +91,7 @@ export default function RootLayout({
                 <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
                 <ul className="menu bg-base-200 min-h-full w-80 p-4">
                   {/* Sidebar content here */}
-                  <NavLinks />
+                  <NavLinksTutee />
                 </ul>
               </div>
             </div>
