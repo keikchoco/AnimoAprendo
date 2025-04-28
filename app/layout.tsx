@@ -46,7 +46,7 @@ export default function RootLayout({
               <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
               <div className="drawer-content flex flex-col grow">
                 {/* Navbar */}
-                <div className="navbar bg-green-900 text-white w-full sticky top-0 z-999">
+                <div className="navbar bg-green-900 text-white w-full sticky top-0 z-999 lg:px-32">
                   <div className="flex-none lg:hidden">
                     <label htmlFor="my-drawer-3" aria-label="open sidebar" className="btn btn-square btn-ghost">
                       <svg

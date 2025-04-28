@@ -8,7 +8,7 @@ async function NavLinks() {
   
   return (
     <div className='flex flex-row'>
-      <div className=''>
+      <div className='flex items-center'>
         <ul className="menu menu-horizontal p-0 hidden lg:flex">
           <li><Link href="/">Home</Link></li>
           <li><Link href="/browse">Browse Subjects</Link></li>
