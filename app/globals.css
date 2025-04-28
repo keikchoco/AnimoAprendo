@@ -3,7 +3,6 @@
     themes: animoaprendo --default;
 }
 
-
 @plugin "daisyui/theme" {
     name: "animoaprendo";
     default: false;

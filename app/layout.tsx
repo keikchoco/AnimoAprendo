@@ -46,7 +46,13 @@ export default function RootLayout({
               <UserButton />
             </SignedIn>
           </header> */}
-          <div className='flex grow'>{children}</div>
+          <SignedOut>
+          <div className='flex grow p-10 bg-green-950'>{children}</div>
+          </SignedOut>
+          <SignedIn>
+            <div className='flex grow p-10'>{children}</div>
+          </SignedIn>
+          
           
           <Footer />
         </body>
