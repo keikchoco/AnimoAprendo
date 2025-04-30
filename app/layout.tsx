@@ -52,9 +52,9 @@ export default async function RootLayout({
             <div className='flex grow p-10 bg-green-950'>{children}</div>
           </SignedOut>
           <SignedIn>
-            <div className="drawer grow">
+            <div className="drawer">
               <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
-              <div className="drawer-content flex flex-col grow">
+              <div className="drawer-content">
                 {/* Navbar */}
                 <div className="navbar bg-green-900 text-white w-full sticky top-0 z-999 md:px20 lg:px-32">
                   <div className="flex-none lg:hidden">
@@ -82,10 +82,7 @@ export default async function RootLayout({
                     <NavLinksTutee />
                   </div>
                 </div>
-                {/* Page content here */}
-                <div className="flex flex-col grow items-center gap-5 w-full pb-6">
-                  {children}
-                </div>
+
               </div>
               <div className="drawer-side">
                 <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
@@ -94,6 +91,10 @@ export default async function RootLayout({
                   <NavLinksTutee />
                 </ul>
               </div>
+            </div>
+            {/* Page content here */}
+            <div className="flex flex-col grow items-center gap-5 w-full p-6">
+              {children}
             </div>
             <div className="">
               <Footer />
