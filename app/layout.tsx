@@ -52,7 +52,7 @@ export default async function RootLayout({
             <div className='flex grow p-10 bg-green-950'>{children}</div>
           </SignedOut>
           <SignedIn>
-            <div className="drawer">
+            <div className="drawer z-50">
               <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
               <div className="drawer-content">
                 {/* Navbar */}

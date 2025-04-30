@@ -28,7 +28,7 @@ async function NavLinksTutee() {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow text-black">
+            className="menu menu-sm dropdown-content bg-white rounded-box mt-3 w-52 p-2 shadow text-black z-50">
             <li className='border-b'><a>Welcome, {user?.username}</a></li>
             <li>
               <Link className="justify-between" href="/profile">
