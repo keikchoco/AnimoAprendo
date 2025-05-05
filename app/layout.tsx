@@ -15,8 +15,8 @@ import NavLinks from '@/components/navlinkstutee'
 import Link from 'next/link'
 import NavLinksTutee from '@/components/navlinkstutee'
 import { headers } from "next/headers";
-import { usePathname } from 'next/navigation'
-import { currentUser } from '@clerk/nextjs/server'
+import { permanentRedirect, usePathname, useRouter } from 'next/navigation'
+import { clerkClient, currentUser } from '@clerk/nextjs/server'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -38,12 +38,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  // const user = await currentUser()
-  // const client = await clerkClient()
-  // if (user) {
-  //   const response = await client.users.updateUserMetadata(user.id, {
-  //     publicMetadata: { role: 'tutee' },
-  //   })
   return (
     <ClerkProvider>
       <html lang="en">
