@@ -34,7 +34,9 @@ export default async function Layout({
   const userid = user?.id;
 
   if (user?.publicMetadata.role !== 'tutee') {
+    if(!user?.publicMetadata.role == null){
       permanentRedirect('/')
+    }
   }
   return (
     <>
