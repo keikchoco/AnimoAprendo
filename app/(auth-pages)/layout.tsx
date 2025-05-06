@@ -1,3 +1,4 @@
+import { ClerkProvider } from '@clerk/nextjs';
 import { Geist, Geist_Mono } from 'next/font/google'
 
 
@@ -19,10 +20,10 @@ export default async function Layout({
   return (
     <>
       <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased w-full min-h-screen m-auto flex flex-col`}>
-          <div className='flex grow p-10 bg-green-950'><div className="m-auto w-fit h-full">{children}</div></div>
-        </body>
-      </html>
+          <body className={`${geistSans.variable} ${geistMono.variable} antialiased w-full min-h-screen m-auto flex flex-col`}>
+            {children}
+          </body>
+        </html>
     </>
 
   );
