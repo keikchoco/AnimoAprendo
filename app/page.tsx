@@ -1,6 +1,5 @@
 import { currentUser } from '@clerk/nextjs/server'
 import { permanentRedirect } from 'next/navigation'
-import React from 'react'
 
 export default async function Home() {
     const user = await currentUser()
@@ -14,14 +13,4 @@ export default async function Home() {
     } else {
         permanentRedirect('/tutee/home')
     }
-
-    return (
-        <html lang="en">
-        <head>
-        </head>
-        <body>
-            <div>Test</div>
-        </body>
-        </html>
-    )
 }
