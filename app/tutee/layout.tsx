@@ -12,6 +12,7 @@ import {
 import Link from 'next/link';
 import { Geist, Geist_Mono } from 'next/font/google'
 import { currentUser } from '@clerk/nextjs/server'
+import { permanentRedirect } from 'next/navigation';
 
 
 const geistSans = Geist({
@@ -32,7 +33,9 @@ export default async function Layout({
   const user = await currentUser();
   const userid = user?.id;
 
-  
+  if (user?.publicMetadata.role !== 'tutee') {
+      permanentRedirect('/')
+  }
   return (
     <>
       <html lang="en">

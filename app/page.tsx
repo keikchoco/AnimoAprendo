@@ -4,14 +4,24 @@ import React from 'react'
 
 export default async function Home() {
     const user = await currentUser()
-    console.log('user', user)
 
-    if (user?.publicMetadata.role === 'tutor') {
-        permanentRedirect('/')
-    } else if (user?.publicMetadata.role === 'tutee') {
-        permanentRedirect('/dashboard')
+    if (user?.publicMetadata.role === 'tutee') {
+        permanentRedirect('/tutee/home')
+    } else if (user?.publicMetadata.role === 'tutor') {
+        permanentRedirect('/tutor/dashboard')
     } else if (user?.publicMetadata.role === 'admin') {
-        permanentRedirect('/admin')
+        permanentRedirect('/admin/dashboard')
+    } else {
+        permanentRedirect('/tutee/home')
     }
-    return <></>
+
+    return (
+        <html lang="en">
+        <head>
+        </head>
+        <body>
+            <div>Test</div>
+        </body>
+        </html>
+    )
 }

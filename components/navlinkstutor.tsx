@@ -1,20 +1,21 @@
 import { SignOutButton } from '@clerk/nextjs'
-import { auth, currentUser } from '@clerk/nextjs/server'
+import { currentUser } from '@clerk/nextjs/server'
 import Link from 'next/link'
 import React from 'react'
+import SwitchToTutee from './ui/switchtotutee'
 
 async function NavLinksTutor() {
-      const user = await currentUser()
-  
+  const user = await currentUser()
+
   return (
     <div className='flex flex-row'>
       <div className='flex items-center'>
         <ul className="menu menu-horizontal p-0 hidden lg:flex">
-          <li><Link href="/dashboard">Home</Link></li>
+          <li><Link href="/tutor/dashboard">Dashboard</Link></li>
           <li><Link href="/tutor/subjects">View Subjects</Link></li>
           <li><Link href="/tutor/appointments">View Appointments</Link></li>
           <li><Link href="/tutor/history">Tutoring History</Link></li>
-          <li><Link href="/" className='bg-gradient-to-r from-green-300 via-green-500 to-blue-400 inline-block text-transparent bg-clip-text font-extrabold'>Switch To Tutee</Link></li>
+          <SwitchToTutee />
         </ul>
       </div>
       <div className="flex-none">
@@ -37,7 +38,7 @@ async function NavLinksTutor() {
               </Link>
             </li>
 
-            <li><SignOutButton/></li>
+            <li><SignOutButton /></li>
           </ul>
         </div>
       </div>
