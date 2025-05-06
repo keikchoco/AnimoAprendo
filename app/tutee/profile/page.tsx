@@ -1,9 +1,10 @@
+import Profile from '@/components/profile'
 import React from 'react'
 
-const Profile = () => {
+const TuteeProfile = () => {
   return (
-    <div>Profile</div>
+    <Profile/>
   )
 }
 
-export default Profile
+export default TuteeProfile

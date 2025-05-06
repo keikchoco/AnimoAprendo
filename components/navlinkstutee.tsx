@@ -31,7 +31,7 @@ async function NavLinksTutee() {
             className="menu menu-sm dropdown-content bg-white rounded-box mt-3 w-52 p-2 shadow text-black z-50">
             <li className='border-b'><a>Welcome, {user?.username}</a></li>
             <li>
-              <Link className="justify-between" href="/profile">
+              <Link className="justify-between" href="/tutee/profile">
                 Profile
                 {/* <span className="badge">New</span> */}
               </Link>
