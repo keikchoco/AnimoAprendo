@@ -20,11 +20,12 @@ interface StreamChatProps {
         publicMetadata: any
     }
 }
-export default function StreamChat({ userData }: StreamChatProps) {
+export default function StreamChatTutor({ userData }: StreamChatProps) {
     const tokenProvider = useCallback(async () => {
         return await createToken(userData.id)
     }, [userData.id, createToken])
 
+    console.log(tokenProvider)
     const client = useCreateChatClient({
         userData,
         tokenOrProvider: tokenProvider,
@@ -35,6 +36,7 @@ export default function StreamChat({ userData }: StreamChatProps) {
     const filters: ChannelFilters<DefaultStreamChatGenerics> = {
         type: 'messaging',
         members: { $in: [userData.id] },
+        role: { $in: ['tutor'] },
     }
     const options: ChannelOptions = {
         limit: 10
