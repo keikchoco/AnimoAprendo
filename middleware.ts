@@ -1,14 +1,27 @@
-import { clerkMiddleware, createRouteMatcher, currentUser } from '@clerk/nextjs/server'
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 
-const isPublicRoute = createRouteMatcher([
+const isSignInOrSignUp = createRouteMatcher([
   '/sign-in(.*)',
   '/sign-up(.*)'
 ])
 
 export default clerkMiddleware(async (auth, req) => {
-  if (!isPublicRoute(req)) {
+  // Only run redirects on sign-in or sign-up routes
+  if (isSignInOrSignUp(req)) {
     await auth.protect()
+    const { sessionClaims } = await auth()
+    const metadata = sessionClaims?.publicMetadata as { role?: string, isAdmin?: boolean } | undefined
+
+    if (metadata?.isAdmin === true) {
+      return NextResponse.redirect(new URL('/admin/dashboard', req.url))
+    }
+    if (metadata?.role === 'tutee' && !metadata?.isAdmin) {
+      return NextResponse.redirect(new URL('/tutee/home', req.url))
+    }
+    if (metadata?.role === 'tutor' && !metadata?.isAdmin) {
+      return NextResponse.redirect(new URL('/tutor/dashboard', req.url))
+    }
   }
 })
 

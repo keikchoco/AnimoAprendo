@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { Geist, Geist_Mono } from 'next/font/google'
 import { currentUser } from '@clerk/nextjs/server'
 import { permanentRedirect } from 'next/navigation';
+import NavLinksAdmin from '@/components/navlinksadmin';
 
 
 const geistSans = Geist({
@@ -33,7 +34,7 @@ export default async function Layout({
   const user = await currentUser();
   const userid = user?.id;
 
-  if (user?.publicMetadata.role !== 'admin') {
+  if (user?.publicMetadata.isAdmin !== true) {
     permanentRedirect('/')
   }
   
@@ -41,9 +42,6 @@ export default async function Layout({
     <>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased w-full min-h-screen m-auto flex flex-col`}>
-          <SignedOut>
-            <div className='flex grow p-10 bg-green-950'>{children}</div>
-          </SignedOut>
           <SignedIn>
             <div className="drawer z-50">
               <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
@@ -71,7 +69,7 @@ export default async function Layout({
                     </div>
                   </div>
                   <div className="hidden flex-none lg:block h-10">
-                    {/* <div>{pathname}</div> */}
+                    <NavLinksAdmin />
                   </div>
                 </div>
 
@@ -80,6 +78,7 @@ export default async function Layout({
                 <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
                 <ul className="menu bg-base-200 min-h-full w-80 p-4">
                   {/* Sidebar content here */}
+                  <NavLinksAdmin />
                 </ul>
               </div>
             </div>

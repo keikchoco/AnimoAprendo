@@ -16,7 +16,7 @@ export default function SwitchToTutee() {
         const data = await response.json();
         if (data.success) {
             console.log('Metadata updated successfully');
-            permanentRedirect('/')
+            permanentRedirect('/tutee/home');
         } else {
             console.error('Failed to update metadata:', data.error);
         }
