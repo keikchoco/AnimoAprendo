@@ -18,7 +18,6 @@ export default async function RootLayout({
 }>) {
   const user = await currentUser();
 
-  
   return (
     <ClerkProvider>
       {user?.publicMetadata.isAdmin == true ? <AdminNavBR /> : null}
