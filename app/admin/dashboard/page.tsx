@@ -1,5 +1,22 @@
 export default function AdminDashboard() {
     return (
-        <div>Admin Dashboard</div>
-    )    
+        <>
+            <div className=" bg-amber-300">Admin Dashboard</div>
+            <div className=" bg-amber-300">Admin Dashboard</div>
+            <div className=" bg-amber-300">Admin Dashboard</div>
+            <div className=" bg-amber-300">Admin Dashboard</div>
+            <div className=" bg-amber-300">Admin Dashboard</div>
+            <div className=" bg-amber-300">Admin Dashboard</div>
+            <div className=" bg-amber-300">Admin Dashboard</div>
+            <div className=" bg-amber-300">Admin Dashboard</div>
+            <div className=" bg-amber-300">Admin Dashboard</div>
+            <div className=" bg-amber-300">Admin Dashboard</div>
+            <div className=" bg-amber-300">Admin Dashboard</div>
+            <div className=" bg-amber-300">Admin Dashboard</div>
+            <div className=" bg-amber-300">Admin Dashboard</div>
+            <div className=" bg-amber-300">Admin Dashboard</div>
+            <div className=" bg-amber-300">Admin Dashboard</div>
+            <div className=" bg-amber-300">Admin Dashboard</div>
+        </>
+    )
 }

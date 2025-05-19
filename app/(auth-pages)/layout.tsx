@@ -20,7 +20,7 @@ export default async function Layout({
   return (
     <>
       <html lang="en">
-          <body className={`${geistSans.variable} ${geistMono.variable} antialiased w-full min-h-screen m-auto flex flex-col`}>
+          <body className={`${geistSans.variable} ${geistMono.variable} antialiased w-full min-h-screen h-full m-auto flex flex-col bg-radial from-green-600 to-green-950`}>
             {children}
           </body>
         </html>

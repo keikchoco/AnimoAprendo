@@ -2,43 +2,64 @@ import { SignOutButton } from '@clerk/nextjs'
 import { currentUser } from '@clerk/nextjs/server'
 import Link from 'next/link'
 import React from 'react'
-import SwitchToTutor from './ui/switchtotutor'
+
+import {
+  RiDashboardLine,
+  RiBookLine,
+  RiCalendar2Line
+} from "react-icons/ri";
+import { FiUsers, FiLogOut, FiUser } from "react-icons/fi";
 
 async function NavLinksAdmin() {
   const user = await currentUser()
   return (
-    <div className='flex flex-row'>
+    <div className='flex flex-col'>
       <div className='flex items-center'>
-        <ul className="menu menu-horizontal p-0 hidden lg:flex">
-          <li><Link href="/tutee/home">Home</Link></li>
-          <li><Link href="/tutee/browse">Subjects</Link></li>
-          <li><Link href="/tutee/appointments">Appointments</Link></li>
-          <li><Link href="/tutee/history">Users</Link></li>
-        </ul>
-      </div>
-      <div className="flex-none">
-        <div className="dropdown dropdown-end">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-            <div className="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src={user?.imageUrl} />
-            </div>
+        <ul className="group flex flex-col items-center h-screen p-2 gap-5 bg-gradient-to-b from-green-700 to-green-900 text-white transition-[width, padding] duration-500 overflow-hidden w-15 hover:w-60 hover:p-5 hover:items-stretch hover:gap-5">
+          <div className="rounded-full mx-auto">
+            <img
+              className="rounded-full w-full max-w-20"
+              alt="Tailwind CSS Navbar component"
+              src={user?.imageUrl} />
           </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content bg-white rounded-box mt-3 w-52 p-2 shadow text-black z-50">
-            <li className='border-b'><a>Welcome, {user?.username}</a></li>
+          <li className='border-b text-center transition-opacity opacity-0 group-hover:opacity-100 group-hover:block'><a className='text-nowrap'>Welcome, {user?.username}</a></li>
+          <li>
+            <Link href="/admin/dashboard" className='flex items-center flex-nowrap gap-2 w-fit'>
+              <RiDashboardLine className='text-3xl w-fit' />
+              <span className='hidden group-hover:block'>Dashboard</span>
+            </Link>
+          </li>
+          <li>
+            <Link href="/admin/subjects" className='flex items-center flex-nowrap gap-2 w-fit'>
+              <RiBookLine className='text-3xl' />
+              <span className='hidden group-hover:block'>Subjects</span>
+            </Link>
+          </li>
+          <li>
+            <Link href="/admin/appointments" className='flex items-center flex-nowrap gap-2 w-fit'>
+              <RiCalendar2Line className='text-3xl' />
+              <span className='hidden group-hover:block'>Appointments</span>
+            </Link>
+          </li>
+          <li>
+            <Link href="/admin/users" className='flex items-center flex-nowrap gap-2 w-fit'>
+              <FiUsers className='text-3xl' />
+              <span className='hidden group-hover:block'>Users</span>
+            </Link>
+          </li>
+          <div className='mt-auto flex flex-col flex-nowrap gap-2 items-center group-hover:items-stretch'>
             <li>
-              <Link className="justify-between" href="/tutee/profile">
-                Profile
-                {/* <span className="badge">New</span> */}
+              <Link href="/admin/profile" className='flex items-center flex-nowrap gap-2 w-fit'>
+                <FiUser className='text-3xl' />
+                <span className='hidden group-hover:block'>Profile</span>
               </Link>
             </li>
-
-            <li><SignOutButton /></li>
-          </ul>
-        </div>
+            <li className='flex items-center flex-nowrap gap-2 w-fit'>
+              <SignOutButton><FiLogOut className='text-3xl' /></SignOutButton>
+              <span className='hidden group-hover:block hover:cursor-pointer'><SignOutButton>Logout</SignOutButton></span>
+            </li>
+          </div>
+        </ul>
       </div>
     </div>
   )

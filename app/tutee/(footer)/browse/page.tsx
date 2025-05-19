@@ -5,7 +5,7 @@ const Browse = () => {
     <>
       <section className='flex flex-col gap-4 w-10/12'>
         <h1 className='font-bold text-2xl'>Popular Now</h1>
-        <div className='flex gap-4 overflow-x-auto h-1/2'>
+        <div className='flex gap-4 overflow-x-auto'>
           <div className="card bg-base-100 w-96 shadow-sm">
             <figure>
               <img
@@ -18,10 +18,11 @@ const Browse = () => {
                 <div className="badge badge-secondary">NEW</div>
               </h2>
               <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-              <div className="card-actions justify-end">
-                <div className="badge badge-outline">Fashion</div>
-                <div className="badge badge-outline">Products</div>
-              </div>
+              <ul className="flex gap-1 *:rounded-full *:border *:border-sky-100 *:bg-sky-50 *:px-2 *:py-0.5 *w-fit-content">
+                <li>Sales</li>
+                <li>Marketing</li>
+                <li>SEO</li>
+              </ul>
             </div>
           </div>
 
@@ -82,7 +83,7 @@ const Browse = () => {
           </div>
         </div>
 
-        
+
       </section>
 
       <section className='flex flex-col gap-4 w-10/12'>
@@ -164,7 +165,7 @@ const Browse = () => {
           </div>
         </div>
 
-        
+
       </section>
 
       <section className='flex flex-col gap-4 w-10/12'>
@@ -246,7 +247,7 @@ const Browse = () => {
           </div>
         </div>
 
-        
+
       </section>
     </>
   )

@@ -2,8 +2,8 @@ import { SignIn } from '@clerk/nextjs'
 
 export default function Page() {
   return (
-    <div className='flex grow p-10 bg-green-950'>
-      <div className="m-auto w-fit h-full">
+    <div className='flex grow p-10 pb-10'>
+      <div className="m-auto w-fit">
         <SignIn appearance={{
           layout: {
             logoImageUrl: '/images/AnimoAprendoGreenTransparent.png',
@@ -15,3 +15,5 @@ export default function Page() {
     </div>)
 
 }
+
+
