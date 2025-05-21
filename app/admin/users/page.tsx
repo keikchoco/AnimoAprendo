@@ -1,5 +1,5 @@
 export default function AdminUsers() {
     return (
-        <div>Admin Users</div>
+        <div className='m-auto w-fit'>Admin Users</div>
     )    
 }

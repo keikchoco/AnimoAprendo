@@ -2,7 +2,7 @@ import React from 'react'
 
 const AdminSubjects = () => {
   return (
-    <div>AdminSubjects</div>
+    <div className='m-auto w-fit'>AdminSubjects</div>
   )
 }
 

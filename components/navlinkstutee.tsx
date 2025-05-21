@@ -14,7 +14,7 @@ async function NavLinksTutee() {
           <li><Link href="/tutee/browse">Browse Subjects</Link></li>
           <li><Link href="/tutee/appointments">View Appointments</Link></li>
           <li><Link href="/tutee/history">Tutoring History</Link></li>
-          <SwitchToTutor />
+          
         </ul>
       </div>
       <div className="flex-none">
@@ -28,8 +28,9 @@ async function NavLinksTutee() {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-white rounded-box mt-3 w-52 p-2 shadow text-black z-50">
+            className="menu menu-sm gap-3 dropdown-content bg-white rounded-box mt-3 w-52 p-2 shadow text-black z-50">
             <li className='border-b'><a>Welcome, {user?.username}</a></li>
+            <SwitchToTutor />
             <li>
               <Link className="justify-between" href="/tutee/profile">
                 Profile

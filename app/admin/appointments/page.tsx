@@ -2,7 +2,7 @@ import React from 'react'
 
 const AdminAppointments = () => {
   return (
-    <div>AdminAppointments</div>
+    <div className='m-auto w-fit'>AdminAppointments</div>
   )
 }
 

@@ -3,7 +3,9 @@ import React from 'react'
 
 const TuteeProfile = () => {
   return (
-    <Profile/>
+    <div className='m-auto w-fit'>
+      <Profile/>
+    </div>
   )
 }
 

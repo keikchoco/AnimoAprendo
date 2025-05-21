@@ -82,12 +82,13 @@ export default async function Layout({
                 <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
                 <ul className="menu bg-base-200 min-h-full w-80 p-4">
                   {/* Sidebar content here */}
-                  <NavLinksTutee />
+                  <li>Test</li>
+                  <li>Test</li>
                 </ul>
               </div>
             </div>
             {/* Page content here */}
-            <div className="flex flex-col grow items-center gap-5 w-full p-6">
+            <div className="flex flex-col grow items-center gap-5 w-full p-6 pt-0">
               {children}
             </div>
             <div className="">

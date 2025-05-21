@@ -87,7 +87,7 @@ export default async function Layout({
               </div>
             </div>
             {/* Page content here */}
-            <div className="flex flex-col grow items-center gap-5 w-full p-6">
+            <div className="flex flex-col grow items-center gap-5 w-full p-6 pt-0">
               {children}
             </div>
           </SignedIn>

@@ -41,21 +41,23 @@ export default async function Layout({
   return (
     <>
       <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased w-full min-h-screen max-w-screen overflow-hidden m-auto flex flex-col`}>
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased w-full min-h-screen max-w-screen overflow-x-hidden m-auto flex flex-col`}>
           <SignedIn>
             {/* Container */}
             <div className='flex flex-row w-full min-h-screen'>
               {/* Navbar */}
-              <div>
+              <div className='peer fixed z-9999'>
                 <NavLinksAdmin />
               </div>
 
               {/* Page Content */}
-              <div className='w-auto'>
+              <div className='w-full ml-13 peer-hover:pl-48 transition-all duration-500'>
                 <div className='flex flex-wrap gap-2 p-5'>
                   {children}
                 </div>
               </div>
+
+              <div className='fixed bg-black z-2 w-screen h-screen opacity-0 hidden peer-hover:opacity-20 peer-hover:block transition-opacity duration-1000'/>
             </div>
             
           </SignedIn>

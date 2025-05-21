@@ -1,256 +1,436 @@
-import React from 'react'
+import { Button } from "@/components/ui/button";
+import { clerkClient } from "@clerk/clerk-sdk-node";
+import React from "react";
 
-const Browse = () => {
-  return (
-    <>
-      <section className='flex flex-col gap-4 w-10/12'>
-        <h1 className='font-bold text-2xl'>Popular Now</h1>
-        <div className='flex gap-4 overflow-x-auto'>
-          <div className="card bg-base-100 w-96 shadow-sm">
-            <figure>
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                alt="Shoes" />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">
-                Card Title
-                <div className="badge badge-secondary">NEW</div>
-              </h2>
-              <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-              <ul className="flex gap-1 *:rounded-full *:border *:border-sky-100 *:bg-sky-50 *:px-2 *:py-0.5 *w-fit-content">
-                <li>Sales</li>
-                <li>Marketing</li>
-                <li>SEO</li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="card bg-base-100 w-96 shadow-sm">
-            <figure>
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                alt="Shoes" />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">
-                Card Title
-                <div className="badge badge-secondary">NEW</div>
-              </h2>
-              <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-              <div className="card-actions justify-end">
-                <div className="badge badge-outline">Fashion</div>
-                <div className="badge badge-outline">Products</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="card bg-base-100 w-96 shadow-sm">
-            <figure>
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                alt="Shoes" />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">
-                Card Title
-                <div className="badge badge-secondary">NEW</div>
-              </h2>
-              <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-              <div className="card-actions justify-end">
-                <div className="badge badge-outline">Fashion</div>
-                <div className="badge badge-outline">Products</div>
-              </div>
-            </div>
-          </div>
-          <div className="card bg-base-100 w-96 shadow-sm">
-            <figure>
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                alt="Shoes" />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">
-                Card Title
-                <div className="badge badge-secondary">NEW</div>
-              </h2>
-              <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-              <div className="card-actions justify-end">
-                <div className="badge badge-outline">Fashion</div>
-                <div className="badge badge-outline">Products</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-      </section>
-
-      <section className='flex flex-col gap-4 w-10/12'>
-        <h1 className='font-bold text-2xl'>Subjects</h1>
-        <div className='flex gap-4 overflow-x-auto h-1/2'>
-          <div className="card bg-base-100 w-96 shadow-sm">
-            <figure>
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                alt="Shoes" />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">
-                Card Title
-                <div className="badge badge-secondary">NEW</div>
-              </h2>
-              <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-              <div className="card-actions justify-end">
-                <div className="badge badge-outline">Fashion</div>
-                <div className="badge badge-outline">Products</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="card bg-base-100 w-96 shadow-sm">
-            <figure>
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                alt="Shoes" />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">
-                Card Title
-                <div className="badge badge-secondary">NEW</div>
-              </h2>
-              <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-              <div className="card-actions justify-end">
-                <div className="badge badge-outline">Fashion</div>
-                <div className="badge badge-outline">Products</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="card bg-base-100 w-96 shadow-sm">
-            <figure>
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                alt="Shoes" />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">
-                Card Title
-                <div className="badge badge-secondary">NEW</div>
-              </h2>
-              <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-              <div className="card-actions justify-end">
-                <div className="badge badge-outline">Fashion</div>
-                <div className="badge badge-outline">Products</div>
-              </div>
-            </div>
-          </div>
-          <div className="card bg-base-100 w-96 shadow-sm">
-            <figure>
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                alt="Shoes" />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">
-                Card Title
-                <div className="badge badge-secondary">NEW</div>
-              </h2>
-              <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-              <div className="card-actions justify-end">
-                <div className="badge badge-outline">Fashion</div>
-                <div className="badge badge-outline">Products</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-      </section>
-
-      <section className='flex flex-col gap-4 w-10/12'>
-        <h1 className='font-bold text-2xl'>Subjects</h1>
-        <div className='flex gap-4 overflow-x-auto h-1/2'>
-          <div className="card bg-base-100 w-96 shadow-sm">
-            <figure>
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                alt="Shoes" />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">
-                Card Title
-                <div className="badge badge-secondary">NEW</div>
-              </h2>
-              <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-              <div className="card-actions justify-end">
-                <div className="badge badge-outline">Fashion</div>
-                <div className="badge badge-outline">Products</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="card bg-base-100 w-96 shadow-sm">
-            <figure>
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                alt="Shoes" />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">
-                Card Title
-                <div className="badge badge-secondary">NEW</div>
-              </h2>
-              <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-              <div className="card-actions justify-end">
-                <div className="badge badge-outline">Fashion</div>
-                <div className="badge badge-outline">Products</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="card bg-base-100 w-96 shadow-sm">
-            <figure>
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                alt="Shoes" />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">
-                Card Title
-                <div className="badge badge-secondary">NEW</div>
-              </h2>
-              <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-              <div className="card-actions justify-end">
-                <div className="badge badge-outline">Fashion</div>
-                <div className="badge badge-outline">Products</div>
-              </div>
-            </div>
-          </div>
-          <div className="card bg-base-100 w-96 shadow-sm">
-            <figure>
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                alt="Shoes" />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">
-                Card Title
-                <div className="badge badge-secondary">NEW</div>
-              </h2>
-              <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-              <div className="card-actions justify-end">
-                <div className="badge badge-outline">Fashion</div>
-                <div className="badge badge-outline">Products</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-      </section>
-    </>
-  )
+interface CardInfo {
+  Title: string;
+  Image: string;
+  Description: string;
+  Rating: Number;
+  ExtraInfo: [
+    {
+      Day: string;
+      Time: string;
+    },
+  ];
+  TutorInfo: {
+    UserId: string;
+    Name: string;
+    Image: string;
+    Rank: string;
+  };
 }
 
-export default Browse
+export default async function Browse() {
+  const Popular = [
+    {
+      Title: "S-ITCS111LA Introduction to Computing LAB",
+      Image:
+        "https://www.mooc.org/hubfs/applications-of-computer-programming.jpg",
+      Description:
+        "Idk description something na pwedeng ilagay nung tutor? maybe explaining what they know about this subject and such",
+      Rating: 2.5,
+      ExtraInfo: [
+        {
+          Day: "Mon",
+          Time: "7PM-8PM",
+        },
+        {
+          Day: "Tue",
+          Time: "7PM-8PM",
+        },
+        {
+          Day: "Wed",
+          Time: "7PM-8PM",
+        },
+      ],
+      TutorInfo: {
+        UserId: "",
+        Name: "keikchoco",
+        Image:
+          "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ4SlpGNlRuZ0k0dU0yMThpeFpsTzNmSDJPMiJ9",
+        Rank: "NEW",
+      },
+    },
+    {
+      Title: "S-ITCP322 Capstone Project 1",
+      Image:
+        "https://di.ku.dk/Nyheder/2023/fremtidens-programmeringssprog-udvikles-i-danmark/programming_on_screen-1100x600.jpg",
+      Description:
+        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima dolores voluptatem optio pariatur, veritatis dolore. Voluptatem nihil facilis minus illum hic eum fugit! In tenetur, modi corrupti facere ea inventore?",
+      Rating: 5,
+      ExtraInfo: [
+        {
+          Day: "Thu",
+          Time: "7PM-8PM",
+        },
+        {
+          Day: "Fri",
+          Time: "7PM-8PM",
+        },
+        {
+          Day: "Sat",
+          Time: "7PM-8PM",
+        },
+        {
+          Day: "Sun",
+          Time: "7PM-8PM",
+        },
+      ],
+      TutorInfo: {
+        UserId: "",
+        Name: "chrys",
+        Image:
+          "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ3aVA4NGFxalFqSUNJa3h5ZjM2bjFKdU9oNCJ9",
+        Rank: "NEW",
+      },
+    },
+    {
+      Title:
+        "S-ITCS227LA Application Development and Emerging Technologies LAB",
+      Image:
+        "https://static1.howtogeekimages.com/wordpress/wp-content/uploads/2022/10/shutterstock_577183882.jpg",
+      Description:
+        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima dolores voluptatem optio pariatur, veritatis dolore. Voluptatem nihil facilis minus illum hic eum fugit! In tenetur, modi corrupti facere ea inventore?",
+      Rating: 2,
+      ExtraInfo: [
+        {
+          Day: "Mon",
+          Time: "7PM-8PM",
+        },
+        {
+          Day: "Wed",
+          Time: "7PM-8PM",
+        },
+      ],
+      TutorInfo: {
+        UserId: "",
+        Name: "yas",
+        Image:
+          "https://scontent.fmnl8-4.fna.fbcdn.net/v/t39.30808-6/495224537_2969928999835726_5957479116127189212_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=_JkSiHL_U_gQ7kNvwGHMlhl&_nc_oc=AdmOf132lrQBFYqR4RHQiLgUAVjvvobNfG-2LdYukV67TUgB2tZHadD4JvJJoo73dG8&_nc_zt=23&_nc_ht=scontent.fmnl8-4.fna&_nc_gid=B4yWQdg8bcyQhyMmEWgupQ&oh=00_AfKHXBJ7hryFB4h9IRW-Qcgt5rsTwm050yxdLTYKR9t0WQ&oe=6833689D",
+        Rank: "NEW",
+      },
+    },
+  ];
+
+  return (
+    <div className="flex flex-col gap-20 pt-6 w-10/12 h-full">
+      <section className="flex flex-col gap-4 w-full">
+        <h1 className="font-bold text-2xl">Popular Now</h1>
+        <div className="flex gap-4 p-1 overflow-x-auto overflow-y-visible *:min-w-80">
+          {Popular &&
+            Popular.map((item, i) => (
+              <div
+                key={i}
+                className="card bg-base-100 w-80 shadow-sm rounded-xl overflow-hidden"
+              >
+                <figure className="h-56">
+                  <img
+                    src={item.Image}
+                    alt="Shoes"
+                    className="w-full h-full object-cover"
+                  />
+                </figure>
+                <div className="card-body bg-green-50">
+                  <div className="flex gap-2 items-center">
+                    <img
+                      src={item.TutorInfo.Image}
+                      alt=""
+                      className="rounded-full h-8 aspect-square object-cover"
+                    />
+                    {item.TutorInfo.Name}
+                    <div className="badge bg-green-700 px-2 rounded text-white font-bold ml-auto">
+                      {item.TutorInfo.Rank}
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="rating rating-half">
+                    <div
+                      className="rating-hidden"
+                      aria-current={item.Rating == 0.0 ? "true" : "false"}
+                    ></div>
+                    <div
+                      className="mask mask-star-2 mask-half-1 bg-green-700"
+                      aria-label="0.5 star"
+                      aria-current={item.Rating == 0.5 ? "true" : "false"}
+                    ></div>
+                    <div
+                      className="mask mask-star-2 mask-half-2 bg-green-700"
+                      aria-label="1.0 star"
+                      aria-current={item.Rating == 1.0 ? "true" : "false"}
+                    ></div>
+                    <div
+                      className="mask mask-star-2 mask-half-1 bg-green-700"
+                      aria-label="1.5 star"
+                      aria-current={item.Rating == 1.5 ? "true" : "false"}
+                    ></div>
+                    <div
+                      className="mask mask-star-2 mask-half-2 bg-green-700"
+                      aria-label="2.0 star"
+                      aria-current={item.Rating == 2.0 ? "true" : "false"}
+                    ></div>
+                    <div
+                      className="mask mask-star-2 mask-half-1 bg-green-700"
+                      aria-label="2.5 star"
+                      aria-current={item.Rating == 2.5 ? "true" : "false"}
+                    ></div>
+                    <div
+                      className="mask mask-star-2 mask-half-2 bg-green-700"
+                      aria-label="3.0 star"
+                      aria-current={item.Rating == 3.0 ? "true" : "false"}
+                    ></div>
+                    <div
+                      className="mask mask-star-2 mask-half-1 bg-green-700"
+                      aria-label="3.5 star"
+                      aria-current={item.Rating == 3.5 ? "true" : "false"}
+                    ></div>
+                    <div
+                      className="mask mask-star-2 mask-half-2 bg-green-700"
+                      aria-label="4.0 star"
+                      aria-current={item.Rating == 4.0 ? "true" : "false"}
+                    ></div>
+                    <div
+                      className="mask mask-star-2 mask-half-1 bg-green-700"
+                      aria-label="4.5 star"
+                      aria-current={item.Rating == 4.5 ? "true" : "false"}
+                    ></div>
+                    <div
+                      className="mask mask-star-2 mask-half-2 bg-green-700"
+                      aria-label="5.0 star"
+                      aria-current={item.Rating == 5.0 ? "true" : "false"}
+                    ></div>
+                  </div>
+                  <h2 className="line-clamp-2 font-bold text-lg grow-1 max-h-[3em]">
+                    {item.Title}
+                  </h2>
+                  <p className="line-clamp-3 max-h-[4.5em]">
+                    {item.Description}
+                  </p>
+                  <ul className="flex flex-wrap mt-auto gap-1 *:rounded-full *:shadow-md *:px-2 *:py-0.5 *w-fit-content *:text-nowrap overflow-x-auto overflow-y-visible scroll no-scrollbar *:grow-1 *:basis-0 *:text-center">
+                    {item.ExtraInfo.map((info) => (
+                      <li
+                        className={
+                          info.Day == "Mon"
+                            ? "bg-amber-300"
+                            : info.Day == "Tue"
+                              ? "bg-blue-400"
+                              : info.Day == "Wed"
+                                ? "bg-emerald-400"
+                                : info.Day == "Thu"
+                                  ? "bg-fuchsia-300"
+                                  : info.Day == "Fri"
+                                    ? "bg-indigo-300"
+                                    : info.Day == "Sat"
+                                      ? "bg-red-300"
+                                      : info.Day == "Sun"
+                                        ? "bg-teal-300"
+                                        : "bg-neutral"
+                        }
+                      >
+                        {info.Day} {info.Time}
+                      </li>
+                    ))}
+                  </ul>
+                  <hr />
+                  <div className="flex justify-around *:shadow-md *:px-6 *:py-2 *:rounded-2xl *:font-bold">
+                    <a href="#" className="bg-green-700 text-neutral-50">
+                      Book Now
+                    </a>
+                    <a href="#" className="bg-orange-300 text-neutral-800">
+                      View Details
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-4 w-10/12">
+        <h1 className="font-bold text-2xl">New Offers</h1>
+        <div className="flex gap-4 p-1 overflow-x-auto overflow-y-visible *:min-w-80">
+          <div className="card bg-base-100 w-80 shadow-sm rounded-xl">
+            <figure className="h-56">
+              <img
+                src="https://placehold.co/400"
+                alt="Shoes"
+                className="w-full h- object-cover"
+              />
+            </figure>
+            <div className="card-body">
+              <div className="flex gap-2 items-center">
+                <img
+                  src="https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ4SlpGNlRuZ0k0dU0yMThpeFpsTzNmSDJPMiJ9"
+                  alt=""
+                  className="rounded-full h-8"
+                />
+                Juan Dela Cruz
+                <div className="badge bg-green-700 px-2 rounded text-white font-bold ml-auto">
+                  NEW
+                </div>
+              </div>
+              <hr />
+              <div className="rating rating-half">
+                <div
+                  className="mask mask-star-2 mask-half-1 bg-green-700"
+                  aria-label="0.5 star"
+                ></div>
+                <div
+                  className="mask mask-star-2 mask-half-2 bg-green-700"
+                  aria-label="1.0 star"
+                ></div>
+                <div
+                  className="mask mask-star-2 mask-half-1 bg-green-700"
+                  aria-label="1.5 star"
+                ></div>
+                <div
+                  className="mask mask-star-2 mask-half-2 bg-green-700"
+                  aria-label="2.0 star"
+                ></div>
+                <div
+                  className="mask mask-star-2 mask-half-1 bg-green-700"
+                  aria-label="2.5 star"
+                  aria-current="true"
+                ></div>
+                <div
+                  className="mask mask-star-2 mask-half-2 bg-green-700"
+                  aria-label="3.0 star"
+                ></div>
+                <div
+                  className="mask mask-star-2 mask-half-1 bg-green-700"
+                  aria-label="3.5 star"
+                ></div>
+                <div
+                  className="mask mask-star-2 mask-half-2 bg-green-700"
+                  aria-label="4.0 star"
+                ></div>
+                <div
+                  className="mask mask-star-2 mask-half-1 bg-green-700"
+                  aria-label="4.5 star"
+                ></div>
+                <div
+                  className="mask mask-star-2 mask-half-2 bg-green-700"
+                  aria-label="5.0 star"
+                ></div>
+              </div>
+              <h2 className="card-title">
+                S-ITCS111LA Introduction to Computing LAB
+              </h2>
+              <p>
+                Idk description something na pwedeng ilagay nung tutor? maybe
+                explaining what they know about this subject and such
+              </p>
+              <ul className="flex flex-wrap gap-1 *:rounded-full *:border *:border-sky-100 *:bg-sky-50 *:px-2 *:py-0.5 *w-fit-content *:text-nowrap">
+                <li>Mon 7PM-8PM</li>
+                <li>Tue 7PM-8PM</li>
+                <li>Wed 7PM-8PM</li>
+              </ul>
+              <hr />
+              <div className="flex justify-around *:shadow-md *:px-6 *:py-2 *:rounded-2xl *:font-bold">
+                <a href="#" className="bg-green-700 text-neutral-50">
+                  Book Now
+                </a>
+                <a href="#" className="bg-orange-300 text-neutral-800">
+                  View Details
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-4 w-10/12">
+        <h1 className="font-bold text-2xl">Continue Browsing</h1>
+        <div className="flex gap-4 p-1 overflow-x-auto overflow-y-visible *:min-w-80">
+          <div className="card bg-base-100 w-80 shadow-sm rounded-xl">
+            <figure className="h-56">
+              <img
+                src="https://placehold.co/400"
+                alt="Shoes"
+                className="w-full h- object-cover"
+              />
+            </figure>
+            <div className="card-body">
+              <div className="flex gap-2 items-center">
+                <img
+                  src="https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ4SlpGNlRuZ0k0dU0yMThpeFpsTzNmSDJPMiJ9"
+                  alt=""
+                  className="rounded-full h-8"
+                />
+                Juan Dela Cruz
+                <div className="badge bg-green-700 px-2 rounded text-white font-bold ml-auto">
+                  NEW
+                </div>
+              </div>
+              <hr />
+              <div className="rating rating-half">
+                <div
+                  className="mask mask-star-2 mask-half-1 bg-green-700"
+                  aria-label="0.5 star"
+                ></div>
+                <div
+                  className="mask mask-star-2 mask-half-2 bg-green-700"
+                  aria-label="1.0 star"
+                ></div>
+                <div
+                  className="mask mask-star-2 mask-half-1 bg-green-700"
+                  aria-label="1.5 star"
+                ></div>
+                <div
+                  className="mask mask-star-2 mask-half-2 bg-green-700"
+                  aria-label="2.0 star"
+                ></div>
+                <div
+                  className="mask mask-star-2 mask-half-1 bg-green-700"
+                  aria-label="2.5 star"
+                  aria-current="true"
+                ></div>
+                <div
+                  className="mask mask-star-2 mask-half-2 bg-green-700"
+                  aria-label="3.0 star"
+                ></div>
+                <div
+                  className="mask mask-star-2 mask-half-1 bg-green-700"
+                  aria-label="3.5 star"
+                ></div>
+                <div
+                  className="mask mask-star-2 mask-half-2 bg-green-700"
+                  aria-label="4.0 star"
+                ></div>
+                <div
+                  className="mask mask-star-2 mask-half-1 bg-green-700"
+                  aria-label="4.5 star"
+                ></div>
+                <div
+                  className="mask mask-star-2 mask-half-2 bg-green-700"
+                  aria-label="5.0 star"
+                ></div>
+              </div>
+              <h2 className="card-title">
+                S-ITCS111LA Introduction to Computing LAB
+              </h2>
+              <p>
+                Idk description something na pwedeng ilagay nung tutor? maybe
+                explaining what they know about this subject and such
+              </p>
+              <ul className="flex flex-wrap gap-1 *:rounded-full *:border *:border-sky-100 *:bg-sky-50 *:px-2 *:py-0.5 *w-fit-content *:text-nowrap">
+                <li>Mon 7PM-8PM</li>
+                <li>Tue 7PM-8PM</li>
+                <li>Wed 7PM-8PM</li>
+              </ul>
+              <hr />
+              <div className="flex justify-around *:shadow-md *:px-6 *:py-2 *:rounded-2xl *:font-bold">
+                <a href="#" className="bg-green-700 text-neutral-50">
+                  Book Now
+                </a>
+                <a href="#" className="bg-orange-300 text-neutral-800">
+                  View Details
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}

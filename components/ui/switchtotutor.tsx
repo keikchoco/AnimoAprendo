@@ -27,6 +27,6 @@ export default function SwitchToTutor() {
             console.log('Switching to tutor')
             updateMetadata()
             e.preventDefault()
-        }} className='bg-gradient-to-r from-green-300 via-green-500 to-blue-400 inline-block text-transparent bg-clip-text font-extrabold'>Switch To Tutor</Link></li>
+        }} className='bg-gradient-to-r from-green-300 via-green-500 to-blue-400 inline-block text-transparent bg-clip-text font-bold text-sm text-center border border-neutral-500 rounded-lg'>Switch To Tutor</Link></li>
     )
 }

@@ -60,3 +60,16 @@ body {
 .str-chat__thread {
     width: 45%;
 }
+
+hr {
+    color: rgba(0, 80, 0, 0.1);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}

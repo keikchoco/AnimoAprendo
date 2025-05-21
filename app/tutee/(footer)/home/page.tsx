@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <div className="flex flex-col items-center relative w-fit h-1/2">
-        <div className="w-screen h-72 relative">
+        <div className="w-screen h-full relative">
           <Image
             src="/images/DLSUD-rotonda.jpg"
             fill={true}
@@ -21,6 +21,7 @@ export default function Home() {
         </div>
       </div>
 
+      
     </>
 
   )
