@@ -92,7 +92,7 @@ export default async function Browse() {
         "https://static1.howtogeekimages.com/wordpress/wp-content/uploads/2022/10/shutterstock_577183882.jpg",
       Description:
         "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima dolores voluptatem optio pariatur, veritatis dolore. Voluptatem nihil facilis minus illum hic eum fugit! In tenetur, modi corrupti facere ea inventore?",
-      Rating: 2,
+      Rating: 0,
       ExtraInfo: [
         {
           Day: "Mon",
@@ -114,9 +114,25 @@ export default async function Browse() {
   ];
 
   return (
-    <div className="flex flex-col gap-20 pt-6 w-10/12 h-full">
+    <div className="flex flex-col gap-10 pt-6 w-10/12 h-full">
+      <section className="flex flex-col gap-4 w-full bg-white p-8 rounded-2xl shadow-lg">
+        <h1 className="font-bold text-2xl">Popular Subjects</h1>
+        <div className="grid grid-cols-4 gap-2 *:bg-gradient-to-br *:text-lg *:font-semibold *:text-white *:border-green-900 *:shadow-xl *:from-green-500 *:to-green-700 *:p-4 *:border *:rounded *:truncate *:hover:to-green-600 *:cursor-pointer">
+          <div>S-ITCS111LA Introduction to Computing LAB</div>
+          <div>S-ITCP322 Capstone Project 1</div>
+          <div>S-ITCS227LA Application Development and Emerging Technologies LAB</div>
+          <div>S-ITCS111LA Introduction to Computing LAB</div>
+          <div>S-ITCP322 Capstone Project 1</div>
+          <div>S-ITCS227LA Application Development and Emerging Technologies LAB</div>
+          <div>S-ITCS111LA Introduction to Computing LAB</div>
+          <div>S-ITCP322 Capstone Project 1</div>
+          
+        </div>
+
+      </section>
+
       <section className="flex flex-col gap-4 w-full">
-        <h1 className="font-bold text-2xl">Popular Now</h1>
+        <h1 className="font-bold text-2xl">New Offers</h1>
         <div className="flex gap-4 p-1 overflow-x-auto overflow-y-visible *:min-w-80">
           {Popular &&
             Popular.map((item, i) => (
@@ -145,60 +161,17 @@ export default async function Browse() {
                   </div>
                   <hr />
                   <div className="rating rating-half">
-                    <div
-                      className="rating-hidden"
-                      aria-current={item.Rating == 0.0 ? "true" : "false"}
-                    ></div>
-                    <div
-                      className="mask mask-star-2 mask-half-1 bg-green-700"
-                      aria-label="0.5 star"
-                      aria-current={item.Rating == 0.5 ? "true" : "false"}
-                    ></div>
-                    <div
-                      className="mask mask-star-2 mask-half-2 bg-green-700"
-                      aria-label="1.0 star"
-                      aria-current={item.Rating == 1.0 ? "true" : "false"}
-                    ></div>
-                    <div
-                      className="mask mask-star-2 mask-half-1 bg-green-700"
-                      aria-label="1.5 star"
-                      aria-current={item.Rating == 1.5 ? "true" : "false"}
-                    ></div>
-                    <div
-                      className="mask mask-star-2 mask-half-2 bg-green-700"
-                      aria-label="2.0 star"
-                      aria-current={item.Rating == 2.0 ? "true" : "false"}
-                    ></div>
-                    <div
-                      className="mask mask-star-2 mask-half-1 bg-green-700"
-                      aria-label="2.5 star"
-                      aria-current={item.Rating == 2.5 ? "true" : "false"}
-                    ></div>
-                    <div
-                      className="mask mask-star-2 mask-half-2 bg-green-700"
-                      aria-label="3.0 star"
-                      aria-current={item.Rating == 3.0 ? "true" : "false"}
-                    ></div>
-                    <div
-                      className="mask mask-star-2 mask-half-1 bg-green-700"
-                      aria-label="3.5 star"
-                      aria-current={item.Rating == 3.5 ? "true" : "false"}
-                    ></div>
-                    <div
-                      className="mask mask-star-2 mask-half-2 bg-green-700"
-                      aria-label="4.0 star"
-                      aria-current={item.Rating == 4.0 ? "true" : "false"}
-                    ></div>
-                    <div
-                      className="mask mask-star-2 mask-half-1 bg-green-700"
-                      aria-label="4.5 star"
-                      aria-current={item.Rating == 4.5 ? "true" : "false"}
-                    ></div>
-                    <div
-                      className="mask mask-star-2 mask-half-2 bg-green-700"
-                      aria-label="5.0 star"
-                      aria-current={item.Rating == 5.0 ? "true" : "false"}
-                    ></div>
+                    <div className="rating-hidden" aria-current={item.Rating == 0.0 ? "true" : "false"}></div>
+                    <div className="mask mask-star-2 mask-half-1 bg-green-700" aria-label="0.5 star" aria-current={item.Rating == 0.5 ? "true" : "false"}></div>
+                    <div className="mask mask-star-2 mask-half-2 bg-green-700" aria-label="1.0 star" aria-current={item.Rating == 1.0 ? "true" : "false"}></div>
+                    <div className="mask mask-star-2 mask-half-1 bg-green-700" aria-label="1.5 star" aria-current={item.Rating == 1.5 ? "true" : "false"}></div>
+                    <div className="mask mask-star-2 mask-half-2 bg-green-700" aria-label="2.0 star" aria-current={item.Rating == 2.0 ? "true" : "false"}></div>
+                    <div className="mask mask-star-2 mask-half-1 bg-green-700" aria-label="2.5 star" aria-current={item.Rating == 2.5 ? "true" : "false"}></div>
+                    <div className="mask mask-star-2 mask-half-2 bg-green-700" aria-label="3.0 star" aria-current={item.Rating == 3.0 ? "true" : "false"}></div>
+                    <div className="mask mask-star-2 mask-half-1 bg-green-700" aria-label="3.5 star" aria-current={item.Rating == 3.5 ? "true" : "false"}></div>
+                    <div className="mask mask-star-2 mask-half-2 bg-green-700" aria-label="4.0 star" aria-current={item.Rating == 4.0 ? "true" : "false"}></div>
+                    <div className="mask mask-star-2 mask-half-1 bg-green-700" aria-label="4.5 star" aria-current={item.Rating == 4.5 ? "true" : "false"}></div>
+                    <div className="mask mask-star-2 mask-half-2 bg-green-700" aria-label="5.0 star" aria-current={item.Rating == 5.0 ? "true" : "false"}></div>
                   </div>
                   <h2 className="line-clamp-2 font-bold text-lg grow-1 max-h-[3em]">
                     {item.Title}
@@ -210,21 +183,14 @@ export default async function Browse() {
                     {item.ExtraInfo.map((info) => (
                       <li
                         className={
-                          info.Day == "Mon"
-                            ? "bg-amber-300"
-                            : info.Day == "Tue"
-                              ? "bg-blue-400"
-                              : info.Day == "Wed"
-                                ? "bg-emerald-400"
-                                : info.Day == "Thu"
-                                  ? "bg-fuchsia-300"
-                                  : info.Day == "Fri"
-                                    ? "bg-indigo-300"
-                                    : info.Day == "Sat"
-                                      ? "bg-red-300"
-                                      : info.Day == "Sun"
-                                        ? "bg-teal-300"
-                                        : "bg-neutral"
+                          info.Day == "Mon" ? "bg-amber-300"
+                          : info.Day == "Tue" ? "bg-blue-400"
+                          : info.Day == "Wed" ? "bg-emerald-400"
+                          : info.Day == "Thu" ? "bg-fuchsia-300"
+                          : info.Day == "Fri" ? "bg-indigo-300"
+                          : info.Day == "Sat" ? "bg-red-300"
+                          : info.Day == "Sun" ? "bg-teal-300"
+                          : "bg-neutral"
                         }
                       >
                         {info.Day} {info.Time}
@@ -243,192 +209,6 @@ export default async function Browse() {
                 </div>
               </div>
             ))}
-        </div>
-      </section>
-
-      <section className="flex flex-col gap-4 w-10/12">
-        <h1 className="font-bold text-2xl">New Offers</h1>
-        <div className="flex gap-4 p-1 overflow-x-auto overflow-y-visible *:min-w-80">
-          <div className="card bg-base-100 w-80 shadow-sm rounded-xl">
-            <figure className="h-56">
-              <img
-                src="https://placehold.co/400"
-                alt="Shoes"
-                className="w-full h- object-cover"
-              />
-            </figure>
-            <div className="card-body">
-              <div className="flex gap-2 items-center">
-                <img
-                  src="https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ4SlpGNlRuZ0k0dU0yMThpeFpsTzNmSDJPMiJ9"
-                  alt=""
-                  className="rounded-full h-8"
-                />
-                Juan Dela Cruz
-                <div className="badge bg-green-700 px-2 rounded text-white font-bold ml-auto">
-                  NEW
-                </div>
-              </div>
-              <hr />
-              <div className="rating rating-half">
-                <div
-                  className="mask mask-star-2 mask-half-1 bg-green-700"
-                  aria-label="0.5 star"
-                ></div>
-                <div
-                  className="mask mask-star-2 mask-half-2 bg-green-700"
-                  aria-label="1.0 star"
-                ></div>
-                <div
-                  className="mask mask-star-2 mask-half-1 bg-green-700"
-                  aria-label="1.5 star"
-                ></div>
-                <div
-                  className="mask mask-star-2 mask-half-2 bg-green-700"
-                  aria-label="2.0 star"
-                ></div>
-                <div
-                  className="mask mask-star-2 mask-half-1 bg-green-700"
-                  aria-label="2.5 star"
-                  aria-current="true"
-                ></div>
-                <div
-                  className="mask mask-star-2 mask-half-2 bg-green-700"
-                  aria-label="3.0 star"
-                ></div>
-                <div
-                  className="mask mask-star-2 mask-half-1 bg-green-700"
-                  aria-label="3.5 star"
-                ></div>
-                <div
-                  className="mask mask-star-2 mask-half-2 bg-green-700"
-                  aria-label="4.0 star"
-                ></div>
-                <div
-                  className="mask mask-star-2 mask-half-1 bg-green-700"
-                  aria-label="4.5 star"
-                ></div>
-                <div
-                  className="mask mask-star-2 mask-half-2 bg-green-700"
-                  aria-label="5.0 star"
-                ></div>
-              </div>
-              <h2 className="card-title">
-                S-ITCS111LA Introduction to Computing LAB
-              </h2>
-              <p>
-                Idk description something na pwedeng ilagay nung tutor? maybe
-                explaining what they know about this subject and such
-              </p>
-              <ul className="flex flex-wrap gap-1 *:rounded-full *:border *:border-sky-100 *:bg-sky-50 *:px-2 *:py-0.5 *w-fit-content *:text-nowrap">
-                <li>Mon 7PM-8PM</li>
-                <li>Tue 7PM-8PM</li>
-                <li>Wed 7PM-8PM</li>
-              </ul>
-              <hr />
-              <div className="flex justify-around *:shadow-md *:px-6 *:py-2 *:rounded-2xl *:font-bold">
-                <a href="#" className="bg-green-700 text-neutral-50">
-                  Book Now
-                </a>
-                <a href="#" className="bg-orange-300 text-neutral-800">
-                  View Details
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="flex flex-col gap-4 w-10/12">
-        <h1 className="font-bold text-2xl">Continue Browsing</h1>
-        <div className="flex gap-4 p-1 overflow-x-auto overflow-y-visible *:min-w-80">
-          <div className="card bg-base-100 w-80 shadow-sm rounded-xl">
-            <figure className="h-56">
-              <img
-                src="https://placehold.co/400"
-                alt="Shoes"
-                className="w-full h- object-cover"
-              />
-            </figure>
-            <div className="card-body">
-              <div className="flex gap-2 items-center">
-                <img
-                  src="https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ4SlpGNlRuZ0k0dU0yMThpeFpsTzNmSDJPMiJ9"
-                  alt=""
-                  className="rounded-full h-8"
-                />
-                Juan Dela Cruz
-                <div className="badge bg-green-700 px-2 rounded text-white font-bold ml-auto">
-                  NEW
-                </div>
-              </div>
-              <hr />
-              <div className="rating rating-half">
-                <div
-                  className="mask mask-star-2 mask-half-1 bg-green-700"
-                  aria-label="0.5 star"
-                ></div>
-                <div
-                  className="mask mask-star-2 mask-half-2 bg-green-700"
-                  aria-label="1.0 star"
-                ></div>
-                <div
-                  className="mask mask-star-2 mask-half-1 bg-green-700"
-                  aria-label="1.5 star"
-                ></div>
-                <div
-                  className="mask mask-star-2 mask-half-2 bg-green-700"
-                  aria-label="2.0 star"
-                ></div>
-                <div
-                  className="mask mask-star-2 mask-half-1 bg-green-700"
-                  aria-label="2.5 star"
-                  aria-current="true"
-                ></div>
-                <div
-                  className="mask mask-star-2 mask-half-2 bg-green-700"
-                  aria-label="3.0 star"
-                ></div>
-                <div
-                  className="mask mask-star-2 mask-half-1 bg-green-700"
-                  aria-label="3.5 star"
-                ></div>
-                <div
-                  className="mask mask-star-2 mask-half-2 bg-green-700"
-                  aria-label="4.0 star"
-                ></div>
-                <div
-                  className="mask mask-star-2 mask-half-1 bg-green-700"
-                  aria-label="4.5 star"
-                ></div>
-                <div
-                  className="mask mask-star-2 mask-half-2 bg-green-700"
-                  aria-label="5.0 star"
-                ></div>
-              </div>
-              <h2 className="card-title">
-                S-ITCS111LA Introduction to Computing LAB
-              </h2>
-              <p>
-                Idk description something na pwedeng ilagay nung tutor? maybe
-                explaining what they know about this subject and such
-              </p>
-              <ul className="flex flex-wrap gap-1 *:rounded-full *:border *:border-sky-100 *:bg-sky-50 *:px-2 *:py-0.5 *w-fit-content *:text-nowrap">
-                <li>Mon 7PM-8PM</li>
-                <li>Tue 7PM-8PM</li>
-                <li>Wed 7PM-8PM</li>
-              </ul>
-              <hr />
-              <div className="flex justify-around *:shadow-md *:px-6 *:py-2 *:rounded-2xl *:font-bold">
-                <a href="#" className="bg-green-700 text-neutral-50">
-                  Book Now
-                </a>
-                <a href="#" className="bg-orange-300 text-neutral-800">
-                  View Details
-                </a>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
     </div>
