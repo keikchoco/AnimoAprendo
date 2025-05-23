@@ -23,7 +23,7 @@ export default function SwitchToTutor() {
     };
 
     return (
-        <li><Link href="/dashboard" onNavigate={(e) => {
+        <li><Link href="/tutor/dashboard" onNavigate={(e) => {
             console.log('Switching to tutor')
             updateMetadata()
             e.preventDefault()
