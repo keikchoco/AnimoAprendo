@@ -21,7 +21,7 @@ interface CardInfo {
   Image: string;
   Description: string;
   Rating: number;
-  ExtraInfo: { Day: string; Time: string }[];
+  ExtraInfo: { Day: string; Time: string; }[];
   TutorInfo: {
     UserId: string;
     Name: string;
@@ -29,6 +29,7 @@ interface CardInfo {
     Rank: string;
     Rating: number;
   };
+  Reviews: {Image: string, Name: string, Username: string, Rating: number, Comment: string}[];
 }
 
 export default async function Browse() {
