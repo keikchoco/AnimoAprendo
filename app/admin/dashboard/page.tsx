@@ -5,7 +5,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
-export const OnlineOnstiteData = {
+const OnlineOnstiteData = {
   labels: ["Online", "Onsite"],
   datasets: [
     {
@@ -18,7 +18,7 @@ export const OnlineOnstiteData = {
   ],
 };
 
-export const SubjectOffersData = {
+const SubjectOffersData = {
   labels: ["S-ITCS111LA", "S-ITCP322", "S-ITCS227LA"],
   datasets: [
     {
