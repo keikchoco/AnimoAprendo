@@ -2,7 +2,9 @@ import RatingGFX from "@/components/star-rating";
 import SubjectCardTemplate from "@/components/subject-card";
 import { StringToBoolean } from "class-variance-authority/dist/types";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
+import { FaArrowAltCircleLeft } from "react-icons/fa";
 
 interface CardInfo {
   Title: string;
@@ -174,7 +176,15 @@ export default async function Page({
 
   return (
     <div className="flex flex-col items-center w-full pt-6">
+      
       <section className="max-w-7xl">
+        <Link
+          href={"/tutor/subjects"}
+          className="flex flex-row items-center gap-2 text-xl text-green-700 font-semibold mr-auto"
+        >
+          <FaArrowAltCircleLeft /> Back to Subjects
+        </Link>
+        <br />
         <h1 className="text-2xl md:text-3xl font-bold pl-4">{item.Title}</h1>
         <br />
         <div className="flex flex-wrap gap-8 *:rounded-4xl *:overflow-hidden">

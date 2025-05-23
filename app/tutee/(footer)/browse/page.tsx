@@ -34,98 +34,140 @@ interface CardInfo {
 
 export default async function Browse() {
   const NewOffers = [
-    {
-      Title: "S-ITCS111LA Introduction to Computing LAB",
-      Image:
-        "https://www.mooc.org/hubfs/applications-of-computer-programming.jpg",
-      Description:
-        "Idk description something na pwedeng ilagay nung tutor? maybe explaining what they know about this subject and such",
-      Rating: 2.5,
-      ExtraInfo: [
-        {
-          Day: "Mon",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Tue",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Wed",
-          Time: "7PM-8PM",
-        },
-      ],
-      TutorInfo: {
-        UserId: "",
-        Name: "keikchoco",
+      {
+        Title: "S-ITCS111LA Introduction to Computing LAB",
         Image:
-          "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ4SlpGNlRuZ0k0dU0yMThpeFpsTzNmSDJPMiJ9",
-        Rank: "NEW",
-        Rating: 4.5,
+          "https://www.mooc.org/hubfs/applications-of-computer-programming.jpg",
+        Description:
+          "Idk description something na pwedeng ilagay nung tutor? maybe explaining what they know about this subject and such",
+        Rating: 2.5,
+        ExtraInfo: [
+          {
+            Day: "Mon",
+            Time: "7PM-8PM",
+          },
+          {
+            Day: "Tue",
+            Time: "7PM-8PM",
+          },
+          {
+            Day: "Wed",
+            Time: "7PM-8PM",
+          },
+        ],
+        TutorInfo: {
+          UserId: "",
+          Name: "Jeremiah Nueno",
+          Username: "keikchoco",
+          Image:
+            "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ4SlpGNlRuZ0k0dU0yMThpeFpsTzNmSDJPMiJ9",
+          Rank: "NEW",
+          Rating: 4.5,
+        },
+        Reviews: [
+          {
+            Image:
+              "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ3aVA4NGFxalFqSUNJa3h5ZjM2bjFKdU9oNCJ9",
+            Name: "Christian Peñano",
+            Username: "chrys",
+            Rating: 5.0,
+            Comment: "Best learning experience!",
+          },
+        ],
       },
-    },
-    {
-      Title: "S-ITCP322 Capstone Project 1",
-      Image:
-        "https://di.ku.dk/Nyheder/2023/fremtidens-programmeringssprog-udvikles-i-danmark/programming_on_screen-1100x600.jpg",
-      Description:
-        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima dolores voluptatem optio pariatur, veritatis dolore. Voluptatem nihil facilis minus illum hic eum fugit! In tenetur, modi corrupti facere ea inventore?",
-      Rating: 5,
-      ExtraInfo: [
-        {
-          Day: "Thu",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Fri",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Sat",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Sun",
-          Time: "7PM-8PM",
-        },
-      ],
-      TutorInfo: {
-        UserId: "",
-        Name: "chrys",
+      {
+        Title: "S-ITCP322 Capstone Project 1",
         Image:
-          "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ3aVA4NGFxalFqSUNJa3h5ZjM2bjFKdU9oNCJ9",
-        Rank: "NEW",
-        Rating: 4.5,
+          "https://di.ku.dk/Nyheder/2023/fremtidens-programmeringssprog-udvikles-i-danmark/programming_on_screen-1100x600.jpg",
+        Description:
+          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima dolores voluptatem optio pariatur, veritatis dolore. Voluptatem nihil facilis minus illum hic eum fugit! In tenetur, modi corrupti facere ea inventore?",
+        Rating: 5.0,
+        ExtraInfo: [
+          {
+            Day: "Thu",
+            Time: "7PM-8PM",
+          },
+          {
+            Day: "Fri",
+            Time: "7PM-8PM",
+          },
+          {
+            Day: "Sat",
+            Time: "7PM-8PM",
+          },
+          {
+            Day: "Sun",
+            Time: "7PM-8PM",
+          },
+        ],
+        TutorInfo: {
+          UserId: "",
+          Name: "Christian Peñano",
+          Username: "chrys",
+          Image:
+            "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ3aVA4NGFxalFqSUNJa3h5ZjM2bjFKdU9oNCJ9",
+          Rank: "NEW",
+          Rating: 4.5,
+        },
+        Reviews: [
+          {
+            Image:
+              "https://scontent.fmnl8-4.fna.fbcdn.net/v/t39.30808-6/495224537_2969928999835726_5957479116127189212_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=_JkSiHL_U_gQ7kNvwGHMlhl&_nc_oc=AdmOf132lrQBFYqR4RHQiLgUAVjvvobNfG-2LdYukV67TUgB2tZHadD4JvJJoo73dG8&_nc_zt=23&_nc_ht=scontent.fmnl8-4.fna&_nc_gid=B4yWQdg8bcyQhyMmEWgupQ&oh=00_AfKHXBJ7hryFB4h9IRW-Qcgt5rsTwm050yxdLTYKR9t0WQ&oe=6833689D",
+            Name: "Yasmin Abad",
+            Username: "yas",
+            Rating: 5.0,
+            Comment: "Wonderful!",
+          },
+          {
+            Image:
+              "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ4SlpGNlRuZ0k0dU0yMThpeFpsTzNmSDJPMiJ9",
+            Name: "Jeremiah Nueno",
+            Username: "keikchoco",
+            Rating: 4.5,
+            Comment:
+              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa accusantium maiores porro tenetur consequuntur. Nemo sed, ducimus fugiat suscipit temporibus necessitatibus earum maiores cumque. Ad quaerat nihil velit corrupti in!",
+          },
+        ],
       },
-    },
-    {
-      Title:
-        "S-ITCS227LA Application Development and Emerging Technologies LAB",
-      Image:
-        "https://static1.howtogeekimages.com/wordpress/wp-content/uploads/2022/10/shutterstock_577183882.jpg",
-      Description:
-        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima dolores voluptatem optio pariatur, veritatis dolore. Voluptatem nihil facilis minus illum hic eum fugit! In tenetur, modi corrupti facere ea inventore?",
-      Rating: 0,
-      ExtraInfo: [
-        {
-          Day: "Mon",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Wed",
-          Time: "7PM-8PM",
-        },
-      ],
-      TutorInfo: {
-        UserId: "",
-        Name: "yas",
+      {
+        Title:
+          "S-ITCS227LA Application Development and Emerging Technologies LAB",
         Image:
-          "https://scontent.fmnl8-4.fna.fbcdn.net/v/t39.30808-6/495224537_2969928999835726_5957479116127189212_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=_JkSiHL_U_gQ7kNvwGHMlhl&_nc_oc=AdmOf132lrQBFYqR4RHQiLgUAVjvvobNfG-2LdYukV67TUgB2tZHadD4JvJJoo73dG8&_nc_zt=23&_nc_ht=scontent.fmnl8-4.fna&_nc_gid=B4yWQdg8bcyQhyMmEWgupQ&oh=00_AfKHXBJ7hryFB4h9IRW-Qcgt5rsTwm050yxdLTYKR9t0WQ&oe=6833689D",
-        Rank: "NEW",
-        Rating: 0.5,
+          "https://static1.howtogeekimages.com/wordpress/wp-content/uploads/2022/10/shutterstock_577183882.jpg",
+        Description:
+          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima dolores voluptatem optio pariatur, veritatis dolore. Voluptatem nihil facilis minus illum hic eum fugit! In tenetur, modi corrupti facere ea inventore?",
+        Rating: 0.0,
+        ExtraInfo: [
+          {
+            Day: "Mon",
+            Time: "7PM-8PM",
+          },
+          {
+            Day: "Wed",
+            Time: "7PM-8PM",
+          },
+        ],
+        TutorInfo: {
+          UserId: "",
+          Name: "Yasmin Abad",
+          Username: "yas",
+          Image:
+            "https://scontent.fmnl8-4.fna.fbcdn.net/v/t39.30808-6/495224537_2969928999835726_5957479116127189212_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=_JkSiHL_U_gQ7kNvwGHMlhl&_nc_oc=AdmOf132lrQBFYqR4RHQiLgUAVjvvobNfG-2LdYukV67TUgB2tZHadD4JvJJoo73dG8&_nc_zt=23&_nc_ht=scontent.fmnl8-4.fna&_nc_gid=B4yWQdg8bcyQhyMmEWgupQ&oh=00_AfKHXBJ7hryFB4h9IRW-Qcgt5rsTwm050yxdLTYKR9t0WQ&oe=6833689D",
+          Rank: "NEW",
+          Rating: 0.5,
+        },
+        Reviews: [
+          {
+            Image:
+              "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ3aVA4NGFxalFqSUNJa3h5ZjM2bjFKdU9oNCJ9",
+            Name: "Christian Peñano",
+            Username: "chrys",
+            Rating: 0.5,
+            Comment: "Don't Recommend",
+          },
+        ],
       },
-    },
-  ];
+    ];
 
   const Popular = [
     "S-ITCS111LA Introduction to Computing LAB",
