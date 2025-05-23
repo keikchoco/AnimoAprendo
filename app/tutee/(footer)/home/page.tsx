@@ -4,6 +4,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <>
+      
       <div className="flex flex-col items-center relative w-fit h-1/2">
         <div className="w-screen h-full relative">
           <Image
@@ -20,9 +21,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      
     </>
-
-  )
+  );
 }
