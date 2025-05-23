@@ -11,7 +11,7 @@ export default async function Dashboard() {
   if (!user) return <div>Not signed in</div>;
 
   return (
-    <div className="flex flex-row gap-12 w-10/12 mt-8 text-neutral-800">
+    <div className="flex flex-row gap-12 w-10/12 text-neutral-800">
       {/* Left Panels */}
       <div className="flex flex-col grow-1 basis-0 gap-4 *:px-5 *:py-4 *:border-neutral-400 *:border-2 *:rounded-2xl *:flex *:flex-col *:items-center">
         {/* Profile */}
