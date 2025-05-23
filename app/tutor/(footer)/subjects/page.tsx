@@ -82,8 +82,8 @@ export default function TutorSubjects() {
                   <Image
                     src={data.Image}
                     alt=""
-                    width={0}
-                    height={0}
+                    width={500}
+                    height={500}
                     className="h-12 w-20 object-cover"
                   />
                 </td>
