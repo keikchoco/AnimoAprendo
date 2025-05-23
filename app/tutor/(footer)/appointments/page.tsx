@@ -1,8 +1,15 @@
+import Image from 'next/image'
 import React from 'react'
 
 const TutorAppointments = () => {
   return (
-    <div>Tutor Appointments</div>
+    <Image
+      src={"/images/Calendar.png"}
+      alt=''
+      width={2000}
+      height={2000}
+      className='w-10/12'
+    />
   )
 }
 

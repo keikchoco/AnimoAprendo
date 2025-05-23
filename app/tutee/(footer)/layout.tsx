@@ -103,7 +103,7 @@ export default async function Layout({
             </div>
             {/* Page content here */}
             <div className="flex flex-col grow items-center w-full p-6 pt-0">
-              {!user?.publicMetadata.completeProfile && (
+              {/* {!user?.publicMetadata.completeProfile && (
                 <div className="bg-amber-200 w-screen px-4 py-2 font-semibold text-lg text-center">
                   Complete your profile to get the best experience with
                   AnimoAprendo{" "}
@@ -114,7 +114,7 @@ export default async function Layout({
                     Take me there
                   </Link>
                 </div>
-              )}
+              )} */}
               {children}
             </div>
             <div className="">
