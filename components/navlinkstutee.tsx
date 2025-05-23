@@ -19,6 +19,14 @@ async function NavLinksTutee() {
       </div>
       <div className="flex-none">
         <div className="dropdown dropdown-end">
+          <Link className="btn btn-ghost btn-circle" href='/tutor/chat'>
+            <div className="indicator">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 8H7"/><path d="M17 12H7"/></svg>
+              <span className="badge badge-md indicator-item font-bolder leading-0 align-top bg-none">0</span>
+            </div>
+          </Link>
+        </div>
+        <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
               <img

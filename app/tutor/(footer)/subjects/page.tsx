@@ -1,4 +1,5 @@
 import { Item } from "@radix-ui/react-dropdown-menu";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -9,8 +10,8 @@ export default function TutorSubjects() {
         "https://www.mooc.org/hubfs/applications-of-computer-programming.jpg",
       CourseCode: "S-ITCS111LA",
       SubjectName: "Introduction to Computing LAB",
-      Views: "1.3k",
-      Bookings: "3",
+      Views: 1300,
+      Bookings: 3,
       Rating: 2.5,
     },
     {
@@ -18,8 +19,8 @@ export default function TutorSubjects() {
         "https://di.ku.dk/Nyheder/2023/fremtidens-programmeringssprog-udvikles-i-danmark/programming_on_screen-1100x600.jpg",
       CourseCode: "S-ITCP322",
       SubjectName: "Capstone Project 1",
-      Views: "3.9k",
-      Bookings: "10",
+      Views: 3900,
+      Bookings: 10,
       Rating: 4.5,
     },
     {
@@ -27,11 +28,13 @@ export default function TutorSubjects() {
         "https://static1.howtogeekimages.com/wordpress/wp-content/uploads/2022/10/shutterstock_577183882.jpg",
       CourseCode: "S-ITCS227LA",
       SubjectName: "Application Development and Emerging Technologies LAB",
-      Views: "120",
-      Bookings: "0",
+      Views: 120,
+      Bookings: 0,
       Rating: 0.5,
     },
   ];
+
+
   return (
     <div className="flex flex-col gap-4 w-10/12">
       <div className="flex flex-row justify-between">
@@ -76,9 +79,11 @@ export default function TutorSubjects() {
                 className="*:border-x *:border-neutral-300 text-center hover:bg-neutral-200"
               >
                 <td>
-                  <img
+                  <Image
                     src={data.Image}
                     alt=""
+                    width={0}
+                    height={0}
                     className="h-12 w-20 object-cover"
                   />
                 </td>
@@ -101,9 +106,8 @@ export default function TutorSubjects() {
                 <th>
                   <div className="flex flex-row gap-2 justify-between *:p-2 *:shadow-lg *:grow-1 *:basis-0 *:rounded-xl *:cursor-pointer">
                     <Link href={"/tutor/subjects/view/" + i} className="bg-amber-200 hover:bg-amber-300">View</Link>
-                    <div className="bg-neutral-200 hover:bg-neutral-300">
-                      Edit
-                    </div>
+                    <Link href={"/tutor/subjects/edit/" + i} className="bg-neutral-200 hover:bg-neutral-300">Edit</Link>
+
                     <div className="bg-red-800 hover:bg-red-900 text-white">
                       Delete
                     </div>

@@ -15,6 +15,7 @@ interface CardInfo {
     Rank: string;
     Rating: number;
   };
+  Reviews: {Image: string, Name: string, Username: string, Rating: number, Comment: string}[];
 }
 
 export default function SubjectCardTemplate(item: CardInfo, i: Key) {
