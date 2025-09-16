@@ -12,6 +12,7 @@ const isTestingRoute = createRouteMatcher(['/testing(.*)'])
 
 export default clerkMiddleware(async (auth, req) => {
   const { sessionClaims, userId } = await auth()
+  console.log(userId)
   const metadata = sessionClaims?.publicMetadata as { role?: string, isAdmin?: boolean } | undefined
 
   if (isTestingRoute(req)) {
@@ -32,12 +33,12 @@ export default clerkMiddleware(async (auth, req) => {
   }
 
   // If the user is not logged in and trying to access a protected route, redirect them to the sign-in page
-  if (!isPublicRoute(req) && !userId) {
+  if (!isPublicRoute(req) && !userId && !isDefaultRoute(req)) {
     return NextResponse.redirect(new URL('/sign-in', req.url))
   }
 
   // If the user is logged in and trying to access the sign-in or sign-up page, redirect them to their dashboard/home page
-  if (isDefaultRoute(req)) {
+  if (isDefaultRoute(req) && userId) {
     if (metadata?.isAdmin == true) {
       return NextResponse.redirect(new URL('/admin/dashboard', req.url))
     }
@@ -48,6 +49,9 @@ export default clerkMiddleware(async (auth, req) => {
       return NextResponse.redirect(new URL('/tutor/dashboard', req.url))
     }
   }
+
+  // For all other cases, allow the request to proceed
+  return NextResponse.next()
 })
 
 export const config = {

@@ -12,8 +12,8 @@ import {
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import { currentUser } from "@clerk/nextjs/server";
-import NavLinksTutor from "@/components/navlinkstutor";
 import { permanentRedirect } from "next/navigation";
+import NavLinksDefault from "@/components/navlinksdefault";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,13 +33,40 @@ export default async function Layout({
   const user = await currentUser();
   const userid = user?.id;
 
-  if (user?.publicMetadata.role !== "tutor") {
-    permanentRedirect("/");
+  if (user?.publicMetadata.role !== "tutee") {
+    if (!user?.publicMetadata.role == null) {
+      permanentRedirect("/");
+    }
   }
   return (
     <>
       <SignedOut>
-        <div className="flex grow p-10 bg-green-950">{children}</div>
+        <div className="drawer z-50">
+          <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
+          <div className="drawer-content">
+            {/* Navbar */}
+            <NavLinksDefault />
+          </div>
+          <div className="drawer-side">
+            <label
+              htmlFor="my-drawer-3"
+              aria-label="close sidebar"
+              className="drawer-overlay"
+            ></label>
+            <ul className="menu bg-base-200 min-h-full w-80 p-4">
+              {/* Sidebar content here */}
+              <li>Test</li>
+              <li>Test</li>
+            </ul>
+          </div>
+        </div>
+        {/* Page content here */}
+        <div className="flex flex-col grow items-center w-full pt-0">
+          {children}
+        </div>
+        <div className="">
+          <Footer />
+        </div>
       </SignedOut>
       <SignedIn>
         <div className="drawer z-50">
@@ -74,8 +101,7 @@ export default async function Layout({
                 </div>
               </div>
               <div className="hidden flex-none lg:block h-10">
-                {/* <div>{pathname}</div> */}
-                <NavLinksTutor />
+                <NavLinksTutee />
               </div>
             </div>
           </div>
@@ -87,13 +113,29 @@ export default async function Layout({
             ></label>
             <ul className="menu bg-base-200 min-h-full w-80 p-4">
               {/* Sidebar content here */}
-              <NavLinksTutor />
+              <li>Test</li>
+              <li>Test</li>
             </ul>
           </div>
         </div>
         {/* Page content here */}
-        <div className="flex flex-col grow items-center gap-5 w-full p-6 pt-0">
+        <div className="flex flex-col grow items-center w-full p-6 pt-0">
+          {/* {!user?.publicMetadata.completeProfile && (
+                <div className="bg-amber-200 w-screen px-4 py-2 font-semibold text-lg text-center">
+                  Complete your profile to get the best experience with
+                  AnimoAprendo{" "}
+                  <Link
+                    href={"/tutee/completeprofile"}
+                    className="shadow-lg rounded-lg px-2 py-1 bg-neutral-100 hover:bg-neutral-200"
+                  >
+                    Take me there
+                  </Link>
+                </div>
+              )} */}
           {children}
+        </div>
+        <div className="">
+          <Footer />
         </div>
       </SignedIn>
     </>

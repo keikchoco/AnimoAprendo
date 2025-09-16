@@ -40,9 +40,7 @@ export default async function Layout({
   
   return (
     <>
-      <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased w-full min-h-screen max-w-screen overflow-x-hidden m-auto flex flex-col`}>
-          <SignedIn>
+      <SignedIn>
             {/* Container */}
             <div className='flex flex-row w-full min-h-screen'>
               {/* Navbar */}
@@ -61,8 +59,6 @@ export default async function Layout({
             </div>
             
           </SignedIn>
-        </body>
-      </html>
     </>
 
   );
