@@ -16,6 +16,9 @@ export default clerkMiddleware(async (auth, req) => {
   const metadata = sessionClaims?.publicMetadata as { role?: string, isAdmin?: boolean } | undefined
 
   if (isTestingRoute(req)) {
+    if (process.env.NEXT_PUBLIC_DEVELOPMENT_MODE !== 'true') {
+      return NextResponse.redirect(new URL('/', req.url))
+    }
     return NextResponse.next()
   }
 
