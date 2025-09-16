@@ -11,20 +11,24 @@ export async function POST(req: NextRequest) {
     // Parse the incoming JSON payload
     const data = await req.json();
 
-    // Remove "user_" prefix from the id using regex if present
-    const userId = data.data.id.replace(/^user_/, "");
+    if (data.data.type === "user.deleted") {
+      // Remove "user_" prefix from the id using regex if present
+      const userId = data.data.id.replace(/^user_/, "");
 
-    // Delete the user data in the "users" collection
-    const userData = await db.collection("users").deleteOne({ _id: userId });
+      // Delete the user data in the "users" collection
+      const userData = await db.collection("users").deleteOne({ _id: userId });
 
-    // Log the event or process user creation
-    console.log("Received Clerk webhook:", userData);
+      // Log the event or process user creation
+      console.log("Received Clerk webhook:", userData);
 
-    // Respond with 200 OK
-    return NextResponse.json(
-      { success: true, userData, data },
-      { status: 200 }
-    );
+      // Respond with 200 OK
+      return NextResponse.json(
+        { success: true, userData, data },
+        { status: 200 }
+      );
+    }
+
+    return NextResponse.json({ success: false, message: "Not a user.deleted event" }, { status: 400 });
   } catch (error) {
     console.error("Error handling Clerk webhook:", error);
     return NextResponse.json({ success: false, error }, { status: 400 });
