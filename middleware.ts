@@ -8,10 +8,15 @@ const isPublicRoute = createRouteMatcher([
 ])
 
 const isDefaultRoute = createRouteMatcher(['/'])
+const isTestingRoute = createRouteMatcher(['/testing(.*)'])
 
 export default clerkMiddleware(async (auth, req) => {
   const { sessionClaims, userId } = await auth()
   const metadata = sessionClaims?.publicMetadata as { role?: string, isAdmin?: boolean } | undefined
+
+  if (isTestingRoute(req)) {
+    return NextResponse.next()
+  }
 
   // If the user is logged in and trying to access a public route, redirect them to their dashboard/home page
   if (isPublicRoute(req) && userId) {
