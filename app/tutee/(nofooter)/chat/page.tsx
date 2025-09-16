@@ -1,4 +1,3 @@
-import StreamChatTutee from "@/components/stream-chat-tutee"
 import { currentUser } from "@clerk/nextjs/server"
 import { Stream } from "stream"
 
@@ -18,6 +17,6 @@ export default async function Chat() {
     }
 
     return (
-        <StreamChatTutee userData={userData} />
+        <></>
     )
 }
