@@ -1,5 +1,5 @@
 import clientPromise from "@/lib/mongodb";
-import { clerkClient } from "@clerk/nextjs/dist/types/server";
+import { clerkClient } from "@clerk/nextjs/server";
 import { stat } from "fs";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
