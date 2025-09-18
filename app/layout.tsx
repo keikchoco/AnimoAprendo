@@ -1,5 +1,6 @@
 import { type Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
 import Link from "next/link";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
@@ -47,9 +48,11 @@ export default async function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased w-full min-h-screen m-auto flex flex-col`}
         >
-          {user?.publicMetadata.isAdmin == true ? <AdminNavBR /> : null}
+          <NuqsAdapter>
+            {user?.publicMetadata.isAdmin == true ? <AdminNavBR /> : null}
 
-          {children}
+            {children}
+          </NuqsAdapter>
         </body>
       </html>
     </ClerkProvider>

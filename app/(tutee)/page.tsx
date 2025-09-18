@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   TbCircleDashedNumber1,
@@ -11,10 +12,10 @@ import {
 } from "react-icons/tb";
 
 import React from "react";
-import Image from "next/image";
-import RatingGFX from "@/components/star-rating";
 import SubjectCardTemplate from "@/components/subject-card";
 import { Search } from "lucide-react";
+import { redirect } from "next/navigation";
+import TextType from "@/components/reactbits/texttype";
 
 interface CardInfo {
   Title: string;
@@ -26,7 +27,7 @@ interface CardInfo {
     UserId: string;
     Name: string;
     Image: string;
-    Rank: string;
+    Rank: number;
     Rating: number;
   };
   Reviews: {
@@ -38,7 +39,7 @@ interface CardInfo {
   }[];
 }
 
-export default async function Browse() {
+export default function Browse() {
   const NewOffers = [
     {
       Title: "S-ITCS111LA Introduction to Computing LAB",
@@ -67,7 +68,7 @@ export default async function Browse() {
         Username: "keikchoco",
         Image:
           "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ4SlpGNlRuZ0k0dU0yMThpeFpsTzNmSDJPMiJ9",
-        Rank: "NEW",
+        Rank: 1,
         Rating: 4.5,
       },
       Reviews: [
@@ -112,7 +113,7 @@ export default async function Browse() {
         Username: "chrys",
         Image:
           "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ3aVA4NGFxalFqSUNJa3h5ZjM2bjFKdU9oNCJ9",
-        Rank: "NEW",
+        Rank: 1,
         Rating: 4.5,
       },
       Reviews: [
@@ -159,7 +160,7 @@ export default async function Browse() {
         Username: "yas",
         Image:
           "https://scontent.fmnl8-4.fna.fbcdn.net/v/t39.30808-6/495224537_2969928999835726_5957479116127189212_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=_JkSiHL_U_gQ7kNvwGHMlhl&_nc_oc=AdmOf132lrQBFYqR4RHQiLgUAVjvvobNfG-2LdYukV67TUgB2tZHadD4JvJJoo73dG8&_nc_zt=23&_nc_ht=scontent.fmnl8-4.fna&_nc_gid=B4yWQdg8bcyQhyMmEWgupQ&oh=00_AfKHXBJ7hryFB4h9IRW-Qcgt5rsTwm050yxdLTYKR9t0WQ&oe=6833689D",
-        Rank: "NEW",
+        Rank: 1,
         Rating: 0.5,
       },
       Reviews: [
@@ -186,42 +187,79 @@ export default async function Browse() {
     "S-ITCP322 Capstone Project 1",
   ];
 
+  function handleText(values: any) {
+    console.log("test")
+    console.log(document.getElementById("hero-title")?.attributes)
+    
+  }
+
+  function handleSearch(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const query = formData.get("query");
+    const queryFormat = String(query).trim().replace(/ /g, "+");
+
+    if (queryFormat) {
+      redirect("/search?query=" + queryFormat);
+    }
+  }
+
   return (
     <>
       {/* Hero Section */}
       <section className="w-full">
         <div
-          className="hero min-h-[44rem]"
+          className="hero w-full min-h-[44rem]"
           style={{
-            backgroundImage:
-              "url(/images/DLSUD-rotonda.jpg)",
+            backgroundImage: "url(/images/DLSUD-rotonda.jpg)",
           }}
         >
           <div className="hero-overlay bg-black/60"></div>
           <div className="hero-content !items-start !justify-start text-white/95 w-full">
-            <div className="max-w-full">
-              <h1 className="mb-5 text-5xl font-semibold">
-                Having trouble with a subject?
-              </h1>
-              <p className="mb-5">
+            <div className="w-full">
+              <TextType
+                text={[
+                  "Having trouble with a subject?",
+                  "We got you covered!",
+                ]}
+                id="hero-title"
+                typingSpeed={75}
+                variableSpeed={{min: 50, max: 75}}
+                pauseDuration={2000}
+                cursorCharacter="_"
+                className="text-2xl h-8 lg:h-16 lg:text-5xl font-semibold"
+                onSentenceComplete={(sentence, i) => {i == 1 && document.getElementById("hero-line")?.classList.replace("opacity-0", "opacity-100")}}
+              />
+              <br />
+              <p id="hero-line" className="lg:mb-3 lg:text-2xl opacity-100 transition-opacity">
                 Let our dedicated students and teachers help you excel!
               </p>
+              <br />
 
-              <div className="join w-full bg-white px-0 rounded-lg max-w-2xl overflow-hidden">
+              <form
+                className="join w-full bg-white px-0 rounded-lg max-w-2xl overflow-hidden"
+                onSubmit={handleSearch}
+              >
                 <div className="flex w-full items-center">
                   <label className="input validator join-item text-black/98 grow">
                     <input
                       type="text"
+                      name="query"
                       placeholder="Search using a course code or a subject name"
-                      className="text-lg font-semibold"
+                      className="lg:text-lg lg:font-semibold"
                     />
                   </label>
                   <div className="validator-hint hidden">
                     Enter a valid course code or subject name
                   </div>
                 </div>
-                <button className="btn btn-neutral join-item bg-green-950 h-12 w-12 border-0 p-0"><Search className=""/> </button>
-              </div>
+                <button
+                  type="submit"
+                  className="btn btn-neutral join-item bg-green-900 hover:bg-green-950 h-12 w-12 border-0 p-0"
+                >
+                  <Search className="" />{" "}
+                </button>
+              </form>
             </div>
           </div>
         </div>

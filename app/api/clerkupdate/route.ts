@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
     // Parse the incoming JSON payload
     const data = await req.json();
 
-    if (data.data.type === "user.updated") {
+    if (data.type === "user.updated") {
       // Remove "user_" prefix from the id using regex if present
       const userId = data.data.id.replace(/^user_/, "");
       console.log(userId);

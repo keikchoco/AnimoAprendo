@@ -11,12 +11,13 @@ export async function POST(req: NextRequest) {
     // Parse the incoming JSON payload
     const data = await req.json();
 
-    if (data.data.type === "user.deleted") {
+    if (data.type === "user.deleted") {
       // Remove "user_" prefix from the id using regex if present
       const userId = data.data.id.replace(/^user_/, "");
 
       // Delete the user data in the "users" collection
-      const userData = await db.collection("users").deleteOne({ _id: userId });
+      const user = await db.collection("users").deleteOne({ _id: userId });
+      const userData = await db.collection("userdata").deleteOne({ userId: userId });
 
       // Log the event or process user creation
       console.log("Received Clerk webhook:", userData);

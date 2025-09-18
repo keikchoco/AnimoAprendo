@@ -1,56 +1,63 @@
 import Image from "next/image";
 import RatingGFX from "./star-rating";
 import { Key } from "react";
+import Link from "next/link";
+import { StarIcon } from "@heroicons/react/20/solid";
+import TutorRank from "./ui/rank";
 
 interface CardInfo {
   Title: string;
   Image: string;
   Description: string;
   Rating: number;
-  ExtraInfo: { Day: string; Time: string; }[];
+  ExtraInfo: { Day: string; Time: string }[];
   TutorInfo: {
     UserId: string;
     Name: string;
     Image: string;
-    Rank: string;
+    Rank: number;
     Rating: number;
   };
-  Reviews: {Image: string, Name: string, Username: string, Rating: number, Comment: string}[];
+  Reviews: {
+    Image: string;
+    Name: string;
+    Username: string;
+    Rating: number;
+    Comment: string;
+  }[];
 }
 
 export default function SubjectCardTemplate(item: CardInfo, i: Key) {
   return (
-    <div
+    <Link
+      href={"/tutee/browse/" + i.toString()}
       key={i}
-      className="card bg-base-100 w-80 shadow-sm rounded-xl overflow-hidden"
+      className="card bg-base-100 shadow-sm rounded-xl overflow-hidden"
     >
-      <figure className="h-56">
+      <figure className="h-fit">
         <Image
           src={item.Image}
           alt=""
           width={500}
           height={500}
-          className="w-full h-full object-cover"
+          className="w-full aspect-video object-cover"
         />
       </figure>
       <div className="card-body bg-green-50">
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center w-full">
           <img
             src={item.TutorInfo.Image}
             alt=""
             className="rounded-full h-8 aspect-square object-cover"
           />
           {item.TutorInfo.Name}
-          <div className="badge bg-green-700 px-2 rounded text-white font-bold ml-auto">
-            {item.TutorInfo.Rank}
-          </div>
+          <TutorRank rank={item.TutorInfo.Rank} />
         </div>
         <hr />
-        {RatingGFX(item.Rating)}
+        <span className="flex flex-row items-center gap-1 font-semibold text-black/80"><StarIcon className="size-5"/> {item.Rating.toFixed(1)}</span>
         <h2 className="line-clamp-2 font-bold text-lg grow-1 max-h-[3em]">
           {item.Title}
         </h2>
-        <p className="line-clamp-3 max-h-[4.5em]">{item.Description}</p>
         <ul className="flex flex-wrap mt-auto gap-1 *:rounded-full *:shadow-md *:px-2 *:py-0.5 *w-fit-content *:text-nowrap overflow-x-auto overflow-y-visible scroll no-scrollbar *:grow-1 *:basis-0 *:text-center">
           {item.ExtraInfo.map((info, i) => (
             <li
@@ -77,19 +84,7 @@ export default function SubjectCardTemplate(item: CardInfo, i: Key) {
             </li>
           ))}
         </ul>
-        <hr />
-        <div className="flex justify-around *:shadow-md *:px-6 *:py-2 *:rounded-2xl *:font-bold">
-          <a href="" className="bg-green-700 text-neutral-50">
-            Book Now
-          </a>
-          <a
-            href={"/tutee/browse/" + i.toString()}
-            className="bg-orange-300 text-neutral-800"
-          >
-            View Details
-          </a>
-        </div>
       </div>
-    </div>
+    </Link>
   );
 }

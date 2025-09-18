@@ -25,7 +25,7 @@ interface CardInfo {
     UserId: string;
     Name: string;
     Image: string;
-    Rank: string;
+    Rank: number;
     Rating: number;
   };
   Reviews: {Image: string, Name: string, Username: string, Rating: number, Comment: string}[];
@@ -60,7 +60,7 @@ export default async function Browse() {
           Username: "keikchoco",
           Image:
             "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ4SlpGNlRuZ0k0dU0yMThpeFpsTzNmSDJPMiJ9",
-          Rank: "NEW",
+          Rank: 1,
           Rating: 4.5,
         },
         Reviews: [
@@ -105,7 +105,7 @@ export default async function Browse() {
           Username: "chrys",
           Image:
             "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ3aVA4NGFxalFqSUNJa3h5ZjM2bjFKdU9oNCJ9",
-          Rank: "NEW",
+          Rank: 1,
           Rating: 4.5,
         },
         Reviews: [
@@ -152,7 +152,7 @@ export default async function Browse() {
           Username: "yas",
           Image:
             "https://scontent.fmnl8-4.fna.fbcdn.net/v/t39.30808-6/495224537_2969928999835726_5957479116127189212_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=_JkSiHL_U_gQ7kNvwGHMlhl&_nc_oc=AdmOf132lrQBFYqR4RHQiLgUAVjvvobNfG-2LdYukV67TUgB2tZHadD4JvJJoo73dG8&_nc_zt=23&_nc_ht=scontent.fmnl8-4.fna&_nc_gid=B4yWQdg8bcyQhyMmEWgupQ&oh=00_AfKHXBJ7hryFB4h9IRW-Qcgt5rsTwm050yxdLTYKR9t0WQ&oe=6833689D",
-          Rank: "NEW",
+          Rank: 1,
           Rating: 0.5,
         },
         Reviews: [
