@@ -1,5 +1,4 @@
-import { auth } from '@clerk/nextjs/server';
-import { clerkClient } from '@clerk/clerk-sdk-node';
+import { auth, clerkClient } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
@@ -12,7 +11,8 @@ export async function POST(req: Request) {
   const { role } : {role: String} = await req.json();
 
   try {
-    await clerkClient.users.updateUserMetadata(userId, {
+    const client = await clerkClient();
+    await client.users.updateUserMetadata(userId, {
       publicMetadata: { role },
     });
 

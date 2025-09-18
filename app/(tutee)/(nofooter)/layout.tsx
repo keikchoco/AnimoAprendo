@@ -40,9 +40,7 @@ export default async function Layout({
   }
   return (
     <>
-      <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased w-full min-h-screen m-auto flex flex-col`}>
-          <SignedOut>
+      <SignedOut>
             <div className='flex grow p-10 bg-green-950'>{children}</div>
           </SignedOut>
           <SignedIn>
@@ -91,8 +89,6 @@ export default async function Layout({
               {children}
             </div>
           </SignedIn>
-        </body>
-      </html>
     </>
 
   );
