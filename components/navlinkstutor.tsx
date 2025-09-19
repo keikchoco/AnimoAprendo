@@ -1,100 +1,176 @@
-import { SignOutButton } from '@clerk/nextjs'
-import { currentUser } from '@clerk/nextjs/server'
-import Link from 'next/link'
-import React from 'react'
-import SwitchToTutee from './ui/switchtotutee'
+'use client'
+import { SignOutButton, useAuth, useUser } from "@clerk/nextjs";
+import { Dialog, DialogPanel, PopoverGroup } from "@headlessui/react";
 
-async function NavLinksTutor() {
-  const user = await currentUser()
+import Link from "next/link";
+import React, { Suspense, useState } from "react";
+import SwitchToTutee from "./ui/switchtotutee";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import ProfileImageSkeleton from "./ui/profile-skeleton";
+import Image from "next/image";
+
+function NavLinksTutor() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { isSignedIn, isLoaded, user } = useUser();
 
   return (
-    <div className='flex flex-row'>
-      <div className='flex items-center'>
-        <ul className="menu menu-horizontal p-0 hidden lg:flex">
-          <li><Link href="/tutor/dashboard">Dashboard</Link></li>
-          <li><Link href="/tutor/subjects">View Subjects</Link></li>
-          <li><Link href="/tutor/appointments">View Appointments</Link></li>
-          <li><Link href="/tutor/history">Tutoring History</Link></li>
-          <SwitchToTutee />
-        </ul>
-      </div>
-
-      <div className="flex-none">
-        <div className="dropdown dropdown-end">
-          <Link className="btn btn-ghost btn-circle" href='/tutor/chat'>
-            <div className="indicator">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 8H7"/><path d="M17 12H7"/></svg>
-              <span className="badge badge-md indicator-item font-bolder leading-0 align-top bg-none">1</span>
-            </div>
-          </Link>
-        </div>
-        <div className="dropdown dropdown-end">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-            <div className="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src={user?.imageUrl} />
-            </div>
+    <>
+      <header className="bg-green-900">
+        <nav
+          aria-label="Global"
+          className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
+        >
+          <div className="flex lg:flex-1">
+            <Link href="/tutor/dashboard" className="-m-1.5 p-1.5">
+              <span className="text-white/98 font-semibold">AnimoAprendo</span>
+            </Link>
           </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content rounded-box z-1 mt-3 w-52 p-2 shadow text-black bg-white">
-            <li className='border-b'><a>Welcome, {user?.username}</a></li>
-            <li>
-              <Link className="justify-between" href="/tutor/profile">
-                Profile
-                {/* <span className="badge">New</span> */}
-              </Link>
-            </li>
-            <li><SignOutButton /></li>
-          </ul>
-        </div>
-      </div>
-
-      {/* <div className="flex-none">
-        <div className="dropdown dropdown-end">
-          <div className="dropdown dropdown-end">
-            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
-              <div className="indicator">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /> </svg>
-                <span className="badge badge-sm indicator-item">8</span>
+          <div className="flex lg:hidden">
+            <ul className="menu menu-sm gap-3 dropdown-content rounded-box p-2  text-black z-50">
+              <SwitchToTutee />
+            </ul>
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(true)}
+              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white/96"
+            >
+              <span className="sr-only">Open main menu</span>
+              <Bars3Icon aria-hidden="true" className="size-6" />
+            </button>
+          </div>
+          <PopoverGroup className="hidden lg:flex lg:gap-x-4 items-center">
+            <Link href="/tutor/dashboard" className="text-sm/6 font-semibold text-white/98">
+              Dashboard
+            </Link>
+            <Link
+              href="/tutor/subjects"
+              className="text-sm/6 font-semibold text-white/98"
+            >
+              View Subjects
+            </Link>
+            <Link
+              href="/tutor/appointments"
+              className="text-sm/6 font-semibold text-white/98"
+            >
+              View Appointments
+            </Link>
+            <Link
+              href="/tutor/history"
+              className="text-sm/6 font-semibold text-white/98"
+            >
+              Tutoring History
+            </Link>
+            <div className="dropdown dropdown-end">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle avatar"
+              >
+                <div className="w-10 rounded-full">
+                  <Suspense fallback={<ProfileImageSkeleton />}>
+                    {isLoaded && user ? (
+                      <Image
+                        width={120}
+                        height={120}
+                        alt="Profile Image"
+                        src={user.imageUrl}
+                        priority={true}
+                      />
+                    ) : (
+                      <ProfileImageSkeleton />
+                    )}
+                  </Suspense>
+                </div>
               </div>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm gap-3 dropdown-content bg-white rounded-box mt-3 w-52 p-2 shadow text-black z-50"
+              >
+                <li className="border-b">
+                  <p>Welcome, {user?.username}</p>
+                </li>
+                <li>
+                  <Link className="justify-between" href="/tutee/profile">
+                    Profile
+                    {/* <span className="badge">New</span> */}
+                  </Link>
+                </li>
+
+                <li>
+                  <SignOutButton />
+                </li>
+              </ul>
             </div>
-            <div
-              tabIndex={0}
-              className="card card-compact dropdown-content bg-base-100 z-1 mt-3 w-52 shadow">
-              <div className="card-body">
-                <span className="text-lg font-bold">8 Items</span>
-                <span className="text-info">Subtotal: $999</span>
-                <div className="card-actions">
-                  <button className="btn btn-primary btn-block">View cart</button>
+          </PopoverGroup>
+        </nav>
+        <Dialog
+          open={mobileMenuOpen}
+          onClose={setMobileMenuOpen}
+          className="lg:hidden"
+        >
+          <div className="fixed inset-0 z-50" />
+          <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-green-900 p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+            <div className="flex items-center justify-between">
+              <Link href="#" className="-m-1.5 p-1.5">
+                <span className="font-semibold text-white/98">
+                  AnimoAprendo
+                </span>
+              </Link>
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(false)}
+                className="-m-2.5 rounded-md p-2.5 text-white/96"
+              >
+                <span className="sr-only">Close menu</span>
+                <XMarkIcon aria-hidden="true" className="size-6" />
+              </button>
+            </div>
+            <div className="mt-6 flow-root">
+              <div className="-my-6 divide-y divide-gray-500/10">
+                <div className="py-6">
+                  <Link
+                    href="/tutor/dashboard"
+                    className="-mx-6 block rounded-lg px-6 py-2.5 text-base/7 font-semibold text-white/98 hover:bg-gray-50 hover:text-black/98"
+                  >
+                    Dashboard
+                  </Link>
+                  <Link
+                    href="/tutor/subjects"
+                    className="-mx-6 block rounded-lg px-6 py-2.5 text-base/7 font-semibold text-white/98 hover:bg-gray-50 hover:text-black/98"
+                  >
+                    View Subjects
+                  </Link>
+                  <Link
+                    href="/tutor/appointments"
+                    className="-mx-6 block rounded-lg px-6 py-2.5 text-base/7 font-semibold text-white/98 hover:bg-gray-50 hover:text-black/98"
+                  >
+                    View Appointments
+                  </Link>
+                  <Link
+                    href="/tutor/history"
+                    className="-mx-6 block rounded-lg px-6 py-2.5 text-base/7 font-semibold text-white/98 hover:bg-gray-50 hover:text-black/98"
+                  >
+                    Tutoring History
+                  </Link>
+                  <Link
+                    href="/tutor/profile"
+                    className="-mx-6 block rounded-lg px-6 py-2.5 text-base/7 font-semibold text-white/98 hover:bg-gray-50 hover:text-black/98"
+                  >
+                    View Profile
+                  </Link>
+                  <SignOutButton>
+                    <div className="-mx-6 block rounded-lg px-6 py-2.5 text-base/7 font-semibold text-white/98 hover:bg-gray-50 hover:text-black/98 select-none cursor-pointer">
+                      Logout
+                    </div>
+                  </SignOutButton>
                 </div>
               </div>
             </div>
-          </div>
-          <div tabIndex={1} role="button" className="btn btn-ghost btn-circle avatar">
-            <div className="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src={user?.imageUrl} />
-            </div>
-          </div>
-          <ul
-            tabIndex={1}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow text-black">
-            <li className='border-b'><a>Welcome, {user?.username}</a></li>
-            <li>
-              <Link className="justify-between" href="/tutor/profile">
-                Profile
-              </Link>
-            </li>
-
-            <li><SignOutButton /></li>
-          </ul>
-        </div>
-      </div> */}
-    </div>
-  )
+          </DialogPanel>
+        </Dialog>
+      </header>
+    </>
+  );
 }
 
-export default NavLinksTutor
+export default NavLinksTutor;

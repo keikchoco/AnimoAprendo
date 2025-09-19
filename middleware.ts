@@ -6,10 +6,9 @@ const isPublicRoute = createRouteMatcher([
   "/sign-in(.*)",
   "/sign-up(.*)",
   "/api/(.*)",
-  "/search(.*)",
 ]);
 
-const isDefaultRoute = createRouteMatcher(["/"]);
+const isDefaultRoute = createRouteMatcher(["/", "/search(.*)"]);
 const isTestingRoute = createRouteMatcher(["/testing(.*)"]);
 const isOnboardingRoute = createRouteMatcher(["/onboarding(.*)"]);
 
@@ -48,13 +47,13 @@ export default clerkMiddleware(async (auth, req) => {
     return NextResponse.redirect(new URL("/onboarding", req.url));
   }
 
-  // If the user is logged in and trying to access a public route, redirect them to their dashboard/home page
+  // If the user is logged in and trying to access the sign-in or sign-up page, redirect them to their dashboard/home page
   if (isPublicRoute(req) && userId) {
     if (metadata?.isAdmin == true) {
       return NextResponse.redirect(new URL("/admin/dashboard", req.url));
     }
     if (metadata?.role === "tutee" && !metadata?.isAdmin) {
-      return NextResponse.redirect(new URL("/tutee/home", req.url));
+      return NextResponse.redirect(new URL("/", req.url));
     }
     if (metadata?.role === "tutor" && !metadata?.isAdmin) {
       return NextResponse.redirect(new URL("/tutor/dashboard", req.url));
@@ -66,7 +65,7 @@ export default clerkMiddleware(async (auth, req) => {
     return NextResponse.redirect(new URL("/sign-in", req.url));
   }
 
-  // If the user is logged in and trying to access the sign-in or sign-up page, redirect them to their dashboard/home page
+  // If the user is logged in and trying to access a public route, redirect them to their dashboard/home page
   if (isDefaultRoute(req) && userId) {
     if (metadata?.isAdmin == true) {
       return NextResponse.redirect(new URL("/admin/dashboard", req.url));
