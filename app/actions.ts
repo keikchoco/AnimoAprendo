@@ -42,7 +42,6 @@ export async function finishOnboarding({
     });
 
     const data = await response.json();
-    console.log(data)
     if (data.success) {
       return { success: true };
     } else {
