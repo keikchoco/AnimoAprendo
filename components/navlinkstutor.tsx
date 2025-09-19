@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { SignOutButton, useAuth, useUser } from "@clerk/nextjs";
 import { Dialog, DialogPanel, PopoverGroup } from "@headlessui/react";
 
@@ -39,7 +39,10 @@ function NavLinksTutor() {
             </button>
           </div>
           <PopoverGroup className="hidden lg:flex lg:gap-x-4 items-center">
-            <Link href="/tutor/dashboard" className="text-sm/6 font-semibold text-white/98">
+            <Link
+              href="/tutor/dashboard"
+              className="text-sm/6 font-semibold text-white/98"
+            >
               Dashboard
             </Link>
             <Link
@@ -109,7 +112,7 @@ function NavLinksTutor() {
           className="lg:hidden"
         >
           <div className="fixed inset-0 z-50" />
-          <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-green-900 p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+          <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-hidden bg-green-900 p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between">
               <Link href="#" className="-m-1.5 p-1.5">
                 <span className="font-semibold text-white/98">
@@ -125,9 +128,9 @@ function NavLinksTutor() {
                 <XMarkIcon aria-hidden="true" className="size-6" />
               </button>
             </div>
-            <div className="mt-6 flow-root">
-              <div className="-my-6 divide-y divide-gray-500/10">
-                <div className="py-6">
+            <div className="mt-6 flow-root h-full">
+              <div className="-my-6 divide-y h-full divide-gray-500/10">
+                <div className="py-6 flex flex-col h-full">
                   <Link
                     href="/tutor/dashboard"
                     className="-mx-6 block rounded-lg px-6 py-2.5 text-base/7 font-semibold text-white/98 hover:bg-gray-50 hover:text-black/98"
@@ -152,17 +155,20 @@ function NavLinksTutor() {
                   >
                     Tutoring History
                   </Link>
-                  <Link
-                    href="/tutor/profile"
-                    className="-mx-6 block rounded-lg px-6 py-2.5 text-base/7 font-semibold text-white/98 hover:bg-gray-50 hover:text-black/98"
-                  >
-                    View Profile
-                  </Link>
-                  <SignOutButton>
-                    <div className="-mx-6 block rounded-lg px-6 py-2.5 text-base/7 font-semibold text-white/98 hover:bg-gray-50 hover:text-black/98 select-none cursor-pointer">
-                      Logout
-                    </div>
-                  </SignOutButton>
+
+                  <div className="mt-auto flex flex-col gap-4">
+                    <Link
+                      href="/tutor/profile"
+                      className="block rounded-lg px-6 py-2.5 text-base/7 font-semibold text-white/98 hover:bg-gray-50 hover:text-black/98 bg-blue-700 text-center"
+                    >
+                      View Profile
+                    </Link>
+                    <SignOutButton>
+                      <div className="block rounded-lg px-6 py-2.5 text-base/7 font-semibold text-white/98 hover:bg-gray-50 hover:text-black/98 select-none cursor-pointer bg-red-800 text-center">
+                        Logout
+                      </div>
+                    </SignOutButton>
+                  </div>
                 </div>
               </div>
             </div>
