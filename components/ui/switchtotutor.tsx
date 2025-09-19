@@ -1,26 +1,21 @@
 "use client";
 
+import { updateMetadata } from "@/app/actions";
+import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { permanentRedirect } from "next/navigation";
 
 export default function SwitchToTutor() {
-  const updateMetadata = async () => {
-    const response = await fetch("/api/update-metadata", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ role: "tutor" }),
-    });
+  const { user } = useUser();
+  const userId = user?.id;
 
-    const data = await response.json();
-    if (data.success) {
-      console.log("Metadata updated successfully");
-      permanentRedirect("/tutor/dashboard");
-    } else {
-      console.error("Failed to update metadata:", data.error);
+  async function handleClick() {
+    const res = await updateMetadata({ userId, role: "tutor" });
+
+    if(res.success) {
+        permanentRedirect("/tutor/dashboard")
     }
-  };
+  }
 
   return (
     <li>
@@ -28,7 +23,7 @@ export default function SwitchToTutor() {
         href="/tutor/dashboard"
         onNavigate={(e) => {
           console.log("Switching to tutor");
-          updateMetadata();
+          handleClick();
           e.preventDefault();
         }}
         className="bg-gradient-to-r from-green-300 via-green-500 to-blue-400 inline-block text-transparent bg-clip-text font-bold text-sm text-center"
