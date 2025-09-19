@@ -1,18 +1,10 @@
 import Footer from "@/components/footer";
-import NavLinksTutee from "@/components/navlinkstutee";
 import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-  useUser,
+  SignedIn
 } from "@clerk/nextjs";
-import Link from "next/link";
-import { Geist, Geist_Mono } from "next/font/google";
 import { currentUser } from "@clerk/nextjs/server";
 import { permanentRedirect } from "next/navigation";
+import NavLinksTutor from "@/components/navlinkstutor";
 
 export default async function Layout({
   children,
@@ -22,7 +14,7 @@ export default async function Layout({
   const user = await currentUser();
   const userid = user?.id;
 
-  if (user?.publicMetadata.role !== "tutee") {
+  if (user?.publicMetadata.role !== "tutor") {
     if (!user?.publicMetadata.role == null) {
       permanentRedirect("/");
     }
@@ -30,9 +22,13 @@ export default async function Layout({
   return (
     <>
       <SignedIn>
+        <NavLinksTutor />
         {/* Page content here */}
         <div className="flex flex-col grow items-center py-6">
           {children}
+        </div>
+        <div className="">
+          <Footer />
         </div>
       </SignedIn>
     </>
