@@ -292,7 +292,7 @@ export default function Browse() {
         </div>
       </section>
 
-      <div className="w-lvw md:w-[95vw] h-[120px] overflow-x-hidden overflow-visible my-2">
+      <div className="w-lvw md:w-[94vw] h-[120px] overflow-x-hidden overflow-y-clip my-2">
         <LogoLoop
           logos={techLogos}
           speed={60}

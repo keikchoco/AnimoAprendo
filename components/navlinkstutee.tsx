@@ -14,10 +14,10 @@ function NavLinksTutee() {
   const { isSignedIn, isLoaded, user } = useUser();
 
   return (
-    <header className="bg-green-900 -m-1.5">
+    <header className="bg-green-900">
       <nav
         aria-label="Global"
-        className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
+        className="mx-auto flex max-w-[90rem] items-center justify-between p-6 lg:px-8"
       >
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
@@ -42,19 +42,19 @@ function NavLinksTutee() {
             Home
           </Link>
           <Link
-            href="/tutee/browse"
+            href="/browse"
             className="text-sm/6 font-semibold text-white/98"
           >
             Browse Subjects
           </Link>
           <Link
-            href="/tutee/appointments"
+            href="/appointments"
             className="text-sm/6 font-semibold text-white/98"
           >
             View Appointments
           </Link>
           <Link
-            href="/tutee/history"
+            href="/history"
             className="text-sm/6 font-semibold text-white/98"
           >
             Tutoring History
@@ -93,7 +93,7 @@ function NavLinksTutee() {
               </div>
 
               <li>
-                <Link className="justify-between" href="/tutee/profile">
+                <Link className="justify-between" href="/profile">
                   Profile
                   {/* <span className="badge">New</span> */}
                 </Link>
@@ -136,26 +136,26 @@ function NavLinksTutee() {
                   Home
                 </Link>
                 <Link
-                  href="/tutee/browse"
+                  href="/browse"
                   className="-mx-6 block rounded-lg px-6 py-2.5 text-base/7 font-semibold text-white/98 hover:bg-gray-50 hover:text-black/98"
                 >
                   Browse Subjects
                 </Link>
                 <Link
-                  href="/tutee/appointments"
+                  href="/appointments"
                   className="-mx-6 block rounded-lg px-6 py-2.5 text-base/7 font-semibold text-white/98 hover:bg-gray-50 hover:text-black/98"
                 >
                   View Appointments
                 </Link>
                 <Link
-                  href="/tutee/history"
+                  href="/history"
                   className="-mx-6 block rounded-lg px-6 py-2.5 text-base/7 font-semibold text-white/98 hover:bg-gray-50 hover:text-black/98"
                 >
                   Tutoring History
                 </Link>
                 <div className="mt-auto flex flex-col gap-4">
                   <Link
-                  href="/tutee/profile"
+                  href="/profile"
                   className="block rounded-lg px-2 py-2.5 text-base/7 font-semibold text-white/98 hover:bg-gray-50 hover:text-black/98 bg-blue-700 text-center"
                 >
                   View Profile
