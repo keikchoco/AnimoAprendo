@@ -67,17 +67,14 @@ export default clerkMiddleware(async (auth, req) => {
   }
 
   // If the user is logged in and trying to access the sign-in or sign-up page, redirect them to their dashboard/home page
-  // if (isDefaultRoute(req) && userId) {
-  //   if (metadata?.isAdmin == true) {
-  //     return NextResponse.redirect(new URL("/admin/dashboard", req.url));
-  //   }
-  //   if (metadata?.role === "tutee" && !metadata?.isAdmin) {
-  //     return NextResponse.redirect(new URL("/tutee/home", req.url));
-  //   }
-  //   if (metadata?.role === "tutor" && !metadata?.isAdmin) {
-  //     return NextResponse.redirect(new URL("/tutor/dashboard", req.url));
-  //   }
-  // }
+  if (isDefaultRoute(req) && userId) {
+    if (metadata?.isAdmin == true) {
+      return NextResponse.redirect(new URL("/admin/dashboard", req.url));
+    }
+    if (metadata?.role === "tutor" && !metadata?.isAdmin) {
+      return NextResponse.redirect(new URL("/tutor/dashboard", req.url));
+    }
+  }
 
   // For all other cases, allow the request to proceed
   return NextResponse.next();
