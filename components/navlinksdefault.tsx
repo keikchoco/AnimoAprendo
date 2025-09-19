@@ -30,13 +30,13 @@ export default function Example() {
           </button>
         </div>
         <PopoverGroup className="hidden lg:flex lg:gap-x-4 items-center">
-          <SignInButton>
+          <SignInButton mode="modal">
             <div className="text-sm/6 font-semibold text-white/98 select-none cursor-pointer">
               Login
             </div>
           </SignInButton>
 
-          <SignUpButton>
+          <SignUpButton mode="modal">
             <div className="text-sm/6 font-semibold text-white/98 border border-black/10 px-3 py-1 rounded-lg bg-green-700 hover:bg-green-800 -my-2.5 select-none cursor-pointer">
               Sign Up
             </div>

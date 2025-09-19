@@ -44,7 +44,10 @@ export default async function RootLayout({
 
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" >
+        <head>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        </head>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased w-full min-h-screen m-auto flex flex-col`}
         >

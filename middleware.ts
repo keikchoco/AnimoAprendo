@@ -1,5 +1,6 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import { onboardingData } from "./app/actions";
 
 const isPublicRoute = createRouteMatcher([
   "/sign-in(.*)",
@@ -10,12 +11,33 @@ const isPublicRoute = createRouteMatcher([
 
 const isDefaultRoute = createRouteMatcher(["/"]);
 const isTestingRoute = createRouteMatcher(["/testing(.*)"]);
+const isOnboardingRoute = createRouteMatcher(["/onboarding(.*)"]);
 
 export default clerkMiddleware(async (auth, req) => {
   const { sessionClaims, userId } = await auth();
-  const metadata = sessionClaims?.publicMetadata as
-    | { role?: string; isAdmin?: boolean; onboarded?: boolean }
+  var metadata = sessionClaims?.publicMetadata as
+    | {
+        onboarded: boolean;
+        isAdmin: boolean;
+        role: string;
+        accountType: string;
+      }
     | undefined;
+
+  // If accessing testing routes on production, return to home
+  if (isTestingRoute(req)) {
+    if (process.env.NEXT_PUBLIC_DEVELOPMENT_MODE !== "true") {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
+    return NextResponse.next();
+  }
+
+  // If user is accessing onboarding when they are already onboarded or they are not logged in
+  if (isOnboardingRoute(req)) {
+    if (!userId || metadata?.onboarded === true) {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
+  }
 
   // If user is logged in and not onboarded
   if (
@@ -24,16 +46,6 @@ export default clerkMiddleware(async (auth, req) => {
     userId
   ) {
     return NextResponse.redirect(new URL("/onboarding", req.url));
-  } else if (metadata?.onboarded === true) {
-    return NextResponse.redirect(new URL("/", req.url));
-  }
-
-  // If accessing testing routes on production, return to home
-  if (isTestingRoute(req)) {
-    if (process.env.NEXT_PUBLIC_DEVELOPMENT_MODE !== "true") {
-      return NextResponse.redirect(new URL("/", req.url));
-    }
-    return NextResponse.next();
   }
 
   // If the user is logged in and trying to access a public route, redirect them to their dashboard/home page
@@ -58,9 +70,6 @@ export default clerkMiddleware(async (auth, req) => {
   if (isDefaultRoute(req) && userId) {
     if (metadata?.isAdmin == true) {
       return NextResponse.redirect(new URL("/admin/dashboard", req.url));
-    }
-    if (metadata?.role === "tutee" && !metadata?.isAdmin) {
-      return NextResponse.redirect(new URL("/tutee/home", req.url));
     }
     if (metadata?.role === "tutor" && !metadata?.isAdmin) {
       return NextResponse.redirect(new URL("/tutor/dashboard", req.url));

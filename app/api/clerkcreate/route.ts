@@ -16,12 +16,12 @@ export async function POST(req: NextRequest) {
 
     if (data.type === "user.created") {
       const client = await clerkClient();
-      client.users.updateUserMetadata(data.data.id, { publicMetadata: {onboarded: false} });
+      const user = client.users.updateUserMetadata(data.data.id, { publicMetadata: {onboarded: false} });
       // Remove "user_" prefix from the id using regex if present
       const userId = data.data.id.replace(/^user_/, "");
 
       // Insert the user data into the "users" collection
-      const user = await db.collection("users").insertOne({
+      const userDB = await db.collection("users").insertOne({
         _id: userId,
         ...data.data,
       });
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       });
 
       // Log the event or process user creation
-      console.log("Received Clerk webhook:", { user, userData });
+      console.log("Received Clerk webhook:", { user, userDB, userData });
 
       // Respond with 200 OK
       return NextResponse.json({ success: true, data }, { status: 200 });

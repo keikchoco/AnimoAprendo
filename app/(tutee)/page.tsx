@@ -16,6 +16,14 @@ import SubjectCardTemplate from "@/components/subject-card";
 import { Search } from "lucide-react";
 import { redirect } from "next/navigation";
 import TextType from "@/components/reactbits/texttype";
+import {
+  SiReact,
+  SiNextdotjs,
+  SiTypescript,
+  SiTailwindcss,
+} from "react-icons/si";
+import LogoLoop from "@/components/reactbits/logoloop";
+import Image from "next/image";
 
 interface CardInfo {
   Title: string;
@@ -38,6 +46,21 @@ interface CardInfo {
     Comment: string;
   }[];
 }
+
+const techLogos = [
+  { node: <Image src={"/images/AnimoAprendoMinimalLogo.png"} width={50} height={50} alt="logo"/>, title: "AnimoAprendo", href: "https://animoaprendo.com" },
+  { node: <Image src={"/images/DLSUDLogo.png"} width={50} height={50} alt="logo"/>, title: "DLSUD", href: "https://dlsud.edu.ph" },
+  {
+    node: <Image src={"/images/CICSLogo.png"} width={50} height={50} alt="logo"/>,
+    title: "CICS",
+    href: "https://www.facebook.com/dlsud.cics",
+  },
+  {
+    node: <Image src={"/images/COSLogo.png"} width={50} height={50} alt="logo"/>,
+    title: "COS",
+    href: "https://www.facebook.com/profile.php?id=61565118910503",
+  },
+];
 
 export default function Browse() {
   const NewOffers = [
@@ -188,9 +211,8 @@ export default function Browse() {
   ];
 
   function handleText(values: any) {
-    console.log("test")
-    console.log(document.getElementById("hero-title")?.attributes)
-    
+    console.log("test");
+    console.log(document.getElementById("hero-title")?.attributes);
   }
 
   function handleSearch(e: React.FormEvent<HTMLFormElement>) {
@@ -218,20 +240,25 @@ export default function Browse() {
           <div className="hero-content !items-start !justify-start text-white/95 w-full">
             <div className="w-full">
               <TextType
-                text={[
-                  "Having trouble with a subject?",
-                  "We got you covered!",
-                ]}
+                text={["Having trouble with a subject?", "We got you covered!"]}
                 id="hero-title"
                 typingSpeed={75}
-                variableSpeed={{min: 50, max: 75}}
+                variableSpeed={{ min: 50, max: 75 }}
                 pauseDuration={2000}
                 cursorCharacter="_"
                 className="text-2xl h-8 lg:h-16 lg:text-5xl font-semibold"
-                onSentenceComplete={(sentence, i) => {i == 1 && document.getElementById("hero-line")?.classList.replace("opacity-0", "opacity-100")}}
+                onSentenceComplete={(sentence, i) => {
+                  i == 1 &&
+                    document
+                      .getElementById("hero-line")
+                      ?.classList.replace("opacity-0", "opacity-100");
+                }}
               />
               <br />
-              <p id="hero-line" className="lg:mb-3 lg:text-2xl opacity-100 transition-opacity">
+              <p
+                id="hero-line"
+                className="lg:mb-3 lg:text-2xl opacity-100 transition-opacity"
+              >
                 Let our dedicated students and teachers help you excel!
               </p>
               <br />
@@ -264,6 +291,21 @@ export default function Browse() {
           </div>
         </div>
       </section>
+
+      <div className="w-lvw md:w-[95vw] h-[120px] overflow-x-hidden overflow-visible my-2">
+        <LogoLoop
+          logos={techLogos}
+          speed={60}
+          direction="left"
+          logoHeight={48}
+          scaleOnHover
+          gap={60}
+          fadeOut
+          fadeOutColor="#ffffff"
+          ariaLabel="Technology partners"
+        />
+      </div>
+
 
       <div className="flex flex-col gap-10 pt-6 w-10/12 h-full">
         <section className="flex flex-col gap-4 w-full bg-white p-8 rounded-2xl shadow-lg">
