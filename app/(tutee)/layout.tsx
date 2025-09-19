@@ -43,7 +43,7 @@ export default async function Layout({
       <SignedOut>
         <NavLinksDefault />
         {/* Page content here */}
-        <div className="flex flex-col grow items-center w-full pt-0">
+        <div className="flex flex-col grow items-center pt-0">
           {children}
         </div>
         <div className="">
@@ -54,7 +54,7 @@ export default async function Layout({
       <SignedIn>
         <NavLinksTutee />
         {/* Page content here */}
-        <div className="flex flex-col grow items-center w-full pt-0">
+        <div className="flex flex-col grow items-center w-screen pt-0">
           {/* {!user?.publicMetadata.completeProfile && (
                 <div className="bg-amber-200 w-screen px-4 py-2 font-semibold text-lg text-center">
                   Complete your profile to get the best experience with
