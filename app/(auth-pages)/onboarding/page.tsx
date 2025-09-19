@@ -11,7 +11,6 @@ import {
   Select,
 } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import clearCache from "clear-cache";
 import clsx from "clsx";
 import Link from "next/link";
 import { redirect, RedirectType, useRouter } from "next/navigation";
