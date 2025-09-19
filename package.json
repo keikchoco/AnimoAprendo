@@ -19,7 +19,6 @@
     "@supabase/supabase-js": "latest",
     "chart.js": "^4.4.9",
     "class-variance-authority": "^0.7.0",
-    "clear-cache": "^1.1.0",
     "clsx": "^2.1.1",
     "emoji-mart": "^5.4.0",
     "gsap": "^3.13.0",
