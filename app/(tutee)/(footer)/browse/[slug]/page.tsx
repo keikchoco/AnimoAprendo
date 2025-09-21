@@ -202,7 +202,7 @@ export default async function Page({
             <div className="p-8 text-2xl">
               <div className="flex flex-row items-center">
                 <h3 className="font-bold">Course Rating:</h3>
-                {RatingGFX(item.Rating)}
+                <RatingGFX rating={item.Rating}/>
               </div>
               {item.Description}
             </div>
@@ -214,7 +214,7 @@ export default async function Page({
               alt=""
               className="rounded-full h-32 aspect-square object-cover border-green-700 border-4"
             />
-            {RatingGFX(item.TutorInfo.Rating)}
+            <RatingGFX rating={item.TutorInfo.Rating} />
             <div className="flex flex-col items-center">
               <h1 className="font-semibold">{item.TutorInfo.Name}</h1>
               <h2 className="text-neutral-700">
@@ -260,7 +260,7 @@ export default async function Page({
               <hr className="bg-neutral-400" />
               <div className="flex flex-col gap-4">
                 <div className="flex flex-row items-center gap-2">
-                  {RatingGFX(item.Rating)}{" "}
+                  <RatingGFX rating={item.Rating}/>
                   <span className="font-semibold">{item.Rating}</span>
                 </div>
                 <div className="ml-2">{item.Comment}</div>

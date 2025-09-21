@@ -135,7 +135,7 @@ export default async function TutorViewSubject({
   const { slug } = await params;
   const id = typeof slug === "string" ? parseInt(slug) : 0;
   const item = NewOffers[id];
-  const ratio = (Data[id].Bookings / Data[id].Views) * 100
+  const ratio = (Data[id].Bookings / Data[id].Views) * 100;
 
   return (
     <div className="flex flex-col gap-4 w-10/12">
@@ -174,8 +174,16 @@ export default async function TutorViewSubject({
 
             <div className="min-w-48 flex flex-col grow-1 basis-0 gap-5 items-center p-4 shadow-xl bg-neutral-200 h-fit">
               <h1 className="font-bold text-xl">Course Statistics</h1>
-              {RadialProgress((item.Rating / 5) * 100, item.Rating, "Rating")}
-              {RadialProgress(ratio, (Math.round(ratio * 100) / 100).toFixed(2) + "%", "View to Appointment Ratio")}
+              <RadialProgress
+                value={(item.Rating / 5) * 100}
+                text={item.Rating}
+                label="Rating"
+              />
+              <RadialProgress
+                value={ratio}
+                text={`${(Math.round(ratio * 100) / 100).toFixed(2)}%`}
+                label="View → Appointment Ratio"
+              />
             </div>
           </div>
         </section>

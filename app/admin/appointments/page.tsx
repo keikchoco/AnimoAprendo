@@ -44,7 +44,7 @@ const AdminAppointments = () => {
             {/* row 1 */}
             <tr className="hover:bg-neutral-200">
               <td>Christian Penano</td>
-              <td>{RatingGFX(5)}</td>
+              <td>Rating (To Add)</td>
               <td>4</td>
               <td>
                 <div className="bg-blue-400 text-white px-4 py-2 rounded-xl text-center font-bold">
@@ -55,7 +55,7 @@ const AdminAppointments = () => {
             {/* row 2 */}
             <tr className="hover:bg-neutral-200">
               <td>Jeremiah Nueno</td>
-              <td>{RatingGFX(4.5)}</td>
+              <td>Rating (To Add)</td>
               <td>3</td>
               <td>
                 <div className="bg-blue-400 text-white px-4 py-2 rounded-xl text-center font-bold">
@@ -66,7 +66,7 @@ const AdminAppointments = () => {
             {/* row 3 */}
             <tr className="hover:bg-neutral-200">
               <td>Yasmin Abad</td>
-              <td>{RatingGFX(3.5)}</td>
+              <td>Rating (To Add)</td>
               <td>2</td>
               <td>
                 <div className="bg-blue-400 text-white px-4 py-2 rounded-xl text-center font-bold">
