@@ -1,5 +1,5 @@
 "use client";
-import { finishOnboarding } from "@/app/actions";
+import { finishOnboarding, getCollectionData } from "@/app/actions";
 import Stepper, { Step } from "@/components/reactbits/stepper";
 import { useUser } from "@clerk/nextjs";
 import {
@@ -27,32 +27,6 @@ type Colleges = {
   }[];
 };
 
-const colleges: Colleges[] = [
-  {
-    name: "College of Information and Computer Studies",
-    abbreviation: "CICS",
-    departments: [
-      {
-        name: "Information Technology",
-        yearLevel: [5, 5, 5, 5],
-      },
-      {
-        name: "Computer Science",
-        yearLevel: [5, 5, 5, 5],
-      },
-    ],
-  },
-  {
-    name: "College of Science",
-    abbreviation: "COS",
-    departments: [
-      { name: "Biology", yearLevel: [3, 3, 3] },
-      { name: "Medical Biology", yearLevel: [3, 4, 5] },
-      { name: "Applied Mathematics", yearLevel: [2, 1] },
-    ],
-  },
-];
-
 export default function Onboarding() {
   const [step, setStep] = useState(1);
   const [stepTitle, setStepTitle] = useState<ReactNode>(
@@ -68,12 +42,18 @@ export default function Onboarding() {
   const [yearLevel, setYearLevel] = useState<number>(1);
   const [section, setSection] = useState<number>(1);
   const [confirmation, setConfirmation] = useState("no");
-
+  const [colleges, setColleges] = useState<Colleges[]>();
   const { isLoaded, user } = useUser();
 
   useEffect(() => {
     if (user?.publicMetadata.onboarded == true) {
       redirect("/");
+    } else {
+      getCollectionData("colleges").then((res) => {
+        if (res.success) {
+          setColleges(res.data);
+        }
+      });
     }
   }, [user]);
 
@@ -219,7 +199,7 @@ export default function Onboarding() {
           </Step>
 
           {/* Course Information */}
-          {accountType == "student" && (
+          {accountType == "student" && colleges && (
             <Step>
               <h1 className="font-bold text-lg">Course Information</h1>
               <br />
