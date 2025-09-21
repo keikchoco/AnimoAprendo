@@ -1,20 +1,14 @@
 "use client";
-import React from "react";
-import {
-  Search,
-  Users,
-  BookOpen,
-  GraduationCap,
-  Star,
-  ShieldCheck,
-} from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Search, ShieldCheck } from "lucide-react";
 import { redirect } from "next/navigation";
 import TextType from "@/components/reactbits/texttype";
 import LogoLoop from "@/components/reactbits/logoloop";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import Link from "next/link";
-import { SignUpButton } from "@clerk/nextjs";
+import { SignInButton, SignUpButton } from "@clerk/nextjs";
+import { getCollectionData } from "../actions";
+import SkeletonFAQs from "@/components/landing/faqskeleton";
 
 // ------------------ PLACEHOLDERS ------------------
 const stats = [
@@ -41,6 +35,10 @@ const faqItems = [
   },
 ];
 
+export type FAQs = {
+  q: string;
+  a: string;
+};
 // ---------------------------------------------------
 
 const techLogos = [
@@ -80,6 +78,16 @@ const techLogos = [
 ];
 
 export default function Landing() {
+  const [faq, setFaq] = useState<FAQs[]>();
+
+  useEffect(() => {
+    getCollectionData("faq").then((res) => {
+      if (res.success) {
+        setFaq(res.data);
+      }
+    });
+  }, []);
+
   function handleSearch(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -228,12 +236,11 @@ export default function Landing() {
           Join AnimoAprendo today — as a tutor, tutee, or teacher.
         </p>
         <div className="mt-6 flex justify-center gap-4">
-          <Link
-            href={"/browse"}
-            className="btn btn-outline text-white border-white hover:bg-white hover:text-green-900 rounded-lg"
-          >
-            Find a Tutor
-          </Link>
+          <SignInButton mode="modal">
+            <div className="btn btn-outline text-white border-white hover:bg-white hover:text-green-900 rounded-lg">
+              Find a Tutor
+            </div>
+          </SignInButton>
           <SignUpButton mode="modal">
             <div className="btn btn-outline text-white border-white hover:bg-white hover:text-green-900 rounded-lg">
               Become a Tutor
@@ -248,17 +255,21 @@ export default function Landing() {
           Frequently Asked Questions
         </h2>
         <div className="mt-8 space-y-4 max-w-2xl mx-auto">
-          {faqItems.map((item, i) => (
-            <details
-              key={i}
-              className="bg-green-50 rounded-lg p-4 shadow transition"
-            >
-              <summary className="cursor-pointer font-semibold">
-                {item.q}
-              </summary>
-              <p className="mt-2 text-green-800">{item.a}</p>
-            </details>
-          ))}
+          {faq ? (
+            faq.map((item, i) => (
+              <details
+                key={i}
+                className="bg-green-50 rounded-lg p-4 shadow transition"
+              >
+                <summary className="cursor-pointer font-semibold">
+                  {item.q}
+                </summary>
+                <p className="mt-2 text-green-800">{item.a}</p>
+              </details>
+            ))
+          ) : (
+            <SkeletonFAQs />
+          )}
         </div>
       </section>
     </div>

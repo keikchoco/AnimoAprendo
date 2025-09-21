@@ -19,7 +19,7 @@ export async function GET(req: Request) {
   } catch (e) {
     console.error(e);
     return NextResponse.json(
-      { success: false, error: "Failed to fetch barangays" },
+      { success: false, error: "Failed to fetch data" },
       { status: 500 }
     );
   }
