@@ -10,6 +10,8 @@ export type onboardingData = {
   yearLevel?: number;
 };
 
+export type Collections = "users" | "colleges" | "userData";
+
 export async function finishOnboarding({
   accountType = "student",
   studentRole,
@@ -55,7 +57,7 @@ export async function finishOnboarding({
 
 export async function updateMetadata({
   userId,
-  role
+  role,
 }: {
   userId: string | undefined;
   role: string;
@@ -81,5 +83,17 @@ export async function updateMetadata({
   } else {
     console.error("Error updating publicMetadata:", data.error);
     return { success: false, error: "Failed to update metadata" };
+  }
+}
+
+export async function getCollectionData(collection: Collections) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/getData?collection=${collection}`,
+    { method: "GET" }
+  );
+
+  const data = await response.json();
+  if (data.success) {
+    return data
   }
 }

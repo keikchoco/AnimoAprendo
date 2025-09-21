@@ -45,19 +45,19 @@ function NavLinksTutee() {
             href="/browse"
             className="text-sm/6 font-semibold text-white/98"
           >
-            Browse Subjects
+            Browse
           </Link>
           <Link
             href="/appointments"
             className="text-sm/6 font-semibold text-white/98"
           >
-            View Appointments
+            Appointments
           </Link>
           <Link
             href="/history"
             className="text-sm/6 font-semibold text-white/98"
           >
-            Tutoring History
+            History
           </Link>
           <div className="dropdown dropdown-end">
             <div
