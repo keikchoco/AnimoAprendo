@@ -1,60 +1,38 @@
-export default function RatingGFX(rating: Number) {
+import React from "react";
+
+type RatingProps = {
+  rating: number; // can be 0–5 with decimals
+  size?: number;  // px size for stars
+};
+
+const RatingGFX: React.FC<RatingProps> = ({ rating, size = 40 }) => {
+  const percentage = Math.max(0, Math.min(100, (rating / 5) * 100));
+
   return (
-    <div className="rating rating-half">
+    <div style={{ position: "relative", display: "inline-block" }} className="select-none">
+      {/* Background gray stars */}
+      <div style={{ color: "#ccc", fontSize: size, letterSpacing: 2 }}>
+        ★★★★★
+      </div>
+
+      {/* Foreground yellow stars clipped */}
       <div
-        className="rating-hidden"
-        aria-current={rating == 0.0 ? "true" : "false"}
-      ></div>
-      <div
-        className="mask mask-star-2 mask-half-1 bg-green-700"
-        aria-label="0.5 star"
-        aria-current={rating == 0.5 ? "true" : "false"}
-      ></div>
-      <div
-        className="mask mask-star-2 mask-half-2 bg-green-700"
-        aria-label="1.0 star"
-        aria-current={rating == 1.0 ? "true" : "false"}
-      ></div>
-      <div
-        className="mask mask-star-2 mask-half-1 bg-green-700"
-        aria-label="1.5 star"
-        aria-current={rating == 1.5 ? "true" : "false"}
-      ></div>
-      <div
-        className="mask mask-star-2 mask-half-2 bg-green-700"
-        aria-label="2.0 star"
-        aria-current={rating == 2.0 ? "true" : "false"}
-      ></div>
-      <div
-        className="mask mask-star-2 mask-half-1 bg-green-700"
-        aria-label="2.5 star"
-        aria-current={rating == 2.5 ? "true" : "false"}
-      ></div>
-      <div
-        className="mask mask-star-2 mask-half-2 bg-green-700"
-        aria-label="3.0 star"
-        aria-current={rating == 3.0 ? "true" : "false"}
-      ></div>
-      <div
-        className="mask mask-star-2 mask-half-1 bg-green-700"
-        aria-label="3.5 star"
-        aria-current={rating == 3.5 ? "true" : "false"}
-      ></div>
-      <div
-        className="mask mask-star-2 mask-half-2 bg-green-700"
-        aria-label="4.0 star"
-        aria-current={rating == 4.0 ? "true" : "false"}
-      ></div>
-      <div
-        className="mask mask-star-2 mask-half-1 bg-green-700"
-        aria-label="4.5 star"
-        aria-current={rating == 4.5 ? "true" : "false"}
-      ></div>
-      <div
-        className="mask mask-star-2 mask-half-2 bg-green-700"
-        aria-label="5.0 star"
-        aria-current={rating == 5.0 ? "true" : "false"}
-      ></div>
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: `${percentage}%`,
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+          fontSize: size,
+          letterSpacing: 2,
+        }}
+        className="text-green-700"
+      >
+        ★★★★★
+      </div>
     </div>
   );
-}
+};
+
+export default RatingGFX;

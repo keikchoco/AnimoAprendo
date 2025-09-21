@@ -1,5 +1,4 @@
 import RadialProgress from "@/components/radial-progress";
-import RatingGFX from "@/components/star-rating";
 import Image from "next/image";
 import Link from "next/link";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
@@ -18,24 +17,14 @@ export default async function TutorViewSubject({
         "Idk description something na pwedeng ilagay nung tutor? maybe explaining what they know about this subject and such",
       Rating: 2.5,
       ExtraInfo: [
-        {
-          Day: "Mon",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Tue",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Wed",
-          Time: "7PM-8PM",
-        },
+        { Day: "Mon", Time: "7PM-8PM" },
+        { Day: "Tue", Time: "7PM-8PM" },
+        { Day: "Wed", Time: "7PM-8PM" },
       ],
       TutorInfo: {
-        UserId: "",
         Name: "keikchoco",
         Image:
-          "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ4SlpGNlRuZ0k0dU0yMThpeFpsTzNmSDJPMiJ9",
+          "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzMydmdIdWtmNGJHbEJTUVRjeElTRmVVM2Y1aCJ9",
         Rank: "NEW",
         Rating: 4.5,
       },
@@ -45,28 +34,15 @@ export default async function TutorViewSubject({
       Image:
         "https://di.ku.dk/Nyheder/2023/fremtidens-programmeringssprog-udvikles-i-danmark/programming_on_screen-1100x600.jpg",
       Description:
-        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima dolores voluptatem optio pariatur, veritatis dolore. Voluptatem nihil facilis minus illum hic eum fugit! In tenetur, modi corrupti facere ea inventore?",
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima dolores voluptatem optio pariatur, veritatis dolore.",
       Rating: 5,
       ExtraInfo: [
-        {
-          Day: "Thu",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Fri",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Sat",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Sun",
-          Time: "7PM-8PM",
-        },
+        { Day: "Thu", Time: "7PM-8PM" },
+        { Day: "Fri", Time: "7PM-8PM" },
+        { Day: "Sat", Time: "7PM-8PM" },
+        { Day: "Sun", Time: "7PM-8PM" },
       ],
       TutorInfo: {
-        UserId: "",
         Name: "chrys",
         Image:
           "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ3aVA4NGFxalFqSUNJa3h5ZjM2bjFKdU9oNCJ9",
@@ -80,105 +56,136 @@ export default async function TutorViewSubject({
       Image:
         "https://static1.howtogeekimages.com/wordpress/wp-content/uploads/2022/10/shutterstock_577183882.jpg",
       Description:
-        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima dolores voluptatem optio pariatur, veritatis dolore. Voluptatem nihil facilis minus illum hic eum fugit! In tenetur, modi corrupti facere ea inventore?",
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima dolores voluptatem optio pariatur, veritatis dolore.",
       Rating: 0,
       ExtraInfo: [
-        {
-          Day: "Mon",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Wed",
-          Time: "7PM-8PM",
-        },
+        { Day: "Mon", Time: "7PM-8PM" },
+        { Day: "Wed", Time: "7PM-8PM" },
       ],
       TutorInfo: {
-        UserId: "",
         Name: "yas",
         Image:
-          "https://scontent.fmnl8-4.fna.fbcdn.net/v/t39.30808-6/495224537_2969928999835726_5957479116127189212_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=_JkSiHL_U_gQ7kNvwGHMlhl&_nc_oc=AdmOf132lrQBFYqR4RHQiLgUAVjvvobNfG-2LdYukV67TUgB2tZHadD4JvJJoo73dG8&_nc_zt=23&_nc_ht=scontent.fmnl8-4.fna&_nc_gid=B4yWQdg8bcyQhyMmEWgupQ&oh=00_AfKHXBJ7hryFB4h9IRW-Qcgt5rsTwm050yxdLTYKR9t0WQ&oe=6833689D",
+          "https://scontent.fmnl8-4.fna.fbcdn.net/v/t39.30808-6/495224537_2969928999835726_5957479116127189212_n.jpg?...",
         Rank: "NEW",
         Rating: 0.5,
       },
     },
   ];
+
   const Data = [
     {
-      Image:
-        "https://www.mooc.org/hubfs/applications-of-computer-programming.jpg",
-      CourseCode: "S-ITCS111LA",
-      SubjectName: "Introduction to Computing LAB",
       Views: 130,
       Bookings: 3,
-      Rating: 2.5,
     },
     {
-      Image:
-        "https://di.ku.dk/Nyheder/2023/fremtidens-programmeringssprog-udvikles-i-danmark/programming_on_screen-1100x600.jpg",
-      CourseCode: "S-ITCP322",
-      SubjectName: "Capstone Project 1",
       Views: 39,
       Bookings: 10,
-      Rating: 5,
     },
     {
-      Image:
-        "https://static1.howtogeekimages.com/wordpress/wp-content/uploads/2022/10/shutterstock_577183882.jpg",
-      CourseCode: "S-ITCS227LA",
-      SubjectName: "Application Development and Emerging Technologies LAB",
       Views: 12,
       Bookings: 1,
-      Rating: 0,
     },
   ];
 
   const { slug } = await params;
   const id = typeof slug === "string" ? parseInt(slug) : 0;
   const item = NewOffers[id];
-  const ratio = (Data[id].Bookings / Data[id].Views) * 100
+  const stats = Data[id];
+  const ratio = (stats.Bookings / stats.Views) * 100;
 
   return (
-    <div className="flex flex-col gap-4 w-10/12">
-      <div className="flex flex-row justify-between">
+    <div className="flex flex-col gap-6 w-10/12 text-neutral-800">
+      {/* Top Navigation */}
+      <div className="flex flex-row justify-between items-center">
         <Link
           href={"/tutor/subjects"}
-          className="flex flex-row items-center gap-2 text-xl text-green-700 font-semibold"
+          className="flex flex-row items-center gap-2 text-lg text-green-700 font-semibold hover:underline"
         >
           <FaArrowAltCircleLeft /> Back to Subjects
         </Link>
-        <div className="flex flex-row gap-2 *:shadow-lg *:px-4 *:py-2 *:rounded-xl">
-          <div className="grow-1 basis-0 bg-amber-200">Edit</div>
-          <div className="grow-1 basis-0 bg-red-800 text-white">Delete</div>
+        <div className="flex flex-row gap-3 *:px-4 *:py-2 *:rounded-lg *:cursor-pointer *:shadow-md">
+          <div className="bg-amber-200 hover:bg-amber-300">Edit</div>
+          <div className="bg-red-700 text-white hover:bg-red-800">Delete</div>
         </div>
       </div>
 
-      <div>
-        <section className="">
-          <div className="flex flex-wrap gap-8 *:rounded-4xl *:overflow-hidden">
-            <div className="min-w-xl md:min-w-2xl grow-3 basis-0">
-              <figure className="h-96">
-                <Image
-                  src={item.Image}
-                  alt=""
-                  width={500}
-                  height={500}
-                  className="w-full h-full object-cover"
-                />
-              </figure>
+      {/* Main Content */}
+      <div className="flex flex-col lg:flex-row gap-8">
+        {/* Left: Course Details */}
+        <div className="flex flex-col gap-6 lg:w-2/3">
+          <div className="rounded-xl overflow-hidden shadow-lg">
+            <Image
+              src={item.Image}
+              alt={item.Title}
+              width={800}
+              height={400}
+              className="w-full h-72 object-cover"
+            />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold mb-2">{item.Title}</h1>
+            <p className="text-neutral-700">{item.Description}</p>
+          </div>
 
-              <div className="p-8 text-2xl">
-                <h1 className="text-2xl md:text-3xl font-bold">{item.Title}</h1>
-                {item.Description}
-              </div>
-            </div>
-
-            <div className="min-w-48 flex flex-col grow-1 basis-0 gap-5 items-center p-4 shadow-xl bg-neutral-200 h-fit">
-              <h1 className="font-bold text-xl">Course Statistics</h1>
-              {RadialProgress((item.Rating / 5) * 100, item.Rating, "Rating")}
-              {RadialProgress(ratio, (Math.round(ratio * 100) / 100).toFixed(2) + "%", "View to Appointment Ratio")}
+          {/* Availability */}
+          <div>
+            <h2 className="text-lg font-semibold mb-2">Availability</h2>
+            <div className="flex flex-wrap gap-2">
+              {item.ExtraInfo.map((slot, i) => (
+                <span
+                  key={i}
+                  className="px-3 py-1 bg-green-100 border border-green-300 rounded-full text-sm"
+                >
+                  {slot.Day} – {slot.Time}
+                </span>
+              ))}
             </div>
           </div>
-        </section>
+
+          {/* Tutor Info */}
+          <div className="flex flex-row items-center gap-4 p-4 border rounded-xl bg-neutral-100">
+            <Image
+              src={item.TutorInfo.Image}
+              alt={item.TutorInfo.Name}
+              width={70}
+              height={70}
+              className="rounded-full object-cover border-2 aspect-square border-green-800"
+            />
+            <div>
+              <h3 className="font-bold">{item.TutorInfo.Name}</h3>
+              <p className="text-sm text-neutral-600">
+                Rank: {item.TutorInfo.Rank}
+              </p>
+              <p className="text-sm text-neutral-600">
+                Rating: {item.TutorInfo.Rating}/5
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Right: Statistics */}
+        <div className="flex flex-col gap-6 lg:w-1/3 bg-neutral-50 p-6 rounded-xl shadow-md">
+          <h1 className="font-bold text-xl text-center">Course Statistics</h1>
+          <RadialProgress
+            value={(item.Rating / 5) * 100}
+            text={item.Rating}
+            label="Rating"
+          />
+
+          <RadialProgress
+            value={ratio}
+            text={`${(Math.round(ratio * 100) / 100).toFixed(2)}%`}
+            label="View → Appointment Ratio"
+          />
+          <div className="flex flex-col items-center gap-1">
+            <p className="text-sm text-neutral-600">
+              Views: <span className="font-semibold">{stats.Views}</span>
+            </p>
+            <p className="text-sm text-neutral-600">
+              Bookings: <span className="font-semibold">{stats.Bookings}</span>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
