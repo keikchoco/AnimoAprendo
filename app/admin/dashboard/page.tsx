@@ -152,7 +152,7 @@ export default function AdminDashboard() {
               {Rankings.map((item, i) => (
                 <tr key={i}>
                   <td>{item.Name}</td>
-                  <td>{RatingGFX(item.Rating)}</td>
+                  <td>Rating (To Add)</td>
                   <td>{item.CompletedBookings}</td>
                   <td>{item.CompletedHours}</td>
                   <td className="font-extrabold">{">"}</td>

@@ -73,3 +73,42 @@ hr {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
+
+.mask-star-2 {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+
+.mask-star-2 {
+  display: inline-block;
+  position: relative;
+  font-size: 2rem; /* adjust size */
+  color: #d1d5db; /* gray-300 for the unfilled part */
+}
+
+.mask-star-2::before {
+  content: '★★★★★';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  color: #16a34a; /* green-700 for filled part */
+}
+
+.mask-star-2.mask-quarter::before {
+  width: 25%;
+}
+
+.mask-star-2.mask-half::before {
+  width: 50%;
+}
+
+.mask-star-2.mask-three-quarters::before {
+  width: 75%;
+}
+
+.mask-star-2.mask-full::before {
+  width: 100%;
+}

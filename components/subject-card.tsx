@@ -63,19 +63,19 @@ export default function SubjectCardTemplate(item: CardInfo, i: Key) {
             <li
               key={i}
               className={
-                info.Day == "Mon"
+                info.Day == "Monday"
                   ? "bg-amber-300"
-                  : info.Day == "Tue"
+                  : info.Day == "Tuesday"
                     ? "bg-blue-400"
-                    : info.Day == "Wed"
+                    : info.Day == "Wednesday"
                       ? "bg-emerald-400"
-                      : info.Day == "Thu"
+                      : info.Day == "Thursday"
                         ? "bg-fuchsia-300"
-                        : info.Day == "Fri"
+                        : info.Day == "Friday"
                           ? "bg-indigo-300"
-                          : info.Day == "Sat"
+                          : info.Day == "Saturday"
                             ? "bg-red-300"
-                            : info.Day == "Sun"
+                            : info.Day == "Sunday"
                               ? "bg-teal-300"
                               : "bg-neutral"
               }
