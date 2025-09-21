@@ -1,220 +1,85 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import {
-  TbCircleDashedNumber1,
-  TbCircleDashedNumber2,
-  TbCircleDashedNumber3,
-  TbCircleDashedNumber4,
-  TbCircleDashedNumber5,
-  TbCircleDashedNumber6,
-  TbCircleDashedNumber7,
-  TbCircleDashedNumber8,
-} from "react-icons/tb";
-
 import React from "react";
-import SubjectCardTemplate from "@/components/subject-card";
-import { Search } from "lucide-react";
+import {
+  Search,
+  Users,
+  BookOpen,
+  GraduationCap,
+  Star,
+  ShieldCheck,
+} from "lucide-react";
 import { redirect } from "next/navigation";
 import TextType from "@/components/reactbits/texttype";
-import {
-  SiReact,
-  SiNextdotjs,
-  SiTypescript,
-  SiTailwindcss,
-} from "react-icons/si";
 import LogoLoop from "@/components/reactbits/logoloop";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { SignUpButton } from "@clerk/nextjs";
 
-interface CardInfo {
-  Title: string;
-  Image: string;
-  Description: string;
-  Rating: number;
-  ExtraInfo: { Day: string; Time: string }[];
-  TutorInfo: {
-    UserId: string;
-    Name: string;
-    Image: string;
-    Rank: number;
-    Rating: number;
-  };
-  Reviews: {
-    Image: string;
-    Name: string;
-    Username: string;
-    Rating: number;
-    Comment: string;
-  }[];
-}
+// ------------------ PLACEHOLDERS ------------------
+const stats = [
+  { label: "Tutors", value: 43 },
+  { label: "Tutees", value: 43 },
+  { label: "Offerings", value: 43 },
+  { label: "Hours Tutored", value: 120 },
+  { label: "Avg. Rating", value: 4.8 },
+  { label: "Subjects", value: 25 },
+];
+
+const faqItems = [
+  {
+    q: "Is tutoring free?",
+    a: "Tutoring is currently free for DLSU-D students through AnimoAprendo.",
+  },
+  {
+    q: "Who can sign up as a tutor?",
+    a: "Any DLSU-D student or teacher with expertise in a subject can apply to become a tutor.",
+  },
+  {
+    q: "How do I schedule a session?",
+    a: "Simply search for a subject, choose a tutor, and book a session through our platform.",
+  },
+];
+
+// ---------------------------------------------------
 
 const techLogos = [
-  { node: <Image src={"/images/AnimoAprendoMinimalLogo.png"} width={50} height={50} alt="logo"/>, title: "AnimoAprendo", href: "https://animoaprendo.com" },
-  { node: <Image src={"/images/DLSUDLogo.png"} width={50} height={50} alt="logo"/>, title: "DLSUD", href: "https://dlsud.edu.ph" },
   {
-    node: <Image src={"/images/CICSLogo.png"} width={50} height={50} alt="logo"/>,
+    node: (
+      <Image
+        src={"/images/AnimoAprendoMinimalLogo.png"}
+        width={50}
+        height={50}
+        alt="logo"
+      />
+    ),
+    title: "AnimoAprendo",
+    href: "https://animoaprendo.com",
+  },
+  {
+    node: (
+      <Image src={"/images/DLSUDLogo.png"} width={50} height={50} alt="logo" />
+    ),
+    title: "DLSUD",
+    href: "https://dlsud.edu.ph",
+  },
+  {
+    node: (
+      <Image src={"/images/CICSLogo.png"} width={50} height={50} alt="logo" />
+    ),
     title: "CICS",
     href: "https://www.facebook.com/dlsud.cics",
   },
   {
-    node: <Image src={"/images/COSLogo.png"} width={50} height={50} alt="logo"/>,
+    node: (
+      <Image src={"/images/COSLogo.png"} width={50} height={50} alt="logo" />
+    ),
     title: "COS",
     href: "https://www.facebook.com/profile.php?id=61565118910503",
   },
 ];
 
-export default function Browse() {
-  const NewOffers = [
-    {
-      Title: "S-ITCS111LA Introduction to Computing LAB",
-      Image:
-        "https://www.mooc.org/hubfs/applications-of-computer-programming.jpg",
-      Description:
-        "Idk description something na pwedeng ilagay nung tutor? maybe explaining what they know about this subject and such",
-      Rating: 2.5,
-      ExtraInfo: [
-        {
-          Day: "Mon",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Tue",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Wed",
-          Time: "7PM-8PM",
-        },
-      ],
-      TutorInfo: {
-        UserId: "",
-        Name: "Jeremiah Nueno",
-        Username: "keikchoco",
-        Image:
-          "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ4SlpGNlRuZ0k0dU0yMThpeFpsTzNmSDJPMiJ9",
-        Rank: 1,
-        Rating: 4.5,
-      },
-      Reviews: [
-        {
-          Image:
-            "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ3aVA4NGFxalFqSUNJa3h5ZjM2bjFKdU9oNCJ9",
-          Name: "Christian Peñano",
-          Username: "chrys",
-          Rating: 5.0,
-          Comment: "Best learning experience!",
-        },
-      ],
-    },
-    {
-      Title: "S-ITCP322 Capstone Project 1",
-      Image:
-        "https://di.ku.dk/Nyheder/2023/fremtidens-programmeringssprog-udvikles-i-danmark/programming_on_screen-1100x600.jpg",
-      Description:
-        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima dolores voluptatem optio pariatur, veritatis dolore. Voluptatem nihil facilis minus illum hic eum fugit! In tenetur, modi corrupti facere ea inventore?",
-      Rating: 5.0,
-      ExtraInfo: [
-        {
-          Day: "Thu",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Fri",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Sat",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Sun",
-          Time: "7PM-8PM",
-        },
-      ],
-      TutorInfo: {
-        UserId: "",
-        Name: "Christian Peñano",
-        Username: "chrys",
-        Image:
-          "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ3aVA4NGFxalFqSUNJa3h5ZjM2bjFKdU9oNCJ9",
-        Rank: 1,
-        Rating: 4.5,
-      },
-      Reviews: [
-        {
-          Image:
-            "https://scontent.fmnl8-4.fna.fbcdn.net/v/t39.30808-6/495224537_2969928999835726_5957479116127189212_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=_JkSiHL_U_gQ7kNvwGHMlhl&_nc_oc=AdmOf132lrQBFYqR4RHQiLgUAVjvvobNfG-2LdYukV67TUgB2tZHadD4JvJJoo73dG8&_nc_zt=23&_nc_ht=scontent.fmnl8-4.fna&_nc_gid=B4yWQdg8bcyQhyMmEWgupQ&oh=00_AfKHXBJ7hryFB4h9IRW-Qcgt5rsTwm050yxdLTYKR9t0WQ&oe=6833689D",
-          Name: "Yasmin Abad",
-          Username: "yas",
-          Rating: 5.0,
-          Comment: "Wonderful!",
-        },
-        {
-          Image:
-            "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ4SlpGNlRuZ0k0dU0yMThpeFpsTzNmSDJPMiJ9",
-          Name: "Jeremiah Nueno",
-          Username: "keikchoco",
-          Rating: 4.5,
-          Comment:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa accusantium maiores porro tenetur consequuntur. Nemo sed, ducimus fugiat suscipit temporibus necessitatibus earum maiores cumque. Ad quaerat nihil velit corrupti in!",
-        },
-      ],
-    },
-    {
-      Title:
-        "S-ITCS227LA Application Development and Emerging Technologies LAB",
-      Image:
-        "https://static1.howtogeekimages.com/wordpress/wp-content/uploads/2022/10/shutterstock_577183882.jpg",
-      Description:
-        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima dolores voluptatem optio pariatur, veritatis dolore. Voluptatem nihil facilis minus illum hic eum fugit! In tenetur, modi corrupti facere ea inventore?",
-      Rating: 0.0,
-      ExtraInfo: [
-        {
-          Day: "Mon",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Wed",
-          Time: "7PM-8PM",
-        },
-      ],
-      TutorInfo: {
-        UserId: "",
-        Name: "Yasmin Abad",
-        Username: "yas",
-        Image:
-          "https://scontent.fmnl8-4.fna.fbcdn.net/v/t39.30808-6/495224537_2969928999835726_5957479116127189212_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=_JkSiHL_U_gQ7kNvwGHMlhl&_nc_oc=AdmOf132lrQBFYqR4RHQiLgUAVjvvobNfG-2LdYukV67TUgB2tZHadD4JvJJoo73dG8&_nc_zt=23&_nc_ht=scontent.fmnl8-4.fna&_nc_gid=B4yWQdg8bcyQhyMmEWgupQ&oh=00_AfKHXBJ7hryFB4h9IRW-Qcgt5rsTwm050yxdLTYKR9t0WQ&oe=6833689D",
-        Rank: 1,
-        Rating: 0.5,
-      },
-      Reviews: [
-        {
-          Image:
-            "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ3aVA4NGFxalFqSUNJa3h5ZjM2bjFKdU9oNCJ9",
-          Name: "Christian Peñano",
-          Username: "chrys",
-          Rating: 0.5,
-          Comment: "Don't Recommend",
-        },
-      ],
-    },
-  ];
-
-  const Popular = [
-    "S-ITCS111LA Introduction to Computing LAB",
-    "S-ITCP322 Capstone Project 1",
-    "S-ITCS227LA Application Development and Emerging Technologies LAB",
-    "S-ITCS111LA Introduction to Computing LAB",
-    "S-ITCP322 Capstone Project 1",
-    "S-ITCS227LA Application Development and Emerging Technologies LAB",
-    "S-ITCS111LA Introduction to Computing LAB",
-    "S-ITCP322 Capstone Project 1",
-  ];
-
-  function handleText(values: any) {
-    console.log("test");
-    console.log(document.getElementById("hero-title")?.attributes);
-  }
-
+export default function Landing() {
   function handleSearch(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -227,16 +92,16 @@ export default function Browse() {
   }
 
   return (
-    <>
+    <div className="pb-10 w-full flex flex-col items-center">
       {/* Hero Section */}
       <section className="w-full">
         <div
-          className="hero w-full min-h-[44rem]"
+          className="hero w-full min-h-[44rem] relative"
           style={{
             backgroundImage: "url(/images/DLSUD-rotonda.jpg)",
           }}
         >
-          <div className="hero-overlay bg-black/60"></div>
+          <div className="hero-overlay bg-gradient-to-b from-green-900/40 to-black/70"></div>
           <div className="hero-content !items-start !justify-start text-white/95 w-full">
             <div className="w-full">
               <TextType
@@ -247,24 +112,15 @@ export default function Browse() {
                 pauseDuration={2000}
                 cursorCharacter="_"
                 className="text-2xl h-8 lg:h-16 lg:text-5xl font-semibold"
-                onSentenceComplete={(sentence, i) => {
-                  i == 1 &&
-                    document
-                      .getElementById("hero-line")
-                      ?.classList.replace("opacity-0", "opacity-100");
-                }}
               />
               <br />
-              <p
-                id="hero-line"
-                className="lg:mb-3 lg:text-2xl opacity-100 transition-opacity"
-              >
-                Let our dedicated students and teachers help you excel!
+              <p className="lg:mb-3 lg:text-2xl font-light">
+                Where students teach, learn, and grow together.
               </p>
               <br />
 
               <form
-                className="join w-full bg-white px-0 rounded-lg max-w-2xl overflow-hidden"
+                className="join w-full bg-white px-0 rounded-lg max-w-2xl overflow-hidden shadow-lg"
                 onSubmit={handleSearch}
               >
                 <div className="flex w-full items-center">
@@ -273,18 +129,15 @@ export default function Browse() {
                       type="text"
                       name="query"
                       placeholder="Search using a course code or a subject name"
-                      className="lg:text-lg lg:font-semibold"
+                      className="lg:text-lg lg:font-semibold focus:outline-none"
                     />
                   </label>
-                  <div className="validator-hint hidden">
-                    Enter a valid course code or subject name
-                  </div>
                 </div>
                 <button
                   type="submit"
-                  className="btn btn-neutral join-item bg-green-900 hover:bg-green-950 h-12 w-12 border-0 p-0"
+                  className="btn btn-neutral join-item bg-green-900 hover:bg-green-950 h-12 w-12 border-0 p-0 transition-transform hover:scale-105"
                 >
-                  <Search className="" />{" "}
+                  <Search />
                 </button>
               </form>
             </div>
@@ -292,10 +145,14 @@ export default function Browse() {
         </div>
       </section>
 
-      <div className="w-lvw md:w-[94vw] h-[120px] overflow-x-hidden overflow-y-clip my-2">
+      {/* Logo Loop */}
+      <div className="w-lvw md:w-[94vw] h-[120px] overflow-x-hidden overflow-y-clip my-8">
+        <h2 className="text-center text-lg font-semibold mb-2 text-green-900">
+          Powered by DLSU-D and Partners
+        </h2>
         <LogoLoop
           logos={techLogos}
-          speed={60}
+          speed={50}
           direction="left"
           logoHeight={48}
           scaleOnHover
@@ -306,45 +163,104 @@ export default function Browse() {
         />
       </div>
 
+      {/* Metrics */}
+      <section className="w-10/12 mt-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          {stats.map((stat, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              viewport={{ once: true }}
+              className="bg-green-50 rounded-2xl p-6 shadow hover:shadow-lg transition text-center"
+            >
+              <h1 className="font-extrabold text-3xl text-green-900">
+                {stat.value}
+              </h1>
+              <p className="font-semibold">{stat.label}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
 
-      <div className="flex flex-col gap-10 pt-6 w-10/12 h-full">
-        <section className="flex flex-col gap-4 w-full bg-white p-8 rounded-2xl shadow-lg">
-          <h1 className="font-bold text-2xl">Popular Subjects</h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2 *:bg-gradient-to-br *:text-lg *:font-semibold *:text-white *:border-green-900 *:shadow-xl *:from-green-500 *:to-green-700 *:p-4 *:border *:rounded *:hover:to-green-600 *:cursor-pointer">
-            {Popular.map((item, i) => {
-              const icons = [
-                TbCircleDashedNumber1,
-                TbCircleDashedNumber2,
-                TbCircleDashedNumber3,
-                TbCircleDashedNumber4,
-                TbCircleDashedNumber5,
-                TbCircleDashedNumber6,
-                TbCircleDashedNumber7,
-                TbCircleDashedNumber8,
-              ];
-              const Icon = icons[i % icons.length];
-              return (
-                <div key={i} className="flex items-center gap-2">
-                  <Icon
-                    className="grow-1 basis-0 text-4xl"
-                    viewBox="0 0 24 24"
-                  />
-                  <span className="grow-10 basis-0 truncate">{item}</span>
-                </div>
-              );
-            })}
-          </div>
-        </section>
+      {/* Description */}
+      <section className="mt-14 text-center w-10/12">
+        <h1 className="text-4xl font-bold text-green-900">AnimoAprendo</h1>
+        <p className="mt-4 text-lg max-w-2xl mx-auto">
+          The first peer-to-peer tutoring system of DLSU-D. Learn from students
+          who understand your struggles — or share your expertise to help others
+          succeed.
+        </p>
+      </section>
 
-        <section className="flex flex-col gap-4 w-full">
-          <h1 className="font-bold text-2xl">New Offers</h1>
-          <div className="flex gap-4 p-1 overflow-x-auto overflow-y-visible *:min-w-80">
-            {NewOffers.map((item: CardInfo, i) => {
-              return SubjectCardTemplate(item, i);
-            })}
+      {/* Teacher CTA */}
+      <section className="bg-green-50 py-16 mt-20 w-full text-center">
+        <h2 className="text-2xl font-bold text-green-900">
+          Teachers, your expertise matters too!
+        </h2>
+        <p className="mt-2 text-lg text-green-800">
+          Join AnimoAprendo to guide students with professional insights and
+          experience.
+        </p>
+        <SignUpButton mode="modal">
+          <div className="btn mt-6 bg-green-700 hover:bg-green-800 border-0 text-white rounded-lg">
+            Become a Teacher Tutor
           </div>
-        </section>
-      </div>
-    </>
+        </SignUpButton>
+      </section>
+
+      {/* Community & Safety */}
+      <section className="bg-green-900 text-white py-16 mt-20 w-full text-center">
+        <ShieldCheck className="mx-auto h-12 w-12 mb-4" />
+        <h2 className="text-3xl font-bold">Community & Safety</h2>
+        <p className="mt-4 max-w-2xl mx-auto text-lg">
+          AnimoAprendo is built on respect, collaboration, and academic
+          integrity. We ensure a safe and supportive space for all learners and
+          tutors within DLSU-D.
+        </p>
+      </section>
+
+      {/* Final Call to Action */}
+      <section className="bg-green-800 text-white py-12 text-center mt-10 w-full">
+        <h2 className="text-3xl font-bold">Ready to level up your learning?</h2>
+        <p className="mt-2 text-lg">
+          Join AnimoAprendo today — as a tutor, tutee, or teacher.
+        </p>
+        <div className="mt-6 flex justify-center gap-4">
+          <Link
+            href={"/browse"}
+            className="btn btn-outline text-white border-white hover:bg-white hover:text-green-900 rounded-lg"
+          >
+            Find a Tutor
+          </Link>
+          <SignUpButton mode="modal">
+            <div className="btn btn-outline text-white border-white hover:bg-white hover:text-green-900 rounded-lg">
+              Become a Tutor
+            </div>
+          </SignUpButton>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="w-10/12 mt-20">
+        <h2 className="text-3xl font-bold text-green-900 text-center">
+          Frequently Asked Questions
+        </h2>
+        <div className="mt-8 space-y-4 max-w-2xl mx-auto">
+          {faqItems.map((item, i) => (
+            <details
+              key={i}
+              className="bg-green-50 rounded-lg p-4 shadow transition"
+            >
+              <summary className="cursor-pointer font-semibold">
+                {item.q}
+              </summary>
+              <p className="mt-2 text-green-800">{item.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+    </div>
   );
 }
