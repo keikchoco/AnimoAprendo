@@ -26,7 +26,7 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true }, {status: 200});
   } catch (error) {
     console.error("Error updating publicMetadata:", error);
     return NextResponse.json(
