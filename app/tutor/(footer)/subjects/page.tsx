@@ -40,7 +40,7 @@ export default function TutorSubjects() {
       <div className="flex flex-row justify-between items-center">
         <h1 className="text-2xl font-bold">Subject Offerings</h1>
         <Link
-          href={"#"}
+          href={"/tutor/subjects/create"}
           className="ml-auto py-2 px-4 rounded-lg font-semibold bg-green-900 text-white hover:bg-green-800"
         >
           + Create New Subject

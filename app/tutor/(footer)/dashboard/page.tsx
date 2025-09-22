@@ -47,7 +47,7 @@ export default async function Dashboard() {
             alt=""
             width={500}
             height={500}
-            className="object-cover w-[80px] rounded-full border-green-800 border-4"
+            className="object-cover w-[80px] rounded-full border-green-800 border-4 aspect-square"
           />
 
           <h1 className="font-bold">{user.fullName}</h1>

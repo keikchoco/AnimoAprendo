@@ -20,21 +20,6 @@ const stats = [
   { label: "Subjects", value: 25 },
 ];
 
-const faqItems = [
-  {
-    q: "Is tutoring free?",
-    a: "Tutoring is currently free for DLSU-D students through AnimoAprendo.",
-  },
-  {
-    q: "Who can sign up as a tutor?",
-    a: "Any DLSU-D student or teacher with expertise in a subject can apply to become a tutor.",
-  },
-  {
-    q: "How do I schedule a session?",
-    a: "Simply search for a subject, choose a tutor, and book a session through our platform.",
-  },
-];
-
 export type FAQs = {
   q: string;
   a: string;
@@ -132,18 +117,18 @@ export default function Landing() {
                 onSubmit={handleSearch}
               >
                 <div className="flex w-full items-center">
-                  <label className="input validator join-item text-black/98 grow">
+                  <label className="input validator h-full join-item text-black/98 grow border-green-800 rounded-l-lg">
                     <input
                       type="text"
                       name="query"
                       placeholder="Search using a course code or a subject name"
-                      className="lg:text-lg lg:font-semibold focus:outline-none"
+                      className="lg:text-lg lg:font-semibold  focus:outline-none"
                     />
                   </label>
                 </div>
                 <button
                   type="submit"
-                  className="btn btn-neutral join-item bg-green-900 hover:bg-green-950 h-12 w-12 border-0 p-0 transition-transform hover:scale-105"
+                  className="btn btn-neutral join-item bg-green-900 hover:bg-green-950 h-12 w-12 border-0 p-0 transition-transform hover:scale-105 z-1"
                 >
                   <Search />
                 </button>
@@ -257,15 +242,13 @@ export default function Landing() {
         <div className="mt-8 space-y-4 max-w-2xl mx-auto">
           {faq ? (
             faq.map((item, i) => (
-              <details
-                key={i}
-                className="bg-green-50 rounded-lg p-4 shadow transition"
+              <div
+                tabIndex={i}
+                className="collapse collapse-arrow bg-green-50 rounded-lg shadow border"
               >
-                <summary className="cursor-pointer font-semibold">
-                  {item.q}
-                </summary>
-                <p className="mt-2 text-green-800">{item.a}</p>
-              </details>
+                <div className="collapse-title font-semibold">{item.q}</div>
+                <div className="collapse-content text-sm">{item.a}</div>
+              </div>
             ))
           ) : (
             <SkeletonFAQs />
