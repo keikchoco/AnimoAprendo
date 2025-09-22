@@ -1,9 +1,9 @@
-@import 'tailwindcss';
-@plugin "daisyui"{
-    themes: animoaprendo --default;
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: light --default;
 }
 
-@plugin "daisyui/theme" {
+/* @plugin "daisyui/theme" {
     name: "animoaprendo";
     default: false;
     prefersdark: false;
@@ -36,7 +36,7 @@
     --border: 1px;
     --depth: 1;
     --noise: 0;
-}
+} */
 
 html,
 body,
