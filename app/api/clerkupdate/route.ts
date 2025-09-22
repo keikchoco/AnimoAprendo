@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    return NextResponse.json({ success: false, message: "Not a user.updated event" }, { status: 400 });
+    return NextResponse.json({ success: false, message: "Not a user.updated event" }, { status: 201 });
   } catch (error) {
     console.error("Error handling Clerk webhook:", error);
     return NextResponse.json({ success: false, error }, { status: 400 });

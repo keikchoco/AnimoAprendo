@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       { success: false, message: "Not a user.created event" },
-      { status: 400 }
+      { status: 201 }
     );
   } catch (error) {
     console.error("Error handling Clerk webhook:", error);
