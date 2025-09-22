@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import 'react-quill/dist/quill.snow.css';
 @plugin "daisyui" {
   themes: light --default;
 }
