@@ -164,7 +164,7 @@ export default function OfferDetails({
           />
 
           {/* Weekly Availability */}
-          <div className="mt-16">
+          <div className="mt-20 sm:mt-16">
             <label className="block mb-2 font-semibold">
               Weekly Availability
             </label>

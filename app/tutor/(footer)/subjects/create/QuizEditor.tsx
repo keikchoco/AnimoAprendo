@@ -1,5 +1,6 @@
 "use client";
 
+import { Trash2Icon } from "lucide-react";
 import { useState } from "react";
 
 export type Question = {
@@ -106,7 +107,7 @@ export default function QuizEditor({ questions, setQuestions }: Props) {
                     name={`correct-${idx}`}
                     checked={q.answer === opt}
                     onChange={() => updateQuestion(idx, { answer: opt })}
-                    className="h-4 w-4"
+                    className="h-4 w-4 shrink-0"
                   />
                   <input
                     type="text"
@@ -123,9 +124,9 @@ export default function QuizEditor({ questions, setQuestions }: Props) {
                     <button
                       type="button"
                       onClick={() => removeOption(idx, optIdx)}
-                      className="px-2 py-1 bg-red-500 text-white rounded"
+                      className="px-2 py-1 bg-red-600 text-white/90 rounded hover:cursor-pointer hover:bg-red-700 aspect-square shrink-0"
                     >
-                      Remove
+                      <Trash2Icon size={16}/>
                     </button>
                   )}
                 </div>
