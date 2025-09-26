@@ -1,25 +1,56 @@
 "use server";
 
-export async function uploadBannerServer(file: Blob) {
-  const formData = new FormData();
-  formData.append("file", file);
+import sharp from "sharp";
+import FormData from "form-data";
+import fetch from "node-fetch";
 
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/upload`,
-    {
-      method: "POST",
-      body: formData,
+export async function uploadBannerServer(file: File, username: string) {
+  try {
+    // Read the File into a Buffer
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    // Compress and convert to JPEG
+    let compressedBuffer = await sharp(buffer)
+      .resize({ width: 1920 }) // optional max width
+      .jpeg({ quality: 80 })
+      .toBuffer();
+
+    // Further compress if >1MB
+    if (compressedBuffer.length > 1024 * 1024) {
+      compressedBuffer = await sharp(compressedBuffer)
+        .jpeg({ quality: 60 })
+        .toBuffer();
     }
-  );
 
-  if (!response.ok) {
-    console.error("Upload failed with status:", response.status);
-    return { success: false, error: "Failed to upload banner" };
+    // Use Node FormData
+    const formData = new FormData();
+    formData.append("file", compressedBuffer, {
+      filename: `${username}-banner.jpg`,
+      contentType: "image/jpeg",
+      knownLength: compressedBuffer.length,
+    });
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/upload`, {
+      method: "POST",
+      body: formData as any,
+      headers: formData.getHeaders(),
+    });
+
+    if (!response.ok) {
+      console.error("Upload failed with status:", response.status);
+      return { success: false, error: "Failed to upload banner" };
+    }
+
+    const data: any = await response.json();
+    return { success: true, data: data.data };
+  } catch (error) {
+    console.error("Banner upload error:", error);
+    return { success: false, error: "Failed to compress or upload banner" };
   }
 
-  const data = await response.json();
-  return { success: true, data: data.data };
 }
+
 
 export async function getOffers(userId: string | undefined) {
   if (!userId) {
@@ -32,7 +63,7 @@ export async function getOffers(userId: string | undefined) {
       method: "GET",
     }
   );
-  const data = await response.json();
+  const data: any = await response.json();
 
   if (data.success) {
     return { success: true, data: data.data };
@@ -56,7 +87,7 @@ export async function getOffer(
       method: "GET",
     }
   );
-  const data = await response.json();
+  const data: any = await response.json();
 
   if (data.success) {
     return { success: true, data: data.data };
@@ -79,7 +110,7 @@ export async function saveSubjectDraft({
     return { success: false, error: "Unauthorized" };
   }
 
-  var data;
+  var data: any;
   if (documentId) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/saveSubject`,
@@ -132,7 +163,7 @@ export async function submitSubject({
     return { success: false, error: "Unauthorized" };
   }
 
-  var data;
+  var data: any;
   if (documentId) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/saveSubject`,
@@ -193,11 +224,11 @@ export async function resumeSubject({
       body: JSON.stringify({
         documentId,
         userId,
-        status: "approved"
+        status: "approved",
       }),
     }
   );
-  const data = await response.json();
+  const data: any = await response.json();
 
   if (data.success) {
     return { success: true };
@@ -228,11 +259,11 @@ export async function pauseSubject({
       body: JSON.stringify({
         documentId,
         userId,
-        status: "paused"
+        status: "paused",
       }),
     }
   );
-  const data = await response.json();
+  const data: any = await response.json();
 
   if (data.success) {
     return { success: true };
@@ -266,7 +297,7 @@ export async function deleteSubject({
       }),
     }
   );
-  const data = await response.json();
+  const data: any = await response.json();
 
   if (data.success) {
     return { success: true };

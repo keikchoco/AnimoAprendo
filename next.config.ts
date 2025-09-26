@@ -24,10 +24,13 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "www.mooc.org",
       },
-      {protocol: "https",
-        hostname: "placehold.co"
-      }
+      { protocol: "https", hostname: "placehold.co" },
     ],
+  },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "5mb",
+    },
   },
 };
 

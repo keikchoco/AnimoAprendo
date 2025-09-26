@@ -8,6 +8,7 @@ import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import { CreatePopup } from "@/app/tutor/alert";
 import { uploadBannerServer } from "@/app/tutor/actions";
+import { useUser } from "@clerk/nextjs";
 
 const QuillEditor = dynamic(
   async () => {
@@ -70,6 +71,7 @@ export default function OfferDetails({
   banner,
   setBanner,
 }: Props) {
+  const { user } = useUser();
   const [isPreview, setIsPreview] = useState(false);
   const quillRef = useRef<ReactQuill | null>(null);
 
@@ -94,7 +96,7 @@ export default function OfferDetails({
 
   const uploadBanner = (file: File) => {
     CreatePopup("Uploading image", "info");
-    uploadBannerServer(file).then((data) => {
+    uploadBannerServer(file, user?.username || "").then((data) => {
       if (data.success) {
         setBanner(data.data.url);
         CreatePopup("Image uploaded", "success");
