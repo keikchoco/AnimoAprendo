@@ -1,10 +1,11 @@
 import Footer from "@/components/footer";
-import {
-  SignedIn
-} from "@clerk/nextjs";
+import { SignedIn } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import { permanentRedirect } from "next/navigation";
 import NavLinksTutor from "@/components/navlinkstutor";
+import { useEffect, useState } from "react";
+import TutorAlerts, { CreatePopup } from "./alert";
+import AlertFragment from "./alert";
 
 export default async function Layout({
   children,
@@ -23,10 +24,11 @@ export default async function Layout({
     <>
       <SignedIn>
         <NavLinksTutor />
-        {/* Page content here */}
-        <div className="flex flex-col grow items-center py-6">
-          {children}
+        <div className="fixed bottom-0 right-0 m-4 z-4">
+          <AlertFragment />
         </div>
+        {/* Page content here */}
+        <div className="flex flex-col grow items-center py-6">{children}</div>
         <div className="">
           <Footer />
         </div>

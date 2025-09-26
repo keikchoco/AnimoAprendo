@@ -1,6 +1,5 @@
 import clientPromise from "@/lib/mongodb";
 import { NextResponse } from "next/server";
-import { ObjectId } from "mongodb";
 
 export async function GET(req: Request) {
   try {
@@ -8,21 +7,18 @@ export async function GET(req: Request) {
     const db = client.db("main");
     const url = new URL(req.url);
     const userId = url.searchParams.get("userId");
-    const subjectId = url.searchParams.get("subjectId");
 
-    if (userId && subjectId) {
+    if (userId) {
       const data = await db
         .collection("subjects")
-        .findOne({
-          userId,
-          _id: new ObjectId(subjectId),
-        })
+        .find({ userId })
+        .toArray();
 
       return NextResponse.json({ success: true, data }, { status: 200 });
     } else {
       return NextResponse.json(
-        { success: false, error: "Missing userId or subjectId parameter." },
-        { status: 400 }
+        { success: false, error: "No search parameter given." },
+        { status: 201 }
       );
     }
   } catch (e) {

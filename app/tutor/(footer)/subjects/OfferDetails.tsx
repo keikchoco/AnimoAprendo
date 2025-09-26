@@ -1,10 +1,13 @@
 "use client";
 
-import { useState, RefObject, useRef, useEffect, forwardRef } from "react";
+import { useState, useRef, useEffect, forwardRef } from "react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { Trash2 } from "lucide-react";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
+import { CreatePopup } from "@/app/tutor/alert";
+import { uploadBannerServer } from "@/app/tutor/actions";
 
 const QuillEditor = dynamic(
   async () => {
@@ -16,6 +19,7 @@ const QuillEditor = dynamic(
   { ssr: false }
 );
 
+type Slot = { id: string; day: string; start: string; end: string };
 type Props = {
   subject: string;
   setSubject: (val: string) => void;
@@ -25,15 +29,8 @@ type Props = {
   setDescriptionLength: (val: number) => void;
   availability: Slot[];
   setAvailability: (val: Slot[]) => void;
-  banner: File | null;
-  setBanner: (val: File | null) => void;
-};
-
-type Slot = {
-  id: string;
-  day: string;
-  start: string;
-  end: string;
+  banner: string;
+  setBanner: (val: string) => void;
 };
 
 const SUBJECTS = [
@@ -43,7 +40,6 @@ const SUBJECTS = [
   "History",
   "Computer Science",
 ];
-
 const DAYS = [
   "Monday",
   "Tuesday",
@@ -53,14 +49,13 @@ const DAYS = [
   "Saturday",
   "Sunday",
 ];
-
 const TIME_OPTIONS = Array.from({ length: 24 * 4 }, (_, i) => {
   const hours = Math.floor(i / 4);
   const minutes = (i % 4) * 15;
-  const label = `${hours.toString().padStart(2, "0")}:${minutes
-    .toString()
-    .padStart(2, "0")}`;
-  return { value: label, label };
+  return {
+    value: `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`,
+    label: `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`,
+  };
 });
 
 export default function OfferDetails({
@@ -78,41 +73,45 @@ export default function OfferDetails({
   const [isPreview, setIsPreview] = useState(false);
   const quillRef = useRef<ReactQuill | null>(null);
 
-  const handleAddSlot = () => {
+  useEffect(() => {
+    if (quillRef.current) {
+      const editor = quillRef.current.getEditor();
+      setDescriptionLength(editor.getLength() - 1);
+    }
+  }, [description]);
+
+  const handleAddSlot = () =>
     setAvailability([
       ...availability,
       { id: crypto.randomUUID(), day: "Monday", start: "08:00", end: "09:00" },
     ]);
-  };
-
-  const handleUpdateSlot = (id: string, key: keyof Slot, value: string) => {
+  const handleUpdateSlot = (id: string, key: keyof Slot, value: string) =>
     setAvailability(
-      availability.map((slot) =>
-        slot.id === id ? { ...slot, [key]: value } : slot
-      )
+      availability.map((s) => (s.id === id ? { ...s, [key]: value } : s))
     );
-  };
+  const handleRemoveSlot = (id: string) =>
+    setAvailability(availability.filter((s) => s.id !== id));
 
-  const handleRemoveSlot = (id: string) => {
-    setAvailability(availability.filter((slot) => slot.id !== id));
+  const uploadBanner = (file: File) => {
+    CreatePopup("Uploading image", "info");
+    uploadBannerServer(file).then((data) => {
+      if (data.success) {
+        setBanner(data.data.url);
+        CreatePopup("Image uploaded", "success");
+      } else {
+        CreatePopup("Unable to upload, try again.", "error");
+      }
+    });
   };
-
-  useEffect(() => {
-    if (quillRef.current) {
-      const editor = quillRef.current.getEditor(); // ✅ Quill instance
-      const length = editor.getLength();
-      setDescriptionLength(length - 1);
-    }
-  }, [description]);
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-lg space-y-6">
+    <div className="flex flex-col gap-6 w-11/12 mx-auto py-6">
       <div className="flex justify-between items-center flex-wrap gap-4">
-        <h2 className="text-2xl font-bold text-nowrap">
+        <h2 className="text-2xl font-bold text-green-900">
           📘 Create a Tutoring Offer
         </h2>
         <button
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg text-nowrap w-full lg:w-fit"
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg w-full lg:w-fit"
           onClick={() => setIsPreview(!isPreview)}
         >
           {isPreview ? "Switch to Edit Mode" : "Preview Offer"}
@@ -120,8 +119,7 @@ export default function OfferDetails({
       </div>
 
       {!isPreview ? (
-        <>
-          {/* Subject */}
+        <div className="space-y-6">
           <div>
             <label className="block mb-1 font-semibold">Subject Name</label>
             <select
@@ -130,31 +128,31 @@ export default function OfferDetails({
               onChange={(e) => setSubject(e.target.value)}
             >
               <option value="">Select a subject</option>
-              {SUBJECTS.map((subj) => (
-                <option key={subj}>{subj}</option>
+              {SUBJECTS.map((s) => (
+                <option key={s}>{s}</option>
               ))}
             </select>
           </div>
 
-          {/* Subject Banner */}
           <div>
             <label className="block mb-1 font-semibold">Subject Image</label>
             <input
               type="file"
               accept="image/*"
               className="w-full border p-2 rounded-lg"
-              onChange={(e) => setBanner(e.target.files?.[0] || null)}
+              onChange={(e) =>
+                e.target.files?.[0] && uploadBanner(e.target.files[0])
+              }
             />
             {banner && (
               <img
-                src={URL.createObjectURL(banner)}
+                src={banner}
                 alt="Subject Preview"
                 className="mt-3 max-h-40 rounded-lg object-cover"
               />
             )}
           </div>
 
-          {/* Description */}
           <QuillEditor
             ref={quillRef}
             theme="snow"
@@ -163,7 +161,6 @@ export default function OfferDetails({
             className="bg-white text-black rounded-md h-40"
           />
 
-          {/* Weekly Availability */}
           <div className="mt-20 sm:mt-16">
             <label className="block mb-2 font-semibold">
               Weekly Availability
@@ -186,7 +183,6 @@ export default function OfferDetails({
                         <option key={day}>{day}</option>
                       ))}
                     </select>
-
                     <select
                       value={slot.start}
                       onChange={(e) =>
@@ -200,9 +196,7 @@ export default function OfferDetails({
                         </option>
                       ))}
                     </select>
-
-                    <span className="whitespace-nowrap">to</span>
-
+                    <span>to</span>
                     <select
                       value={slot.end}
                       onChange={(e) =>
@@ -216,7 +210,6 @@ export default function OfferDetails({
                         </option>
                       ))}
                     </select>
-
                     <button
                       className="flex items-center gap-1 px-3 py-1 rounded-lg text-white bg-red-500 hover:bg-red-600"
                       onClick={() => handleRemoveSlot(slot.id)}
@@ -227,49 +220,53 @@ export default function OfferDetails({
                 </div>
               ))}
             </div>
-
-            <div className="mt-3 flex gap-3">
-              <button
-                onClick={handleAddSlot}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg"
-              >
-                + Add Availability
-              </button>
-            </div>
+            <button
+              onClick={handleAddSlot}
+              className="mt-3 px-4 py-2 bg-green-600 text-white rounded-lg"
+            >
+              + Add Availability
+            </button>
           </div>
-        </>
+        </div>
       ) : (
-        // PREVIEW MODE
-        <div className="space-y-4 border rounded p-4 bg-gray-50">
-          <p>
-            <strong>Subject:</strong> {subject || "—"}
-          </p>
-          <div>
-            <strong>Description:</strong>
-            <div
-              className="prose max-w-none mt-1"
-              dangerouslySetInnerHTML={{ __html: description }}
-            />
-          </div>
-          {banner && (
-            <div>
-              <strong>Banner:</strong>
-              <img
-                src={URL.createObjectURL(banner)}
-                alt="Banner Preview"
-                className="mt-2 max-h-40 rounded border"
+        <div className="flex flex-col lg:flex-row gap-8">
+          <div className="flex-1 rounded-2xl overflow-hidden shadow-lg bg-white">
+            <figure className="h-72 w-full">
+              <Image
+                src={
+                  banner || "https://placehold.co/1200x1200.png?text=No+Image"
+                }
+                alt={subject}
+                width={600}
+                height={300}
+                className="w-full h-full object-cover"
+                unoptimized
               />
+            </figure>
+            <div className="p-6 space-y-4">
+              <h1 className="text-2xl md:text-3xl font-bold text-green-900">
+                {subject || "—"}
+              </h1>
+              <div
+                className="prose prose-sm max-w-none text-gray-700 [&_li[data-list='ordered']]:list-decimal [&_li[data-list='ordered']]:pl-6 [&_li[data-list='bullet']]:list-disc [&_li[data-list='bullet']]:pl-6 [&_.ql-ui]:hidden"
+                dangerouslySetInnerHTML={{ __html: description }}
+              />
+              {availability.length > 0 && (
+                <div className="mt-4">
+                  <h2 className="font-semibold text-lg">Availability</h2>
+                  <ul className="flex flex-wrap gap-2 mt-2">
+                    {availability.map((slot) => (
+                      <li
+                        key={slot.id}
+                        className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm"
+                      >
+                        {slot.day} {slot.start}–{slot.end}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
-          )}
-          <div>
-            <strong>Weekly Availability:</strong>
-            <ul className="list-disc ml-5 mt-2">
-              {availability.map((slot) => (
-                <li key={slot.id}>
-                  {slot.day} — {slot.start} to {slot.end}
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       )}

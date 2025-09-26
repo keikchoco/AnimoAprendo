@@ -2,64 +2,72 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
-import { StarIcon } from "@heroicons/react/20/solid";
-import { EyeIcon, PencilIcon, Trash2Icon } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { EyeIcon, PencilIcon, Play, Trash2Icon } from "lucide-react";
+import {
+  deleteSubject,
+  pauseSubject,
+  getOffers,
+  resumeSubject,
+} from "../../actions";
+import { useUser } from "@clerk/nextjs";
+import { motion, AnimatePresence } from "framer-motion";
+import { CreatePopup } from "../../alert";
 
 export default function TutorSubjects() {
-  const [activeTab, setActiveTab] = useState<"available" | "pending" | "draft">(
-    "available"
-  );
+  const { user } = useUser();
+  const userId = user?.id;
 
-  const Data = {
-    available: [
-      {
-        Image: "https://picsum.photos/300/200?random=1",
-        CourseCode: "S-ITCS111LA",
-        SubjectName: "Introduction to Computing LAB",
-        Views: 1300,
-        Bookings: 3,
-        Rating: 2.5,
-        Schedule: [
-          { Day: "Monday", Time: "1:00 PM" },
-          { Day: "Wednesday", Time: "3:00 PM" },
-        ],
-      },
-      {
-        Image: "https://picsum.photos/300/200?random=2",
-        CourseCode: "S-ITCP322",
-        SubjectName: "Capstone Project 1",
-        Views: 3900,
-        Bookings: 10,
-        Rating: 4.5,
-        Schedule: [{ Day: "Friday", Time: "10:00 AM" }],
-      },
-    ],
-    pending: [
-      {
-        Image: "https://picsum.photos/300/200?random=4",
-        CourseCode: "S-ENG101",
-        SubjectName: "English for Academic Writing",
-        Views: 420,
-        Bookings: 1,
-        Rating: 0,
-        Schedule: [{ Day: "Tuesday", Time: "9:00 AM" }],
-      },
-    ],
-    draft: [
-      {
-        Image: "https://picsum.photos/300/200?random=5",
-        CourseCode: "S-MATH301",
-        SubjectName: "Advanced Calculus (Draft)",
-        Views: 0,
-        Bookings: 0,
-        Rating: 0,
-        Schedule: [],
-      },
-    ],
-  };
+  const [activeTab, setActiveTab] = useState<
+    "approved" | "pending" | "draft" | "paused"
+  >("approved");
+  const [Data, setData] = useState<any[]>([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
+  const [actionType, setActionType] = useState<
+    "delete" | "pause" | "resume" | null
+  >(null);
 
-  const subjects = Data[activeTab];
+  useEffect(() => {
+    function handleEsc(e: KeyboardEvent) {
+      if (e.key === "Escape") setModalOpen(false);
+    }
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, []);
+
+  async function fetchData() {
+    const result = await getOffers(userId);
+    setData(result.data || []);
+  }
+
+  function handleDelete(documentId: string) {
+    deleteSubject({ userId, documentId });
+    fetchData();
+    setModalOpen(false);
+    setActionType(null);
+    CreatePopup("Deleted successfully", "success");
+  }
+
+  function handlePause(documentId: string) {
+    pauseSubject({ userId, documentId });
+    fetchData();
+    setModalOpen(false);
+  }
+
+  function handleResume(documentId: string) {
+    resumeSubject({ userId, documentId });
+    fetchData();
+    setModalOpen(false);
+    setActionType(null);
+    CreatePopup("Offer resumed", "success");
+  }
+
+  useEffect(() => {
+    if (userId) fetchData();
+  }, [userId]);
+
+  const subjects = Data.filter((s) => s.status === activeTab);
 
   return (
     <div className="flex flex-col gap-6 w-10/12 text-neutral-800">
@@ -68,22 +76,22 @@ export default function TutorSubjects() {
         <h1 className="text-2xl font-bold text-nowrap">Subject Offerings</h1>
         <Link
           href={"/tutor/subjects/create"}
-          className=" md:ml-auto py-2 px-4 rounded-lg font-semibold bg-green-900 text-white hover:bg-green-800 text-nowrap"
+          className="md:ml-auto py-2 px-4 rounded-lg font-semibold bg-green-900 text-white hover:bg-green-800 text-nowrap"
         >
           + Create New Subject
         </Link>
       </div>
 
       {/* Tabs */}
-      <div className="flex flex-row gap-4 border-b border-green-900 font-semibold">
-        {["available", "pending", "draft"].map((tab) => (
+      <div className="flex flex-row gap-2 border-b border-green-900 font-semibold justify-between md:justify-start">
+        {["approved", "paused", "pending", "draft"].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab as any)}
             className={`px-3 py-1 rounded-t-lg ${
               activeTab === tab
                 ? "bg-green-900 text-white border border-b-0"
-                : "hover:text-green-900"
+                : "hover:text-green-900 hover:cursor-pointer"
             }`}
           >
             {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -97,16 +105,8 @@ export default function TutorSubjects() {
           <thead className="bg-green-900 text-white">
             <tr className="text-center">
               <th>Preview</th>
-              {activeTab == "available" && <th>Rating</th>}
-              <th>Course Code</th>
               <th>Subject</th>
-              {activeTab == "available" && (
-                <>
-                  <th>Views</th>
-                  <th>Bookings</th>
-                </>
-              )}
-
+              <th>Schedule</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -118,54 +118,64 @@ export default function TutorSubjects() {
               >
                 <td className="p-2">
                   <Image
-                    src={data.Image}
-                    alt={data.SubjectName}
+                    src={
+                      data.banner && data.banner.trim() !== ""
+                        ? data.banner
+                        : "https://placehold.co/500x300.png?text=No+Image"
+                    }
+                    alt={data.subject}
                     width={80}
                     height={50}
-                    className="h-14 w-24 object-cover rounded-md border"
+                    className="h-14 w-24 object-cover rounded-md border mx-auto"
+                    unoptimized
                   />
                 </td>
-                {activeTab == "available" && (
-                  <td className="p-2">
-                    <div className="flex flex-col items-center">
-                      <div className="rating relative w-20 h-4 bg-gray-200 rounded">
-                        <div
-                          className="absolute top-0 left-0 z-2 h-4 bg-green-800 rounded !opacity-90"
-                          style={{ width: `${(data.Rating / 5) * 100}%` }}
-                        ></div>
-                      </div>
-                      <span className="text-sm text-neutral-700">
-                        {data.Rating}
-                      </span>
+                <td className="p-2 font-medium">{data.subject}</td>
+                <td className="p-2">
+                  {data.availability.map((a: any) => (
+                    <div key={a.id} className="text-sm">
+                      {a.day} {a.start} - {a.end}
                     </div>
-                  </td>
-                )}
-                <td className="p-2 font-medium">{data.CourseCode}</td>
-                <td className="p-2">{data.SubjectName}</td>
-                {activeTab == "available" && (
-                  <>
-                    <td className="p-2">{data.Views}</td>
-                    <td className="p-2">{data.Bookings}</td>
-                  </>
-                )}
-
+                  ))}
+                </td>
                 <td className="p-2">
                   <div className="flex flex-row gap-2 justify-center *:px-3 *:py-1 *:rounded-md *:text-sm *:font-medium">
+                    {activeTab === "paused" && (
+                      <button
+                        onClick={() => {
+                          setSelectedSubject(data._id);
+                          setActionType("resume");
+                          setModalOpen(true);
+                        }}
+                        className="bg-green-700 text-white hover:bg-green-800 aspect-square flex items-center justify-center hover:cursor-pointer"
+                      >
+                        <Play size={16} />
+                      </button>
+                    )}
                     {activeTab !== "draft" && (
                       <Link
-                        href={"/tutor/subjects/view/" + i}
-                        className="bg-amber-200 hover:bg-amber-300 aspect-square flex flex-row items-center"
+                        href={"/tutor/subjects/view/" + data._id}
+                        className="bg-amber-200 hover:bg-amber-300 aspect-square flex items-center justify-center"
                       >
                         <EyeIcon size={16} />
                       </Link>
                     )}
-                    <Link
-                      href={"/tutor/subjects/edit/" + i}
-                      className="bg-blue-200 hover:bg-blue-300 aspect-square flex flex-row items-center"
+                    {activeTab !== "paused" && (
+                      <Link
+                        href={"/tutor/subjects/edit/" + data._id}
+                        className="bg-blue-200 hover:bg-blue-300 aspect-square flex items-center justify-center"
+                      >
+                        <PencilIcon size={16} />
+                      </Link>
+                    )}
+                    <button
+                      onClick={() => {
+                        setSelectedSubject(data._id);
+                        setActionType("delete");
+                        setModalOpen(true);
+                      }}
+                      className="bg-red-700 text-white hover:bg-red-800 aspect-square flex items-center justify-center hover:cursor-pointer"
                     >
-                      <PencilIcon size={16} />
-                    </Link>
-                    <button className="bg-red-700 text-white hover:bg-red-800 aspect-square hover:cursor-pointer">
                       <Trash2Icon size={16} />
                     </button>
                   </div>
@@ -174,7 +184,7 @@ export default function TutorSubjects() {
             ))}
             {subjects.length === 0 && (
               <tr>
-                <td colSpan={7} className="text-center p-4 text-neutral-500">
+                <td colSpan={5} className="text-center p-4 text-neutral-500">
                   No subjects in this tab yet.
                 </td>
               </tr>
@@ -191,54 +201,69 @@ export default function TutorSubjects() {
             className="card bg-white shadow-md rounded-lg overflow-hidden"
           >
             <Image
-              src={data.Image}
-              alt={data.SubjectName}
+              src={
+                data.banner && data.banner.trim() !== ""
+                  ? data.banner
+                  : "https://placehold.co/500x300.png?text=No+Image"
+              }
+              alt={data.subject}
               width={500}
               height={300}
               className="w-full aspect-video object-cover"
+              unoptimized
             />
             <div className="p-4 flex flex-col gap-3">
-              {/* Title + Rating */}
-              <div>
-                <h2 className="font-bold text-lg">{data.SubjectName}</h2>
-                {activeTab == "available" && (
-                  <span className="flex items-center gap-1 text-sm text-gray-700">
-                    <StarIcon className="size-5 text-yellow-500" />
-                    {data.Rating.toFixed(1)}
-                  </span>
-                )}
-              </div>
-
-              {/* Schedule Pills */}
-              {data.Schedule.length > 0 && (
+              <h2 className="font-bold text-lg">{data.subject}</h2>
+              {data.availability.length > 0 && (
                 <ul className="flex flex-wrap gap-2">
-                  {data.Schedule.map((sched, idx) => (
+                  {data.availability.map((sched: any) => (
                     <li
-                      key={idx}
+                      key={sched.id}
                       className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-medium"
                     >
-                      {sched.Day} {sched.Time}
+                      {sched.day} {sched.start}-{sched.end}
                     </li>
                   ))}
                 </ul>
               )}
-
-              {/* Actions */}
-              <div className="flex flex-row gap-2 justify-end *:px-3 *:py-1 *:rounded-md *:text-sm *:font-medium *:flex-1 *:text-center">
-                <Link
-                  href={"/tutor/subjects/view/" + i}
-                  className="bg-amber-200 hover:bg-amber-300"
+              <div className="flex flex-row gap-2 justify-end">
+                {activeTab === "paused" && (
+                  <button
+                    onClick={() => {
+                      setSelectedSubject(data._id);
+                      setActionType("resume");
+                      setModalOpen(true);
+                    }}
+                    className="bg-green-700 text-white hover:bg-green-800 px-3 py-1 rounded"
+                  >
+                    Resume
+                  </button>
+                )}
+                {activeTab !== "draft" && (
+                  <Link
+                    href={"/tutor/subjects/view/" + data._id}
+                    className="bg-amber-200 hover:bg-amber-300 px-3 py-1 rounded"
+                  >
+                    View
+                  </Link>
+                )}
+                {activeTab !== "paused" && (
+                  <Link
+                    href={"/tutor/subjects/edit/" + data._id}
+                    className="bg-blue-200 hover:bg-blue-300 px-3 py-1 rounded"
+                  >
+                    Edit
+                  </Link>
+                )}
+                <button
+                  onClick={() => {
+                    setSelectedSubject(data._id);
+                    setActionType("delete");
+                    setModalOpen(true);
+                  }}
+                  className="bg-red-700 text-white hover:bg-red-800 aspect-square flex items-center justify-center hover:cursor-pointer"
                 >
-                  View
-                </Link>
-                <Link
-                  href={"/tutor/subjects/edit/" + i}
-                  className="bg-blue-200 hover:bg-blue-300"
-                >
-                  Edit
-                </Link>
-                <button className="bg-red-700 text-white hover:bg-red-800">
-                  Delete
+                  <Trash2Icon size={16} />
                 </button>
               </div>
             </div>
@@ -250,6 +275,72 @@ export default function TutorSubjects() {
           </p>
         )}
       </div>
+
+      {/* Confirmation Modal */}
+      <AnimatePresence>
+        {modalOpen && selectedSubject && actionType && (
+          <motion.div
+            className="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={() => setModalOpen(false)} // click outside closes modal
+          >
+            <motion.div
+              className="bg-white rounded-xl shadow-lg p-6 w-96 flex flex-col gap-4"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
+            >
+              <h2 className="text-lg font-semibold">Confirm Action</h2>
+              <p>
+                {activeTab === "paused" && actionType === "resume"
+                  ? "Do you want to resume this offer?"
+                  : activeTab === "approved" && actionType === "delete"
+                    ? "Do you want to pause or delete this offer?"
+                    : actionType === "pause"
+                      ? "Do you want to pause this offer temporarily?"
+                      : "Are you sure you want to delete this offer?"}
+              </p>
+              <div className="flex justify-end gap-3 mt-4">
+                {activeTab === "approved" && actionType === "delete" && (
+                  <button
+                    onClick={() => handlePause(selectedSubject!)}
+                    className="px-4 py-2 bg-yellow-400 rounded hover:bg-yellow-500"
+                  >
+                    Pause
+                  </button>
+                )}
+                {actionType === "resume" && (
+                  <button
+                    onClick={() => handleResume(selectedSubject!)}
+                    className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                  >
+                    Resume
+                  </button>
+                )}
+                {actionType === "delete" && (
+                  <button
+                    onClick={() => handleDelete(selectedSubject!)}
+                    className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                  >
+                    Delete
+                  </button>
+                )}
+                <button
+                  onClick={() => setModalOpen(false)}
+                  className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+                >
+                  Cancel
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

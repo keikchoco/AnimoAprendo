@@ -24,6 +24,9 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "www.mooc.org",
       },
+      {protocol: "https",
+        hostname: "placehold.co"
+      }
     ],
   },
 };
