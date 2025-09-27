@@ -44,12 +44,12 @@ export default function TutorViewSubject({
   useEffect(() => {
     async function fetchData() {
       const result = await getOffer(userId, slug);
-      const data = result.data
+      const data = result.data;
       setSubject(data?.subject || "");
-      setDescription(data?.description || "")
-      setAvailability(data?.availability || [])
-      setBanner(data?.banner || "")
-      setQuestions(data?.questions || [])
+      setDescription(data?.description || "");
+      setAvailability(data?.availability || []);
+      setBanner(data?.banner || "");
+      setQuestions(data?.questions || []);
     }
     if (userId) fetchData();
   }, [userId]);
@@ -62,15 +62,22 @@ export default function TutorViewSubject({
 
   // Count only valid quizzes
   const totalQuizzes = questions.filter((q) => {
-    const isValid =
-      q.question.trim() !== "" &&
-      q.answer.trim() !== "" &&
-      (q.type !== "multiple-choice" || q.options.length >= 2) &&
-      (q.type !== "multiple-choice" ||
-        (q.options.every((opt) => opt.trim() !== "") &&
-          q.options.includes(q.answer)));
+    const isQuestionValid = q.question.trim() !== "";
 
-    return isValid;
+    let isAnswerValid = false;
+    if (typeof q.answer === "string") {
+      isAnswerValid = q.answer.trim() !== "";
+    } else if (Array.isArray(q.answer)) {
+      isAnswerValid = q.answer.some((ans) => ans.trim() !== "");
+    }
+
+    const isOptionsValid =
+      q.type !== "multiple-choice" ||
+      (q.options.length >= 2 &&
+        q.options.every((opt) => opt.trim() !== "") &&
+        q.options.includes(q.answer as string));
+
+    return isQuestionValid && isAnswerValid && isOptionsValid;
   }).length;
 
   const allComplete =
@@ -81,32 +88,32 @@ export default function TutorViewSubject({
     totalQuizzes >= QUIZ_COMPLETED;
 
   function handleSubmit() {
-      CreatePopup("Submitting", "info");
-      submitSubject({
-        userId,
-        documentId,
-        sendData: { subject, description, availability, banner, questions },
-      }).then((data) => {
-        if (data.success) {
-          setSaveState("success");
-          CreatePopup("Submitted", "success");
-          if (!documentId) {
-            setDocumentId(data.data.insertedId);
-          }
-        } else {
-          setSaveState("failed");
-          CreatePopup("Unable to submit, try again.", "error");
+    CreatePopup("Submitting", "info");
+    submitSubject({
+      userId,
+      documentId,
+      sendData: { subject, description, availability, banner, questions },
+    }).then((data) => {
+      if (data.success) {
+        setSaveState("success");
+        CreatePopup("Submitted", "success");
+        if (!documentId) {
+          setDocumentId(data.data.insertedId);
         }
-  
-        setTimeout(() => {
-          setSaveState("default");
-        }, 1500);
-      });
-    }
+      } else {
+        setSaveState("failed");
+        CreatePopup("Unable to submit, try again.", "error");
+      }
+
+      setTimeout(() => {
+        setSaveState("default");
+      }, 1500);
+    });
+  }
 
   function handleSave() {
-    if(!subject) {
-      CreatePopup("Select a subject before saving", "error")
+    if (!subject) {
+      CreatePopup("Select a subject before saving", "error");
       return;
     }
     CreatePopup("Saving Progress", "info");
