@@ -4,11 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { CalendarDays, CheckCircle, Clock } from "lucide-react";
+import { redirect, RedirectType } from "next/navigation";
 
 export default async function Dashboard() {
   const user = await currentUser();
 
-  if (!user) return <div>Not signed in</div>;
+  if (!user) redirect("/", RedirectType.replace);
 
   // Placeholder Data
   const stats = {
@@ -41,7 +42,7 @@ export default async function Dashboard() {
       {/* Left Panels */}
       <div className="flex flex-col gap-6 lg:w-3/12 *:px-5 *:py-4 *:border-neutral-400 *:border-2 *:rounded-2xl *:flex *:flex-col *:items-center">
         {/* Profile */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 select-none">
           <Image
             src={user.imageUrl}
             alt=""
@@ -67,17 +68,20 @@ export default async function Dashboard() {
         </div>
 
         {/* Level Overview */}
-        <div className="flex flex-col gap-6 w-full">
+        <div className="flex flex-col gap-6 w-full select-none">
           <h1 className="font-bold text-xl">Level Overview</h1>
           <div className="flex flex-col gap-2 w-full text-neutral-600">
-            <div>
-              My Level{" "}
+            <div className="flex flex-row justify-between items-center">
+              <h1 className="text-lg font-semibold">My Level</h1>
               <span className="text-neutral-800 font-bold ml-auto">
                 New Tutor
               </span>
             </div>
-            <div>
-              Rating <span className="ml-auto"><RatingGFX rating={5}/></span>
+            <div className="flex flex-row justify-between items-center">
+              <h1 className="text-lg font-semibold">Rating</h1>
+              <span>
+                <RatingGFX rating={5} />
+              </span>
             </div>
           </div>
           <Link
@@ -90,13 +94,13 @@ export default async function Dashboard() {
 
         {/* Availability */}
         <div className="flex flex-col gap-6 w-full">
-          <h1 className="font-bold text-xl">Availability</h1>
+          <h1 className="font-bold text-xl select-none">Availability</h1>
           <h2 className="text-neutral-600">
             Lorem ipsum dolor sit amet conse adipisicing elit.
           </h2>
           <Link
             href={"#"}
-            className="bg-green-900 text-white w-full text-center py-2 rounded-lg hover:bg-green-800"
+            className="bg-green-900 text-white w-full text-center py-2 rounded-lg hover:bg-green-800 select-none"
           >
             View Availability
           </Link>
@@ -106,7 +110,7 @@ export default async function Dashboard() {
       {/* Right Panels */}
       <div className="flex flex-col gap-6 lg:w-9/12">
         {/* Welcome */}
-        <div>
+        <div className="select-none">
           <h1 className="text-2xl font-bold">Welcome, {user.fullName}</h1>
           <h2 className="text-neutral-600">
             Dashboard Description: (To Change)
@@ -115,7 +119,7 @@ export default async function Dashboard() {
         <hr className="bg-neutral-300" />
 
         {/* Statistics Section */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 select-none">
           <div className="bg-green-100 border border-green-300 rounded-xl p-6 flex flex-col items-center">
             <CalendarDays className="h-10 w-10 text-green-800 mb-2" />
             <h3 className="text-3xl font-bold text-green-900">
@@ -145,12 +149,12 @@ export default async function Dashboard() {
 
         {/* Active Bookings / Upcoming */}
         <div>
-          <h1 className="text-xl font-bold mb-2">Upcoming Appointments</h1>
+          <h1 className="text-xl font-bold mb-2 select-none">Upcoming Appointments</h1>
           <div className="flex flex-col gap-4">
             {upcomingAppointments.map((appt) => (
               <div
                 key={appt.id}
-                className="border px-4 py-3 rounded-xl flex flex-col lg:flex-row justify-between"
+                className="border px-4 py-3 rounded-xl flex flex-col lg:flex-row items-center justify-between"
               >
                 <div>
                   <div className="font-bold">{appt.tutee}</div>
@@ -163,7 +167,7 @@ export default async function Dashboard() {
                 </div>
                 <Link
                   href="/tutor/appointments"
-                  className="bg-green-900 text-white py-2 px-4 rounded-xl hover:bg-green-800 mt-2 lg:mt-0"
+                  className="bg-green-900 text-white py-2 px-4 rounded-xl hover:bg-green-800 mt-2 lg:mt-0 h-fit select-none"
                 >
                   View
                 </Link>

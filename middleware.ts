@@ -11,6 +11,7 @@ const isPublicRoute = createRouteMatcher([
 const isDefaultRoute = createRouteMatcher(["/", "/search(.*)"]);
 const isTestingRoute = createRouteMatcher(["/testing(.*)"]);
 const isOnboardingRoute = createRouteMatcher(["/onboarding(.*)"]);
+const isOnlyTutorRoute = createRouteMatcher(["/tutor"]);
 
 export default clerkMiddleware(async (auth, req) => {
   const { sessionClaims, userId } = await auth();
@@ -66,12 +67,20 @@ export default clerkMiddleware(async (auth, req) => {
   }
 
   // If the user is logged in and trying to access a public route, redirect them to their dashboard/home page
-  if (isDefaultRoute(req) && userId) {
-    if (metadata?.isAdmin == true) {
-      return NextResponse.redirect(new URL("/admin/dashboard", req.url));
-    }
-    if (metadata?.role === "tutor" && !metadata?.isAdmin) {
+  // if (isDefaultRoute(req) && userId) {
+  //   if (metadata?.isAdmin == true) {
+  //     return NextResponse.redirect(new URL("/admin/dashboard", req.url));
+  //   }
+  //   if (metadata?.role === "tutor" && !metadata?.isAdmin) {
+  //     return NextResponse.redirect(new URL("/tutor/dashboard", req.url));
+  //   }
+  // }
+
+  if (isOnlyTutorRoute(req) && userId) {
+    if(metadata?.role === "tutor") {
       return NextResponse.redirect(new URL("/tutor/dashboard", req.url));
+    } else {
+      return NextResponse.redirect(new URL("/", req.url));
     }
   }
 

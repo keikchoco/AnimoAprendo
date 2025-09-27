@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   const file = formData.get('file') as File;
 
   if (!file) {
-    return new Response('No file uploaded', { status: 400 });
+    return new Response('No file uploaded', { status: 201 });
   }
 
   try {

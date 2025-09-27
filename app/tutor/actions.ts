@@ -12,7 +12,7 @@ export async function uploadBannerServer(file: File, username: string) {
 
     // Compress and convert to JPEG
     let compressedBuffer = await sharp(buffer)
-      .resize({ width: 1920 }) // optional max width
+      .resize({ width: 1920 })
       .jpeg({ quality: 80 })
       .toBuffer();
 
@@ -26,7 +26,7 @@ export async function uploadBannerServer(file: File, username: string) {
     // Use Node FormData
     const formData = new FormData();
     formData.append("file", compressedBuffer, {
-      filename: `${username}-banner.jpg`,
+      filename: `${username}.jpg`,
       contentType: "image/jpeg",
       knownLength: compressedBuffer.length,
     });
@@ -43,7 +43,11 @@ export async function uploadBannerServer(file: File, username: string) {
     }
 
     const data: any = await response.json();
-    return { success: true, data: data.data };
+    if(data.status == 200) {
+      return { success: true, data: data.data };
+    } else {
+      return { success: false, error: `Failed with status: ${data.status}`}
+    }
   } catch (error) {
     console.error("Banner upload error:", error);
     return { success: false, error: "Failed to compress or upload banner" };

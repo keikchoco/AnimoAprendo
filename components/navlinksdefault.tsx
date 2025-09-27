@@ -9,7 +9,7 @@ export default function NavLinksGuest() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="bg-green-900">
+    <header className="bg-green-900 select-none">
       <nav
         aria-label="Global"
         className="mx-auto flex max-w-[90rem] items-center justify-between p-6 lg:px-8"

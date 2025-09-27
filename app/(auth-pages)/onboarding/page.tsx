@@ -3,7 +3,6 @@ import { finishOnboarding, getCollectionData } from "@/app/actions";
 import Stepper, { Step } from "@/components/reactbits/stepper";
 import { useUser } from "@clerk/nextjs";
 import {
-  Button,
   Field,
   Label,
   Radio,
@@ -12,11 +11,9 @@ import {
 } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
-import Link from "next/link";
-import { redirect, RedirectType, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
-import { FaSpinner } from "react-icons/fa";
-import { PacmanLoader, SyncLoader } from "react-spinners";
+import { PacmanLoader } from "react-spinners";
 
 type Colleges = {
   name: string;
