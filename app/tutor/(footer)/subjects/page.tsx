@@ -22,6 +22,7 @@ export default function TutorSubjects() {
     "approved" | "pending" | "draft" | "paused"
   >("approved");
   const [Data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
   const [actionType, setActionType] = useState<
@@ -37,8 +38,10 @@ export default function TutorSubjects() {
   }, []);
 
   async function fetchData() {
+    setLoading(true);
     const result = await getOffers(userId);
     setData(result.data || []);
+    setLoading(false);
   }
 
   function handleDelete(documentId: string) {
@@ -68,6 +71,24 @@ export default function TutorSubjects() {
   }, [userId]);
 
   const subjects = Data.filter((s) => s.status === activeTab);
+
+  // Skeleton Row
+  const SkeletonRow = () => (
+    <tr className="animate-pulse">
+      <td className="p-2">
+        <div className="h-14 w-24 bg-gray-300 rounded-md mx-auto"></div>
+      </td>
+      <td className="p-2">
+        <div className="h-4 w-32 bg-gray-300 rounded"></div>
+      </td>
+      <td className="p-2">
+        <div className="h-4 w-40 bg-gray-300 rounded mx-auto"></div>
+      </td>
+      <td className="p-2">
+        <div className="h-8 w-24 bg-gray-300 rounded mx-auto"></div>
+      </td>
+    </tr>
+  );
 
   return (
     <div className="flex flex-col gap-6 w-10/12 text-neutral-800">
@@ -111,78 +132,79 @@ export default function TutorSubjects() {
             </tr>
           </thead>
           <tbody className="divide-y divide-neutral-200">
-            {subjects.map((data, i) => (
-              <tr
-                key={i}
-                className="text-center hover:bg-neutral-100 transition"
-              >
-                <td className="p-2">
-                  <Image
-                    src={
-                      data.banner && data.banner.trim() !== ""
-                        ? data.banner
-                        : "https://placehold.co/500x300.png?text=No+Image"
-                    }
-                    alt={data.subject}
-                    width={80}
-                    height={50}
-                    className="h-14 w-24 object-cover rounded-md border mx-auto"
-                    unoptimized
-                  />
-                </td>
-                <td className="p-2 font-medium">{data.subject}</td>
-                <td className="p-2">
-                  {data.availability.map((a: any) => (
-                    <div key={a.id} className="text-sm">
-                      {a.day} {a.start} - {a.end}
-                    </div>
-                  ))}
-                </td>
-                <td className="p-2">
-                  <div className="flex flex-row gap-2 justify-center *:px-3 *:py-1 *:rounded-md *:text-sm *:font-medium">
-                    {activeTab === "paused" && (
-                      <button
-                        onClick={() => {
-                          setSelectedSubject(data._id);
-                          setActionType("resume");
-                          setModalOpen(true);
-                        }}
-                        className="bg-green-700 text-white hover:bg-green-800 aspect-square flex items-center justify-center hover:cursor-pointer"
-                      >
-                        <Play size={16} />
-                      </button>
-                    )}
-                    {activeTab !== "draft" && (
+            {loading ? (
+              Array.from({ length: 3 }).map((_, i) => <SkeletonRow key={i} />)
+            ) : subjects.length > 0 ? (
+              subjects.map((data, i) => (
+                <tr
+                  key={i}
+                  className="text-center hover:bg-neutral-100 transition"
+                >
+                  <td className="p-2">
+                    <Image
+                      src={
+                        data.banner && data.banner.trim() !== ""
+                          ? data.banner
+                          : "https://placehold.co/500x300.png?text=No+Image"
+                      }
+                      alt={data.subject}
+                      width={80}
+                      height={50}
+                      className="h-14 w-24 object-cover rounded-md border mx-auto"
+                      unoptimized
+                    />
+                  </td>
+                  <td className="p-2 font-medium">{data.subject}</td>
+                  <td className="p-2">
+                    {data.availability.map((a: any) => (
+                      <div key={a.id} className="text-sm">
+                        {a.day} {a.start} - {a.end}
+                      </div>
+                    ))}
+                  </td>
+                  <td className="p-2">
+                    <div className="flex flex-row gap-2 justify-center *:px-3 *:py-1 *:rounded-md *:text-sm *:font-medium">
+                      {activeTab === "paused" && (
+                        <button
+                          onClick={() => {
+                            setSelectedSubject(data._id);
+                            setActionType("resume");
+                            setModalOpen(true);
+                          }}
+                          className="bg-green-700 text-white hover:bg-green-800 aspect-square flex items-center justify-center hover:cursor-pointer"
+                        >
+                          <Play size={16} />
+                        </button>
+                      )}
                       <Link
                         href={"/tutor/subjects/view/" + data._id}
                         className="bg-amber-200 hover:bg-amber-300 aspect-square flex items-center justify-center"
                       >
                         <EyeIcon size={16} />
                       </Link>
-                    )}
-                    {activeTab !== "paused" && (
-                      <Link
-                        href={"/tutor/subjects/edit/" + data._id}
-                        className="bg-blue-200 hover:bg-blue-300 aspect-square flex items-center justify-center"
+                      {activeTab !== "paused" && (
+                        <Link
+                          href={"/tutor/subjects/edit/" + data._id}
+                          className="bg-blue-200 hover:bg-blue-300 aspect-square flex items-center justify-center"
+                        >
+                          <PencilIcon size={16} />
+                        </Link>
+                      )}
+                      <button
+                        onClick={() => {
+                          setSelectedSubject(data._id);
+                          setActionType("delete");
+                          setModalOpen(true);
+                        }}
+                        className="bg-red-700 text-white hover:bg-red-800 aspect-square flex items-center justify-center hover:cursor-pointer"
                       >
-                        <PencilIcon size={16} />
-                      </Link>
-                    )}
-                    <button
-                      onClick={() => {
-                        setSelectedSubject(data._id);
-                        setActionType("delete");
-                        setModalOpen(true);
-                      }}
-                      className="bg-red-700 text-white hover:bg-red-800 aspect-square flex items-center justify-center hover:cursor-pointer"
-                    >
-                      <Trash2Icon size={16} />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-            {subjects.length === 0 && (
+                        <Trash2Icon size={16} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
               <tr>
                 <td colSpan={5} className="text-center p-4 text-neutral-500">
                   No subjects in this tab yet.
@@ -193,83 +215,96 @@ export default function TutorSubjects() {
         </table>
       </div>
 
-      {/* Mobile Cards */}
-      <div className="block lg:hidden space-y-4">
-        {subjects.map((data, i) => (
-          <div
-            key={i}
-            className="card bg-white shadow-md rounded-lg overflow-hidden"
-          >
-            <Image
-              src={
-                data.banner && data.banner.trim() !== ""
-                  ? data.banner
-                  : "https://placehold.co/500x300.png?text=No+Image"
-              }
-              alt={data.subject}
-              width={500}
-              height={300}
-              className="w-full aspect-video object-cover"
-              unoptimized
-            />
-            <div className="p-4 flex flex-col gap-3">
-              <h2 className="font-bold text-lg">{data.subject}</h2>
-              {data.availability.length > 0 && (
-                <ul className="flex flex-wrap gap-2">
-                  {data.availability.map((sched: any) => (
-                    <li
-                      key={sched.id}
-                      className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-medium"
-                    >
-                      {sched.day} {sched.start}-{sched.end}
-                    </li>
-                  ))}
-                </ul>
-              )}
-              <div className="flex flex-row gap-2 justify-end">
-                {activeTab === "paused" && (
-                  <button
-                    onClick={() => {
-                      setSelectedSubject(data._id);
-                      setActionType("resume");
-                      setModalOpen(true);
-                    }}
-                    className="bg-green-700 text-white hover:bg-green-800 px-3 py-1 rounded"
-                  >
-                    Resume
-                  </button>
+      {/* Mobile Skeleton */}
+      <div className="block lg:hidden space-y-4 min-h-[60svh]">
+        {loading ? (
+          Array.from({ length: 3 }).map((_, i) => (
+            <div
+              key={i}
+              className="card bg-white shadow-md rounded-lg overflow-hidden animate-pulse"
+            >
+              <div className="w-full aspect-video bg-gray-300"></div>
+              <div className="p-4 space-y-3">
+                <div className="h-4 w-32 bg-gray-300 rounded"></div>
+                <div className="h-4 w-24 bg-gray-300 rounded"></div>
+                <div className="h-8 w-20 bg-gray-300 rounded"></div>
+              </div>
+            </div>
+          ))
+        ) : subjects.length > 0 ? (
+          subjects.map((data, i) => (
+            <div
+              key={i}
+              className="card bg-white shadow-md rounded-lg overflow-hidden"
+            >
+              <Image
+                src={
+                  data.banner && data.banner.trim() !== ""
+                    ? data.banner
+                    : "https://placehold.co/500x300.png?text=No+Image"
+                }
+                alt={data.subject}
+                width={500}
+                height={300}
+                className="w-full aspect-video object-cover"
+                unoptimized
+              />
+              <div className="p-4 flex flex-col gap-3">
+                <h2 className="font-bold text-lg">{data.subject}</h2>
+                {data.availability.length > 0 && (
+                  <ul className="flex flex-wrap gap-2">
+                    {data.availability.map((sched: any) => (
+                      <li
+                        key={sched.id}
+                        className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-medium"
+                      >
+                        {sched.day} {sched.start}-{sched.end}
+                      </li>
+                    ))}
+                  </ul>
                 )}
-                {activeTab !== "draft" && (
+                <div className="grid grid-cols-2 [&>*:first-child]:col-span-2 [&>*:first-child]:py-3 gap-2">
+                  {activeTab === "paused" && (
+                    <button
+                      onClick={() => {
+                        setSelectedSubject(data._id);
+                        setActionType("resume");
+                        setModalOpen(true);
+                      }}
+                      className="bg-green-700 text-white hover:bg-green-800 px-3 py-1 rounded text-center"
+                    >
+                      Resume
+                    </button>
+                  )}
                   <Link
                     href={"/tutor/subjects/view/" + data._id}
-                    className="bg-amber-200 hover:bg-amber-300 px-3 py-1 rounded"
+                    className="bg-amber-200 hover:bg-amber-300 px-3 py-1 rounded text-center"
                   >
                     View
                   </Link>
-                )}
-                {activeTab !== "paused" && (
-                  <Link
-                    href={"/tutor/subjects/edit/" + data._id}
-                    className="bg-blue-200 hover:bg-blue-300 px-3 py-1 rounded"
+                  {activeTab !== "paused" && (
+                    <Link
+                      href={"/tutor/subjects/edit/" + data._id}
+                      className="bg-blue-200 hover:bg-blue-300 px-3 py-1 rounded text-center"
+                    >
+                      Edit
+                    </Link>
+                  )}
+                  <button
+                    onClick={() => {
+                      setSelectedSubject(data._id);
+                      setActionType("delete");
+                      setModalOpen(true);
+                    }}
+                    className="bg-red-700 text-white hover:bg-red-800 px-3 py-1 rounded hover:cursor-pointer text-center"
                   >
-                    Edit
-                  </Link>
-                )}
-                <button
-                  onClick={() => {
-                    setSelectedSubject(data._id);
-                    setActionType("delete");
-                    setModalOpen(true);
-                  }}
-                  className="bg-red-700 text-white hover:bg-red-800 aspect-square flex items-center justify-center hover:cursor-pointer"
-                >
-                  <Trash2Icon size={16} />
-                </button>
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-        {subjects.length === 0 && (
+          ))
+        ) : (
           <p className="text-center text-neutral-500">
             No subjects in this tab yet.
           </p>
@@ -285,7 +320,7 @@ export default function TutorSubjects() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            onClick={() => setModalOpen(false)} // click outside closes modal
+            onClick={() => setModalOpen(false)}
           >
             <motion.div
               className="bg-white rounded-xl shadow-lg p-6 w-96 flex flex-col gap-4"
@@ -293,7 +328,7 @@ export default function TutorSubjects() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ duration: 0.25 }}
-              onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
+              onClick={(e) => e.stopPropagation()}
             >
               <h2 className="text-lg font-semibold">Confirm Action</h2>
               <p>
