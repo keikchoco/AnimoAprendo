@@ -160,7 +160,7 @@ export default function OfferDetails({
             theme="snow"
             value={description}
             onChange={setDescription}
-            className="bg-white text-black rounded-md h-40"
+            className="text-black rounded-md h-40"
           />
 
           <div className="mt-20 sm:mt-16">
@@ -173,13 +173,13 @@ export default function OfferDetails({
                   key={slot.id}
                   className="border p-3 rounded-lg space-y-2 bg-gray-50"
                 >
-                  <div className="flex flex-col sm:flex-row gap-3 items-center">
+                  <div className="flex flex-row flex-wrap lg:flex-nowrap sm:flex-row gap-3 items-center">
                     <select
                       value={slot.day}
                       onChange={(e) =>
                         handleUpdateSlot(slot.id, "day", e.target.value)
                       }
-                      className="border p-2 rounded-lg"
+                      className="border p-2 rounded-lg w-full"
                     >
                       {DAYS.map((day) => (
                         <option key={day}>{day}</option>
@@ -213,10 +213,10 @@ export default function OfferDetails({
                       ))}
                     </select>
                     <button
-                      className="flex items-center gap-1 px-3 py-1 rounded-lg text-white bg-red-500 hover:bg-red-600"
+                      className="flex items-center gap-1 px-3 py-1 rounded-lg text-white bg-red-500 hover:bg-red-600 aspect-square lg:aspect-auto"
                       onClick={() => handleRemoveSlot(slot.id)}
                     >
-                      <Trash2 size={16} /> Remove
+                      <Trash2 size={16} /><span className="hidden lg:block">Remove</span>
                     </button>
                   </div>
                 </div>

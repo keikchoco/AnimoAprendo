@@ -43,7 +43,8 @@ export async function uploadBannerServer(file: File, username: string) {
     }
 
     const data: any = await response.json();
-    if(data.status == 200) {
+    console.log(data)
+    if(data.success) {
       return { success: true, data: data.data };
     } else {
       return { success: false, error: `Failed with status: ${data.status}`}

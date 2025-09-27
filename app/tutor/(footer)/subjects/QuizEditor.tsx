@@ -1,6 +1,6 @@
 "use client";
 
-import { Trash2Icon } from "lucide-react";
+import { X } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -9,7 +9,7 @@ export type Question = {
   question: string;
   type: "multiple-choice" | "true-false" | "fill-in";
   options: string[];
-  answer: string;
+  answer: string | string[]; // string[] for fill-in
 };
 
 type Props = {
@@ -24,10 +24,10 @@ export default function QuizEditor({ questions, setQuestions }: Props) {
   const lastQuestionRef = useRef<HTMLDivElement | null>(null);
 
   const addQuestion = () => {
-    const newQuestion = {
-      id: crypto.randomUUID(), // unique key for stable animations
+    const newQuestion: Question = {
+      id: crypto.randomUUID(),
       question: "",
-      type: "multiple-choice" as const,
+      type: "multiple-choice",
       options: ["", ""],
       answer: "",
     };
@@ -36,18 +36,15 @@ export default function QuizEditor({ questions, setQuestions }: Props) {
   };
 
   useEffect(() => {
-  if (addedIdx !== null && lastQuestionRef.current) {
-    lastQuestionRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-      inline: "nearest",
-    });
-
-    // optional: add extra offset
+    if (addedIdx !== null && lastQuestionRef.current) {
+      lastQuestionRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        inline: "nearest",
+      });
       window.scrollBy({ top: 350, left: 0, behavior: "smooth" });
-  }
-}, [questions.length, addedIdx]);
-
+    }
+  }, [questions.length, addedIdx]);
 
   const updateQuestion = (idx: number, update: Partial<Question>) => {
     const updated = [...questions];
@@ -73,6 +70,21 @@ export default function QuizEditor({ questions, setQuestions }: Props) {
     }
   };
 
+  const addFillInAnswer = (idx: number) => {
+    const updated = [...questions];
+    if (!Array.isArray(updated[idx].answer)) updated[idx].answer = [""];
+    (updated[idx].answer as string[]).push("");
+    setQuestions(updated);
+  };
+
+  const removeFillInAnswer = (qIdx: number, ansIdx: number) => {
+    const updated = [...questions];
+    if (Array.isArray(updated[qIdx].answer)) {
+      (updated[qIdx].answer as string[]).splice(ansIdx, 1);
+    }
+    setQuestions(updated);
+  };
+
   const confirmDelete = (idx: number) => {
     setDeleteIdx(idx);
     setShowModal(true);
@@ -93,7 +105,6 @@ export default function QuizEditor({ questions, setQuestions }: Props) {
     <div className="space-y-6">
       <h2 className="font-semibold">Quiz Editor</h2>
 
-      {/* Animated list of questions */}
       <motion.div layout className="space-y-4">
         <AnimatePresence>
           {questions.map((q, idx) => (
@@ -107,7 +118,6 @@ export default function QuizEditor({ questions, setQuestions }: Props) {
               transition={{ duration: 0.3 }}
               className="p-4 border rounded space-y-3 bg-white shadow-sm"
             >
-              {/* Question Text */}
               <input
                 type="text"
                 placeholder={`Question ${idx + 1}`}
@@ -118,13 +128,13 @@ export default function QuizEditor({ questions, setQuestions }: Props) {
                 className="w-full p-2 border rounded"
               />
 
-              {/* Question Type Selector */}
               <select
                 value={q.type}
                 onChange={(e) => {
                   const type = e.target.value as Question["type"];
                   let reset: Partial<Question> = { type, answer: "" };
                   if (type === "multiple-choice") reset.options = ["", ""];
+                  if (type === "fill-in") reset.answer = [""];
                   if (type !== "multiple-choice") reset.options = [];
                   updateQuestion(idx, reset);
                 }}
@@ -135,7 +145,6 @@ export default function QuizEditor({ questions, setQuestions }: Props) {
                 <option value="fill-in">Fill in the Blank</option>
               </select>
 
-              {/* Multiple Choice Editor */}
               {q.type === "multiple-choice" && (
                 <div className="space-y-2">
                   {q.options.map((opt, optIdx) => (
@@ -162,9 +171,9 @@ export default function QuizEditor({ questions, setQuestions }: Props) {
                         <button
                           type="button"
                           onClick={() => removeOption(idx, optIdx)}
-                          className="px-2 py-1 bg-red-600 text-white/90 rounded hover:bg-red-700 aspect-square shrink-0 hover:cursor-pointer"
+                          className="px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700"
                         >
-                          <Trash2Icon size={16} />
+                          <X size={16} />
                         </button>
                       )}
                     </div>
@@ -172,17 +181,16 @@ export default function QuizEditor({ questions, setQuestions }: Props) {
                   <button
                     type="button"
                     onClick={() => addOption(idx)}
-                    className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded select-none hover:cursor-pointer"
+                    className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded"
                   >
                     Add Option
                   </button>
                 </div>
               )}
 
-              {/* True/False Selector */}
               {q.type === "true-false" && (
                 <select
-                  value={q.answer}
+                  value={q.answer as string}
                   onChange={(e) =>
                     updateQuestion(idx, { answer: e.target.value })
                   }
@@ -194,24 +202,50 @@ export default function QuizEditor({ questions, setQuestions }: Props) {
                 </select>
               )}
 
-              {/* Fill in the Blank */}
               {q.type === "fill-in" && (
-                <input
-                  type="text"
-                  placeholder="Correct Answer"
-                  value={q.answer}
-                  onChange={(e) =>
-                    updateQuestion(idx, { answer: e.target.value })
-                  }
-                  className="w-full p-2 border rounded"
-                />
+                <div className="space-y-2">
+                  {Array.isArray(q.answer) &&
+                    q.answer.map((ans, ansIdx) => (
+                      <div key={ansIdx} className="flex items-center gap-2">
+                        <input
+                          type="text"
+                          placeholder={`Possible Answer ${ansIdx + 1}`}
+                          value={ans}
+                          onChange={(e) => {
+                            const updated = [...questions];
+                            if (!Array.isArray(updated[idx].answer))
+                              updated[idx].answer = [""];
+                            (updated[idx].answer as string[])[ansIdx] =
+                              e.target.value;
+                            setQuestions(updated);
+                          }}
+                          className="w-full p-2 border rounded"
+                        />
+                        {q.answer.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => removeFillInAnswer(idx, ansIdx)}
+                            className="px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                          >
+                            <X size={16} />
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                  <button
+                    type="button"
+                    onClick={() => addFillInAnswer(idx)}
+                    className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded"
+                  >
+                    Add Possible Answer
+                  </button>
+                </div>
               )}
 
-              {/* Delete Question Button */}
               <button
                 type="button"
                 onClick={() => confirmDelete(idx)}
-                className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded select-none hover:cursor-pointer"
+                className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded"
               >
                 Delete Question
               </button>
@@ -220,56 +254,49 @@ export default function QuizEditor({ questions, setQuestions }: Props) {
         </AnimatePresence>
       </motion.div>
 
-      {/* Add Question Button */}
       <motion.button
         layout="position"
         type="button"
         onClick={addQuestion}
-        className="px-4 py-2 bg-green-600 text-white rounded select-none hover:cursor-pointer hover:bg-green-700"
+        className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
       >
         Add Question
       </motion.button>
-          
-      {/* Modal */}
+
       <AnimatePresence>
         {showModal && deleteIdx !== null && (
           <motion.div
-            className="fixed inset-0 bg-black/40 bg-opacity-50 flex items-center justify-center"
+            className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
           >
             <motion.div
               className="bg-white rounded-lg p-6 w-96 shadow-lg space-y-4"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.2 }}
             >
               <h3 className="text-lg font-semibold">Delete Question</h3>
               <p>
                 Are you sure you want to delete this question?
                 <br />
                 <span className="font-medium text-gray-800">
-                  “
-                  {questions[deleteIdx]?.question ||
-                    `Question ${deleteIdx + 1}`}
-                  ”
+                  “{questions[deleteIdx]?.question || `Question ${deleteIdx + 1}`}”
                 </span>
               </p>
               <div className="flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 bg-gray-300 rounded select-none"
+                  className="px-4 py-2 bg-gray-300 rounded"
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
                   onClick={handleDelete}
-                  className="px-4 py-2 bg-red-600 text-white rounded select-none"
+                  className="px-4 py-2 bg-red-600 text-white rounded"
                 >
                   Delete
                 </button>

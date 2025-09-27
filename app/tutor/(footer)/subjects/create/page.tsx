@@ -45,15 +45,22 @@ export default function OfferAndQuizPage() {
 
   // Count only valid quizzes
   const totalQuizzes = questions.filter((q) => {
-    const isValid =
-      q.question.trim() !== "" &&
-      q.answer.trim() !== "" &&
-      (q.type !== "multiple-choice" || q.options.length >= 2) &&
-      (q.type !== "multiple-choice" ||
-        (q.options.every((opt) => opt.trim() !== "") &&
-          q.options.includes(q.answer)));
+    const isQuestionValid = q.question.trim() !== "";
 
-    return isValid;
+    let isAnswerValid = false;
+    if (typeof q.answer === "string") {
+      isAnswerValid = q.answer.trim() !== "";
+    } else if (Array.isArray(q.answer)) {
+      isAnswerValid = q.answer.some((ans) => ans.trim() !== "");
+    }
+
+    const isOptionsValid =
+      q.type !== "multiple-choice" ||
+      (q.options.length >= 2 &&
+        q.options.every((opt) => opt.trim() !== "") &&
+        q.options.includes(q.answer as string));
+
+    return isQuestionValid && isAnswerValid && isOptionsValid;
   }).length;
 
   const allComplete =
@@ -88,8 +95,8 @@ export default function OfferAndQuizPage() {
   }
 
   function handleSave() {
-    if(!subject) {
-      CreatePopup("Select a subject before saving", "error")
+    if (!subject) {
+      CreatePopup("Select a subject before saving", "error");
       return;
     }
     CreatePopup("Saving Progress", "info");
@@ -114,7 +121,7 @@ export default function OfferAndQuizPage() {
       }, 1500);
     });
   }
-  
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 p-6 space-y-10">
       <div className="flex flex-col z-10 gap-6 shadow-xl h-fit p-4 lg:sticky top-6 self-start bg-black/3 rounded-2xl w-fit">

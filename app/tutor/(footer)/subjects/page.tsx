@@ -218,7 +218,7 @@ export default function TutorSubjects() {
       {/* Mobile Skeleton */}
       <div className="block lg:hidden space-y-4 min-h-[60svh]">
         {loading ? (
-          Array.from({ length: 3 }).map((_, i) => (
+          Array.from({ length: 2 }).map((_, i) => (
             <div
               key={i}
               className="card bg-white shadow-md rounded-lg overflow-hidden animate-pulse"
