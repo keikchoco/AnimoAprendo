@@ -1,193 +1,236 @@
-import RadialProgress from "@/components/radial-progress";
-import RatingGFX from "@/components/star-rating";
-import Image from "next/image";
-import Link from "next/link";
-import { FaArrowAltCircleLeft } from "react-icons/fa";
+"use client";
 
-export default async function TutorViewSubject({
+import { useState, useRef, use, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useUser } from "@clerk/nextjs";
+import { getOffer, saveSubjectDraft, submitSubject } from "@/app/tutor/actions";
+import { CreatePopup } from "@/app/tutor/alert";
+import QuizEditor, { Question } from "../../QuizEditor";
+import CompletionChecklist from "../../CompletionChecklist";
+import ActionsBar from "../../ActionsBar";
+import OfferDetails from "../../OfferDetails";
+
+let DESCRIPTION_LENGTH = 1;
+let QUIZ_COMPLETED = 1;
+
+if (process.env.NEXT_PUBLIC_DEVELOPMENT_MODE == "false") {
+  DESCRIPTION_LENGTH = 80;
+  QUIZ_COMPLETED = 30;
+}
+
+export default function TutorViewSubject({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const NewOffers = [
-    {
-      Title: "S-ITCS111LA Introduction to Computing LAB",
-      Image:
-        "https://www.mooc.org/hubfs/applications-of-computer-programming.jpg",
-      Description:
-        "Idk description something na pwedeng ilagay nung tutor? maybe explaining what they know about this subject and such",
-      Rating: 2.5,
-      ExtraInfo: [
-        {
-          Day: "Mon",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Tue",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Wed",
-          Time: "7PM-8PM",
-        },
-      ],
-      TutorInfo: {
-        UserId: "",
-        Name: "keikchoco",
-        Image:
-          "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ4SlpGNlRuZ0k0dU0yMThpeFpsTzNmSDJPMiJ9",
-        Rank: "NEW",
-        Rating: 4.5,
-      },
-    },
-    {
-      Title: "S-ITCP322 Capstone Project 1",
-      Image:
-        "https://di.ku.dk/Nyheder/2023/fremtidens-programmeringssprog-udvikles-i-danmark/programming_on_screen-1100x600.jpg",
-      Description:
-        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima dolores voluptatem optio pariatur, veritatis dolore. Voluptatem nihil facilis minus illum hic eum fugit! In tenetur, modi corrupti facere ea inventore?",
-      Rating: 5,
-      ExtraInfo: [
-        {
-          Day: "Thu",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Fri",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Sat",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Sun",
-          Time: "7PM-8PM",
-        },
-      ],
-      TutorInfo: {
-        UserId: "",
-        Name: "chrys",
-        Image:
-          "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJ3aVA4NGFxalFqSUNJa3h5ZjM2bjFKdU9oNCJ9",
-        Rank: "NEW",
-        Rating: 4.5,
-      },
-    },
-    {
-      Title:
-        "S-ITCS227LA Application Development and Emerging Technologies LAB",
-      Image:
-        "https://static1.howtogeekimages.com/wordpress/wp-content/uploads/2022/10/shutterstock_577183882.jpg",
-      Description:
-        "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima dolores voluptatem optio pariatur, veritatis dolore. Voluptatem nihil facilis minus illum hic eum fugit! In tenetur, modi corrupti facere ea inventore?",
-      Rating: 0,
-      ExtraInfo: [
-        {
-          Day: "Mon",
-          Time: "7PM-8PM",
-        },
-        {
-          Day: "Wed",
-          Time: "7PM-8PM",
-        },
-      ],
-      TutorInfo: {
-        UserId: "",
-        Name: "yas",
-        Image:
-          "https://scontent.fmnl8-4.fna.fbcdn.net/v/t39.30808-6/495224537_2969928999835726_5957479116127189212_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=_JkSiHL_U_gQ7kNvwGHMlhl&_nc_oc=AdmOf132lrQBFYqR4RHQiLgUAVjvvobNfG-2LdYukV67TUgB2tZHadD4JvJJoo73dG8&_nc_zt=23&_nc_ht=scontent.fmnl8-4.fna&_nc_gid=B4yWQdg8bcyQhyMmEWgupQ&oh=00_AfKHXBJ7hryFB4h9IRW-Qcgt5rsTwm050yxdLTYKR9t0WQ&oe=6833689D",
-        Rank: "NEW",
-        Rating: 0.5,
-      },
-    },
-  ];
-  const Data = [
-    {
-      Image:
-        "https://www.mooc.org/hubfs/applications-of-computer-programming.jpg",
-      CourseCode: "S-ITCS111LA",
-      SubjectName: "Introduction to Computing LAB",
-      Views: 130,
-      Bookings: 3,
-      Rating: 2.5,
-    },
-    {
-      Image:
-        "https://di.ku.dk/Nyheder/2023/fremtidens-programmeringssprog-udvikles-i-danmark/programming_on_screen-1100x600.jpg",
-      CourseCode: "S-ITCP322",
-      SubjectName: "Capstone Project 1",
-      Views: 39,
-      Bookings: 10,
-      Rating: 5,
-    },
-    {
-      Image:
-        "https://static1.howtogeekimages.com/wordpress/wp-content/uploads/2022/10/shutterstock_577183882.jpg",
-      CourseCode: "S-ITCS227LA",
-      SubjectName: "Application Development and Emerging Technologies LAB",
-      Views: 12,
-      Bookings: 1,
-      Rating: 0,
-    },
-  ];
+  const { slug } = use(params);
+  const { user } = useUser();
+  const userId = user?.id;
+  const [documentId, setDocumentId] = useState(slug);
+  const [subject, setSubject] = useState("");
+  const [description, setDescription] = useState("");
+  const [descriptionLength, setDescriptionLength] = useState(0);
+  const [availability, setAvailability] = useState<any[]>([]);
+  const [banner, setBanner] = useState<string>("");
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [activeTab, setActiveTab] = useState<"offer" | "quiz">("offer");
+  const [saveState, setSaveState] = useState<
+    "default" | "saving" | "success" | "failed"
+  >("default");
+  const [submitState, setSubmitState] = useState<
+    "default" | "saving" | "success" | "failed"
+  >("default");
 
-  const { slug } = await params;
-  const id = typeof slug === "string" ? parseInt(slug) : 0;
-  const item = NewOffers[id];
-  const ratio = (Data[id].Bookings / Data[id].Views) * 100;
+  useEffect(() => {
+    async function fetchData() {
+      const result = await getOffer(userId, slug);
+      const data = result.data;
+      setSubject(data?.subject || "");
+      setDescription(data?.description || "");
+      setAvailability(data?.availability || []);
+      setBanner(data?.banner || "");
+      setQuestions(data?.questions || []);
+    }
+    if (userId) fetchData();
+  }, [userId]);
+
+  // completion states
+  const titleComplete = !!subject.trim();
+  const descriptionComplete = descriptionLength >= DESCRIPTION_LENGTH;
+  const availabilityComplete = availability.length > 0;
+  const bannerComplete = !!banner;
+
+  // Count only valid quizzes
+  const totalQuizzes = questions.filter((q) => {
+    const isQuestionValid = q.question.trim() !== "";
+
+    let isAnswerValid = false;
+    if (typeof q.answer === "string") {
+      isAnswerValid = q.answer.trim() !== "";
+    } else if (Array.isArray(q.answer)) {
+      isAnswerValid = q.answer.some((ans) => ans.trim() !== "");
+    }
+
+    const isOptionsValid =
+      q.type !== "multiple-choice" ||
+      (q.options.length >= 2 &&
+        q.options.every((opt) => opt.trim() !== "") &&
+        q.options.includes(q.answer as string));
+
+    return isQuestionValid && isAnswerValid && isOptionsValid;
+  }).length;
+
+  const allComplete =
+    titleComplete &&
+    descriptionComplete &&
+    availabilityComplete &&
+    bannerComplete &&
+    totalQuizzes >= QUIZ_COMPLETED;
+
+  function handleSubmit() {
+    CreatePopup("Submitting", "info");
+    submitSubject({
+      userId,
+      documentId,
+      sendData: { subject, description, availability, banner, questions },
+    }).then((data) => {
+      if (data.success) {
+        setSaveState("success");
+        CreatePopup("Submitted", "success");
+        if (!documentId) {
+          setDocumentId(data.data.insertedId);
+        }
+      } else {
+        setSaveState("failed");
+        CreatePopup("Unable to submit, try again.", "error");
+      }
+
+      setTimeout(() => {
+        setSaveState("default");
+      }, 1500);
+    });
+  }
+
+  function handleSave() {
+    if (!subject) {
+      CreatePopup("Select a subject before saving", "error");
+      return;
+    }
+    CreatePopup("Saving Progress", "info");
+    saveSubjectDraft({
+      userId,
+      documentId,
+      sendData: { subject, description, availability, banner, questions },
+    }).then((data) => {
+      if (data.success) {
+        setSaveState("success");
+        CreatePopup("Saved successfully", "success");
+        if (!documentId) {
+          setDocumentId(data.data.insertedId);
+        }
+      } else {
+        setSaveState("failed");
+        CreatePopup("Unable to save, try again.", "error");
+      }
+
+      setTimeout(() => {
+        setSaveState("default");
+      }, 1500);
+    });
+  }
 
   return (
-    <div className="flex flex-col gap-4 w-10/12">
-      <div className="flex flex-row justify-between">
-        <Link
-          href={"/tutor/subjects"}
-          className="flex flex-row items-center gap-2 text-xl text-green-700 font-semibold"
-        >
-          <FaArrowAltCircleLeft /> Back to Subjects
-        </Link>
-        <div className="flex flex-row gap-2 *:shadow-lg *:px-4 *:py-2 *:rounded-xl">
-          <div className="grow-1 basis-0 bg-amber-200">Edit</div>
-          <div className="grow-1 basis-0 bg-red-800 text-white">Delete</div>
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 p-6 space-y-10">
+      <div className="flex flex-col z-10 gap-6 shadow-xl h-fit p-4 lg:sticky top-6 self-start bg-black/3 rounded-2xl w-fit">
+        <CompletionChecklist
+          titleComplete={titleComplete}
+          description={descriptionLength}
+          descriptionComplete={descriptionComplete}
+          availabilityComplete={availabilityComplete}
+          bannerComplete={bannerComplete}
+          totalQuizzes={totalQuizzes}
+          DESCRIPTION_LENGTH={DESCRIPTION_LENGTH}
+          QUIZ_COMPLETED={QUIZ_COMPLETED}
+        />
+        <ActionsBar
+          allComplete={allComplete}
+          handleSubmit={handleSubmit}
+          handleSave={handleSave}
+          saveState={saveState}
+          submitState={submitState}
+          documentId={documentId}
+        />
+      </div>
+
+      <motion.div
+        layout
+        transition={{ layout: { type: "spring", stiffness: 250, damping: 30 } }}
+        className="lg:col-span-3 p-4 bg-black/3 shadow rounded-2xl"
+      >
+        <h1 className="text-xl font-bold mb-4 select-none">Offer & Quiz</h1>
+
+        {/* Tabs */}
+        <div className="flex gap-4 border-b mb-6">
+          <button
+            onClick={() => setActiveTab("offer")}
+            className={`px-4 py-2 transition-colors duration-200 ${
+              activeTab === "offer"
+                ? "border-b-2 border-blue-600 font-semibold text-blue-600"
+                : "text-gray-500 hover:text-blue-600 hover:border-b-2 hover:border-blue-300 cursor-pointer"
+            }`}
+          >
+            Offer Details
+          </button>
+          <button
+            onClick={() => setActiveTab("quiz")}
+            className={`px-4 py-2 transition-colors duration-200 ${
+              activeTab === "quiz"
+                ? "border-b-2 border-blue-600 font-semibold text-blue-600"
+                : "text-gray-500 hover:text-blue-600 hover:border-b-2 hover:border-blue-300 cursor-pointer"
+            }`}
+          >
+            Quiz Editor
+          </button>
         </div>
-      </div>
 
-      <div>
-        <section className="">
-          <div className="flex flex-wrap gap-8 *:rounded-4xl *:overflow-hidden">
-            <div className="min-w-xl md:min-w-2xl grow-3 basis-0">
-              <figure className="h-96">
-                <Image
-                  src={item.Image}
-                  alt=""
-                  width={500}
-                  height={500}
-                  className="w-full h-full object-cover"
-                />
-              </figure>
-
-              <div className="p-8 text-2xl">
-                <h1 className="text-2xl md:text-3xl font-bold">{item.Title}</h1>
-                {item.Description}
-              </div>
-            </div>
-
-            <div className="min-w-48 flex flex-col grow-1 basis-0 gap-5 items-center p-4 shadow-xl bg-neutral-200 h-fit">
-              <h1 className="font-bold text-xl">Course Statistics</h1>
-              <RadialProgress
-                value={(item.Rating / 5) * 100}
-                text={item.Rating}
-                label="Rating"
+        {/* Tab Content with smooth spring animation */}
+        <AnimatePresence mode="wait">
+          {activeTab === "offer" && (
+            <motion.div
+              key="offer"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ type: "spring", stiffness: 250, damping: 25 }}
+            >
+              <OfferDetails
+                subject={subject}
+                setSubject={setSubject}
+                description={description}
+                setDescription={setDescription}
+                descriptionLength={descriptionLength}
+                setDescriptionLength={setDescriptionLength}
+                availability={availability}
+                setAvailability={setAvailability}
+                banner={banner}
+                setBanner={setBanner}
               />
-              <RadialProgress
-                value={ratio}
-                text={`${(Math.round(ratio * 100) / 100).toFixed(2)}%`}
-                label="View → Appointment Ratio"
-              />
-            </div>
-          </div>
-        </section>
-      </div>
+            </motion.div>
+          )}
+
+          {activeTab === "quiz" && (
+            <motion.div
+              key="quiz"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ type: "spring", stiffness: 250, damping: 25 }}
+            >
+              <QuizEditor questions={questions} setQuestions={setQuestions} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </div>
   );
 }

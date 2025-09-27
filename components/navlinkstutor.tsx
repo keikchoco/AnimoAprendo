@@ -13,7 +13,7 @@ function NavLinksTutor() {
   const { isLoaded, user } = useUser();
 
   return (
-    <header className="bg-green-900">
+    <header className="bg-green-900 select-none">
       <nav
         aria-label="Global"
         className="mx-auto flex max-w-[90rem] items-center justify-between p-6 lg:px-8"
@@ -78,9 +78,7 @@ function NavLinksTutor() {
               tabIndex={0}
               className="menu menu-sm gap-3 dropdown-content bg-white rounded-box mt-3 w-52 p-2 shadow text-black z-50"
             >
-              <li className="border-b">
-                <p>Welcome, {user?.username}</p>
-              </li>
+              <p className="border-b px-2 pb-1">Welcome, {user?.username}</p>
               <li>
                 <Link className="justify-between" href="/tutor/profile">
                   Profile
