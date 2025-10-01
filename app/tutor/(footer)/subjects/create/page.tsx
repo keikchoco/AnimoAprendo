@@ -9,10 +9,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useUser } from "@clerk/nextjs";
 import { saveSubjectDraft, submitSubject } from "@/app/tutor/actions";
 import { CreatePopup } from "@/app/tutor/alert";
+import { DotLoader } from "react-spinners";
+import { CircleCheckBig } from "@/components/animate-ui/icons/circle-check-big";
+import { CircleX } from "@/components/animate-ui/icons/circle-x";
 
 let DESCRIPTION_LENGTH = 1;
 let QUIZ_COMPLETED = 1;
 
+// Update this to be grabbed from the database to allow dynamic changes
 if (process.env.NEXT_PUBLIC_DEVELOPMENT_MODE == "false") {
   DESCRIPTION_LENGTH = 80;
   QUIZ_COMPLETED = 30;
@@ -71,25 +75,27 @@ export default function OfferAndQuizPage() {
     totalQuizzes >= QUIZ_COMPLETED;
 
   function handleSubmit() {
+    setSubmitState("saving");
     CreatePopup("Submitting", "info");
+
     submitSubject({
       userId,
       documentId,
       sendData: { subject, description, availability, banner, questions },
     }).then((data) => {
       if (data.success) {
-        setSaveState("success");
+        setSubmitState("success");
         CreatePopup("Submitted", "success");
         if (!documentId) {
           setDocumentId(data.data.insertedId);
         }
       } else {
-        setSaveState("failed");
+        setSubmitState("failed");
         CreatePopup("Unable to submit, try again.", "error");
       }
 
       setTimeout(() => {
-        setSaveState("default");
+        setSubmitState("default");
       }, 1500);
     });
   }
@@ -123,26 +129,83 @@ export default function OfferAndQuizPage() {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 p-6 space-y-10">
-      <div className="flex flex-col z-10 gap-6 shadow-xl h-fit p-4 lg:sticky top-6 self-start bg-black/3 rounded-2xl w-fit">
-        <CompletionChecklist
-          titleComplete={titleComplete}
-          description={descriptionLength}
-          descriptionComplete={descriptionComplete}
-          availabilityComplete={availabilityComplete}
-          bannerComplete={bannerComplete}
-          totalQuizzes={totalQuizzes}
-          DESCRIPTION_LENGTH={DESCRIPTION_LENGTH}
-          QUIZ_COMPLETED={QUIZ_COMPLETED}
-        />
-        <ActionsBar
-          allComplete={allComplete}
-          handleSubmit={handleSubmit}
-          handleSave={handleSave}
-          saveState={saveState}
-          submitState={submitState}
-          documentId={documentId}
-        />
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 xl:gap-8 p-2 xl:p-6 space-y-10 w-full lg:max-w-[100rem]">
+      <div className="relative">
+        <div className="flex flex-col relative z-10 gap-6 shadow-xl h-fit p-4 lg:sticky top-6 self-start bg-black/4 rounded-2xl w-full overflow-hidden">
+            <AnimatePresence>
+            {submitState !== "default" && (
+              <motion.div
+              className="absolute w-full h-full top-0 left-0 bg-black/15 flex flex-col items-center justify-center gap-4 pb-10"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.8 }}
+              >
+              {submitState === "saving" && (
+                <>
+                <DotLoader color="#0d542b" size={50} />
+                <motion.h1
+                  className="text-green-950 font-bold text-xl"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  Submitting
+                </motion.h1>
+                </>
+              )}
+              {submitState === "success" && (
+                <>
+                <CircleCheckBig animateOnView color="#0d542b" size={50} />
+                <motion.h1
+                  className="text-green-950 font-bold text-xl"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  Success
+                </motion.h1>
+                </>
+              )}
+              {submitState === "failed" && (
+                <>
+                <CircleX animateOnView color="#ff0613" size={50} />
+                <motion.h1
+                  className="text-red-600 font-bold text-xl"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  Failed
+                </motion.h1>
+                </>
+              )}
+              </motion.div>
+            )}
+            </AnimatePresence>
+          <div
+            className={`flex flex-col gap-6 ${submitState !== "default" ? "blur-xs opacity-50" : ""}`}
+          >
+            <CompletionChecklist
+              titleComplete={titleComplete}
+              description={descriptionLength}
+              descriptionComplete={descriptionComplete}
+              availabilityComplete={availabilityComplete}
+              bannerComplete={bannerComplete}
+              totalQuizzes={totalQuizzes}
+              DESCRIPTION_LENGTH={DESCRIPTION_LENGTH}
+              QUIZ_COMPLETED={QUIZ_COMPLETED}
+            />
+            <ActionsBar
+              allComplete={allComplete}
+              handleSubmit={handleSubmit}
+              handleSave={handleSave}
+              saveState={saveState}
+              submitState={submitState}
+              documentId={documentId}
+            />
+          </div>
+        </div>
       </div>
 
       <motion.div

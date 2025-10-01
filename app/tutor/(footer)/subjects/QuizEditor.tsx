@@ -9,7 +9,7 @@ export type Question = {
   question: string;
   type: "multiple-choice" | "true-false" | "fill-in";
   options: string[];
-  answer: string | string[]; // string[] for fill-in
+  answer: string | string[];
 };
 
 type Props = {

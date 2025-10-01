@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { Trash2 } from "lucide-react";
 import ReactQuill from "react-quill-new";
+// @ts-ignore
 import "react-quill-new/dist/quill.snow.css";
 import { CreatePopup } from "@/app/tutor/alert";
 import { uploadBannerServer } from "@/app/tutor/actions";
@@ -107,7 +108,7 @@ export default function OfferDetails({
   };
 
   return (
-    <div className="flex flex-col gap-6 w-11/12 mx-auto py-6">
+    <div className="flex flex-col gap-6 md:w-11/12 mx-auto py-6">
       <div className="flex justify-between items-center flex-wrap gap-4">
         <h2 className="text-2xl font-bold text-green-900">
           📘 Create a Tutoring Offer

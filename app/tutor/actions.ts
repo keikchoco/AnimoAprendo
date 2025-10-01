@@ -43,7 +43,6 @@ export async function uploadBannerServer(file: File, username: string) {
     }
 
     const data: any = await response.json();
-    console.log(data)
     if(data.success) {
       return { success: true, data: data.data };
     } else {
@@ -200,6 +199,8 @@ export async function submitSubject({
     data = await response.json();
   }
 
+  // delay kasi gusto ko?
+  setTimeout(() => {}, 1000);
   if (data.success) {
     return { success: true, data: data.data };
   } else {
