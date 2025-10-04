@@ -5,7 +5,6 @@ type Props = {
   descriptionComplete: boolean;
   availabilityComplete: boolean;
   bannerComplete: boolean;
-  totalQuizzes: number;
   description: number;
   DESCRIPTION_LENGTH: number;
   QUIZ_COMPLETED: number;
@@ -16,7 +15,6 @@ export default function CompletionChecklist({
   descriptionComplete,
   availabilityComplete,
   bannerComplete,
-  totalQuizzes,
   description,
   DESCRIPTION_LENGTH,
   QUIZ_COMPLETED
@@ -26,10 +24,10 @@ export default function CompletionChecklist({
     { label: `Description ${description}/${DESCRIPTION_LENGTH}`, complete: descriptionComplete },
     { label: "Schedule Availability", complete: availabilityComplete },
     { label: "Upload Banner", complete: bannerComplete },
-    {
-      label: `Quizzes created (${totalQuizzes}/${QUIZ_COMPLETED})`,
-      complete: totalQuizzes >= QUIZ_COMPLETED,
-    },
+    // {
+    //   label: `Quizzes created (${totalQuizzes}/${QUIZ_COMPLETED})`,
+    //   complete: totalQuizzes >= QUIZ_COMPLETED,
+    // },
   ];
 
   return (

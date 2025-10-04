@@ -11,13 +11,6 @@ export default async function Dashboard() {
 
   if (!user) redirect("/", RedirectType.replace);
 
-  // Placeholder Data
-  const stats = {
-    totalAppointments: 12,
-    completed: 8,
-    upcoming: 2,
-  };
-
   const upcomingAppointments = [
     {
       id: 1,
@@ -34,8 +27,15 @@ export default async function Dashboard() {
       date: "Sept 24, 2025",
       time: "2:00 PM - 3:00 PM",
       mode: "Face-to-Face",
-    },
+    }
   ];
+
+  // Placeholder Data
+  const stats = {
+    totalAppointments: 12,
+    completed: 8,
+    upcoming: upcomingAppointments.length,
+  };
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 w-11/12 mx-auto text-neutral-800">

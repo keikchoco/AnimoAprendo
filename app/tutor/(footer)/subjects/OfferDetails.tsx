@@ -10,6 +10,9 @@ import "react-quill-new/dist/quill.snow.css";
 import { CreatePopup } from "@/app/tutor/alert";
 import { uploadBannerServer } from "@/app/tutor/actions";
 import { useUser } from "@clerk/nextjs";
+import { ClipLoader, MoonLoader, RiseLoader } from "react-spinners";
+import { CircleCheckBig } from "@/components/animate-ui/icons/circle-check-big";
+import { CircleX } from "@/components/animate-ui/icons/circle-x";
 
 const QuillEditor = dynamic(
   async () => {
@@ -74,6 +77,9 @@ export default function OfferDetails({
 }: Props) {
   const { user } = useUser();
   const [isPreview, setIsPreview] = useState(false);
+  const [submitState, setSubmitState] = useState<
+    "default" | "saving" | "success" | "failed"
+  >("default");
   const quillRef = useRef<ReactQuill | null>(null);
 
   useEffect(() => {
@@ -96,14 +102,21 @@ export default function OfferDetails({
     setAvailability(availability.filter((s) => s.id !== id));
 
   const uploadBanner = (file: File) => {
+    setSubmitState("saving");
     CreatePopup("Uploading image", "info");
     uploadBannerServer(file, user?.username || "").then((data) => {
       if (data.success) {
+        setSubmitState("success");
         setBanner(data.data.url);
         CreatePopup("Image uploaded", "success");
       } else {
+        setSubmitState("failed");
         CreatePopup("Unable to upload, try again.", "error");
       }
+
+      setTimeout(() => {
+        setSubmitState("default");
+      }, 1500);
     });
   };
 
@@ -147,6 +160,28 @@ export default function OfferDetails({
                 e.target.files?.[0] && uploadBanner(e.target.files[0])
               }
             />
+            {submitState !== "default" && (
+              <>
+                {submitState === "saving" && (
+                  <div className="flex items-center gap-2 mt-2 font-semibold text-green-900">
+                    <ClipLoader color="#0d542b" size={20} />
+                    <p className="animate-pulse">Uploading</p>
+                  </div>
+                )}
+                {submitState === "success" && (
+                  <div className="flex items-center gap-2 mt-2 font-semibold text-green-900">
+                    <CircleCheckBig animateOnView color="#0d542b" size={20} />
+                    <p>Success</p>
+                  </div>
+                )}
+                {submitState === "failed" && (
+                  <div className="flex items-center gap-2 mt-2 font-semibold text-red-600">
+                    <CircleX animateOnView color="#ff0613" size={20} />
+                    <p>Failed</p>
+                  </div>
+                )}
+              </>
+            )}
             {banner && (
               <img
                 src={banner}
@@ -217,7 +252,8 @@ export default function OfferDetails({
                       className="flex items-center gap-1 px-3 py-1 rounded-lg text-white bg-red-500 hover:bg-red-600 aspect-square lg:aspect-auto"
                       onClick={() => handleRemoveSlot(slot.id)}
                     >
-                      <Trash2 size={16} /><span className="hidden lg:block">Remove</span>
+                      <Trash2 size={16} />
+                      <span className="hidden lg:block">Remove</span>
                     </button>
                   </div>
                 </div>

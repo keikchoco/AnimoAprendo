@@ -92,11 +92,9 @@ function NavLinksTutee() {
               tabIndex={0}
               className="menu menu-sm gap-3 dropdown-content bg-white rounded-box mt-3 w-56 p-3 shadow text-black z-50"
             >
-              <li className="border-b pb-2 mb-2">
-                <p className="text-sm">
+              <p className="border-b px-2 pb-1">
                   Welcome, <span className="font-medium">{user?.username}</span>
                 </p>
-              </li>
 
               <li>
                 <Link href="/profile" className="font-semibold">

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import type { View, Event as RBCEvent } from "react-big-calendar";
 import moment from "moment";
+// @ts-ignore
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 const localizer = momentLocalizer(moment);
@@ -22,8 +23,8 @@ const placeholderEvents: RBCEvent[] = [
   {
     title: "Capstone Consultation with Christian",
     start: new Date(2025, 8, 25, 19, 0),
-    end: new Date(2025, 8, 25, 20, 0),
-  },
+    end: new Date(2025, 8, 27, 20, 0),
+  }
 ];
 
 export default function TutorAppointmentsPage() {
@@ -71,9 +72,9 @@ export default function TutorAppointmentsPage() {
       </div>
 
       {/* 2-column layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
         {/* Calendar */}
-        <div className="lg:col-span-2 bg-white p-6 rounded-2xl shadow-lg">
+        <div className="lg:col-span-4 bg-white p-6 rounded-2xl shadow-lg">
           <div className="h-[500px] sm:h-[600px] md:h-[700px]">
             <Calendar
               localizer={localizer}

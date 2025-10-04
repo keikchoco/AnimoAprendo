@@ -180,7 +180,7 @@ export async function submitSubject({
           documentId,
           userId,
           ...sendData,
-          status: "pending",
+          status: "available",
         }),
       }
     );
@@ -193,7 +193,7 @@ export async function submitSubject({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userId, ...sendData, status: "pending" }),
+        body: JSON.stringify({ userId, ...sendData, status: "available" }),
       }
     );
     data = await response.json();
@@ -230,7 +230,7 @@ export async function resumeSubject({
       body: JSON.stringify({
         documentId,
         userId,
-        status: "approved",
+        status: "available",
       }),
     }
   );

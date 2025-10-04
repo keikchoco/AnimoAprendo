@@ -19,8 +19,8 @@ export default function TutorSubjects() {
   const userId = user?.id;
 
   const [activeTab, setActiveTab] = useState<
-    "approved" | "pending" | "draft" | "paused"
-  >("approved");
+    "available" | "draft" | "paused"
+  >("available");
   const [Data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
@@ -56,6 +56,7 @@ export default function TutorSubjects() {
     pauseSubject({ userId, documentId });
     fetchData();
     setModalOpen(false);
+    CreatePopup("Offer paused", "success");
   }
 
   function handleResume(documentId: string) {
@@ -105,7 +106,7 @@ export default function TutorSubjects() {
 
       {/* Tabs */}
       <div className="flex flex-row gap-2 border-b border-green-900 font-semibold justify-between md:justify-start">
-        {["approved", "paused", "pending", "draft"].map((tab) => (
+        {["available", "paused", "draft"].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab as any)}
@@ -334,14 +335,14 @@ export default function TutorSubjects() {
               <p>
                 {activeTab === "paused" && actionType === "resume"
                   ? "Do you want to resume this offer?"
-                  : activeTab === "approved" && actionType === "delete"
+                  : activeTab === "available" && actionType === "delete"
                     ? "Do you want to pause or delete this offer?"
                     : actionType === "pause"
                       ? "Do you want to pause this offer temporarily?"
                       : "Are you sure you want to delete this offer?"}
               </p>
               <div className="flex justify-end gap-3 mt-4">
-                {activeTab === "approved" && actionType === "delete" && (
+                {activeTab === "available" && actionType === "delete" && (
                   <button
                     onClick={() => handlePause(selectedSubject!)}
                     className="px-4 py-2 bg-yellow-400 rounded hover:bg-yellow-500"

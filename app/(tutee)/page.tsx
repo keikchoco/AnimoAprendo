@@ -243,6 +243,7 @@ export default function Landing() {
           {faq ? (
             faq.map((item, i) => (
               <div
+                key={i}
                 tabIndex={i}
                 className="collapse collapse-arrow bg-green-50 rounded-lg shadow border"
               >
@@ -258,4 +259,3 @@ export default function Landing() {
     </div>
   );
 }
-
